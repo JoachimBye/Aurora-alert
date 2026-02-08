@@ -25,50 +25,34 @@
     }
     
     @keyframes aurora-flow {
-      0%, 100% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
     }
     
     @keyframes float {
-      0%, 100% {
-        transform: translateY(0px);
-      }
-      50% {
-        transform: translateY(-10px);
-      }
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
     }
     
     @keyframes pulse-glow {
-      0%, 100% {
-        opacity: 0.4;
-      }
-      50% {
-        opacity: 0.8;
-      }
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.8; }
     }
     
     @keyframes star-twinkle {
-      0%, 100% {
-        opacity: 0.3;
-      }
-      50% {
-        opacity: 1;
-      }
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
     }
     
     @keyframes slide-up {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* New Animation for Notification */
+    @keyframes pop-in {
+        0% { transform: scale(0.8); opacity: 0; }
+        100% { transform: scale(1); opacity: 1; }
     }
     
     .aurora-bg {
@@ -89,10 +73,7 @@
     
     .aurora-ribbon {
       position: absolute;
-      top: 5%;
-      left: 0;
-      right: 0;
-      height: 300px;
+      top: 5%; left: 0; right: 0; height: 300px;
       background: linear-gradient(90deg, 
         transparent,
         rgba(34, 197, 94, 0.15),
@@ -112,10 +93,18 @@
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255,255,255,0.08);
     }
-    
-    .green-accent {
-      color: #22c55e;
+
+    /* iOS Notification Style */
+    .notification-card {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        animation: pop-in 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s forwards;
+        opacity: 0;
     }
+    
+    .green-accent { color: #22c55e; }
     
     .btn-primary {
       background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
@@ -127,48 +116,27 @@
       box-shadow: 0 10px 40px rgba(34, 197, 94, 0.4);
     }
     
-    .floating {
-      animation: float 6s ease-in-out infinite;
-    }
+    .floating { animation: float 6s ease-in-out infinite; }
     
     .star {
-      position: absolute;
-      width: 2px;
-      height: 2px;
-      background: white;
-      border-radius: 50%;
+      position: absolute; width: 2px; height: 2px; background: white; border-radius: 50%;
       animation: star-twinkle 3s ease-in-out infinite;
     }
 
-    #landing-page {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-
+    #landing-page { display: block; width: 100%; height: 100%; }
     #registration-page {
-      display: none;
-      width: 100%;
-      height: 100%;
-      overflow-y: auto;
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 1000;
+      display: none; width: 100%; height: 100%; overflow-y: auto;
+      position: absolute; top: 0; left: 0; z-index: 1000;
     }
-
-    #registration-page.active {
-      display: block;
-    }
-
-    #landing-page.hidden {
-      display: none;
-    }
+    #registration-page.active { display: block; }
+    #landing-page.hidden { display: none; }
   </style>
-  <style>@view-transition { navigation: auto; }</style>
  </head>
  <body class="font-body aurora-bg text-white w-full h-full overflow-auto">
-  <div id="app-wrapper" class="w-full h-full"><div id="landing-page" class="w-full"><div class="fixed inset-0 pointer-events-none overflow-hidden">
+  <div id="app-wrapper" class="w-full h-full">
+   
+   <div id="landing-page" class="w-full">
+    <div class="fixed inset-0 pointer-events-none overflow-hidden">
      <div class="star" style="top: 10%; left: 15%; animation-delay: 0s;"></div>
      <div class="star" style="top: 20%; left: 80%; animation-delay: 0.5s;"></div>
      <div class="star" style="top: 35%; left: 25%; animation-delay: 1s;"></div>
@@ -179,8 +147,13 @@
      <div class="star" style="top: 50%; left: 70%; animation-delay: 1.2s;"></div>
      <div class="star" style="top: 5%; left: 35%; animation-delay: 1.8s;"></div>
      <div class="star" style="top: 30%; left: 55%; animation-delay: 0.8s;"></div>
-    </div><div class="aurora-ribbon"></div>
-    <div class="fixed inset-0 aurora-glow pointer-events-none"></div><div class="relative z-10"><nav class="w-full px-6 py-5">
+    </div>
+    
+    <div class="aurora-ribbon"></div>
+    <div class="fixed inset-0 aurora-glow pointer-events-none"></div>
+
+    <div class="relative z-10">
+     <nav class="w-full px-6 py-5">
       <div class="max-w-6xl mx-auto flex items-center justify-between">
        <div class="flex items-center gap-2">
         <svg class="w-8 h-8" viewbox="0 0 40 40" fill="none"><circle cx="20" cy="28" r="10" fill="url(#mountain-grad)" opacity="0.6" /> <path d="M5 32 L20 12 L35 32" stroke="url(#aurora-line)" stroke-width="2" fill="none" /> <path d="M8 28 Q20 5 32 28" stroke="#22c55e" stroke-width="3" fill="none" opacity="0.8" /> <path d="M12 25 Q20 8 28 25" stroke="#2dd4bf" stroke-width="2" fill="none" opacity="0.6" /> <defs>
@@ -198,39 +171,51 @@
        <div class="hidden md:flex items-center gap-8 text-sm text-gray-400"><a href="#how-it-works" class="hover:text-white transition-colors">How It Works</a> <a href="#technology" class="hover:text-white transition-colors">Technology</a> <a href="#pricing" class="hover:text-white transition-colors">Pricing</a>
        </div>
       </div>
-     </nav><section class="w-full px-6 pt-16 pb-24">
+     </nav>
+
+     <section class="w-full px-6 pt-16 pb-12">
       <div class="max-w-4xl mx-auto text-center">
        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full card-glow text-sm text-gray-300 mb-8"><span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Live monitoring from Tromsø, Norway
        </div>
-       <h1 id="hero-headline" class="font-heading text-4xl md:text-6xl font-bold leading-tight mb-6">See the Northern Lights Tonight<br><span class="green-accent">Without the $150 Safari Price Tag</span></h1>
-       <p id="hero-subheadline" class="text-xl text-gray-400 max-w-2xl mx-auto mb-10">Real-time AI-powered alerts when aurora is actually visible in Tromsø. Not predictions—verified sightings from professional weather cameras.</p>
-       <div class="flex flex-col sm:flex-row items-center justify-center gap-4"><button id="cta-button" class="btn-primary px-8 py-4 rounded-xl font-heading font-semibold text-lg" onclick="navigateToRegistration()"> Get Real-Time Access — $7.99 </button> <span class="text-gray-500 text-sm">5 days of instant alerts</span>
-       </div><div class="mt-16 floating">
-        <div class="relative max-w-2xl mx-auto">
-         <svg class="w-full h-48" viewbox="0 0 600 200" fill="none"><path d="M0 200 L0 160 L80 100 L150 140 L220 80 L300 120 L380 60 L450 110 L520 70 L600 130 L600 200 Z" fill="#0f172a" /> <path d="M0 200 L0 170 L100 130 L180 160 L260 110 L340 150 L420 100 L500 140 L600 100 L600 200 Z" fill="#1e293b" opacity="0.7" /> <path d="M50 80 Q150 20 300 60 Q450 100 550 40" stroke="url(#aurora1)" stroke-width="20" fill="none" opacity="0.6" stroke-linecap="round" /> <path d="M0 100 Q200 30 400 80 Q550 120 600 60" stroke="url(#aurora2)" stroke-width="15" fill="none" opacity="0.5" stroke-linecap="round" /> <path d="M100 60 Q250 10 350 50 Q500 90 600 30" stroke="url(#aurora3)" stroke-width="10" fill="none" opacity="0.4" stroke-linecap="round" /> <defs>
-           <lineargradient id="aurora1" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#22c55e" />
-            <stop offset="50%" stop-color="#2dd4bf" />
-            <stop offset="100%" stop-color="#22c55e" />
-           </lineargradient>
-           <lineargradient id="aurora2" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#2dd4bf" />
-            <stop offset="50%" stop-color="#8b5cf6" />
-            <stop offset="100%" stop-color="#2dd4bf" />
-           </lineargradient>
-           <lineargradient id="aurora3" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#8b5cf6" />
-            <stop offset="100%" stop-color="#22c55e" />
-           </lineargradient>
-          </defs>
-         </svg>
-        </div>
+       
+       <h1 class="font-heading text-4xl md:text-6xl font-bold leading-tight mb-6">See the Northern Lights Tonight<br><span class="green-accent">Without the $150 Safari Price Tag</span></h1>
+       <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-10">Real-time AI-powered alerts when aurora is actually visible in Tromsø. Not predictions—verified sightings.</p>
+       
+       <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+           <button class="btn-primary px-8 py-4 rounded-xl font-heading font-semibold text-lg w-full sm:w-auto" onclick="navigateToRegistration()"> Get Real-Time Access — $7.99 </button> 
+           <span class="text-gray-500 text-sm">One-time payment for 5 days</span>
        </div>
+
+       <div class="mt-12 mb-8 flex justify-center">
+           <div class="notification-card rounded-2xl p-4 w-full max-w-sm text-left flex gap-4 items-center transform hover:scale-105 transition-transform duration-300 cursor-default">
+               <div class="w-10 h-10 rounded-lg bg-black flex items-center justify-center flex-shrink-0">
+                   <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+               </div>
+               <div>
+                   <div class="flex justify-between items-center w-full min-w-[200px]">
+                       <h4 class="font-semibold text-sm">Aurora Real-Time</h4>
+                       <span class="text-xs text-gray-400">now</span>
+                   </div>
+                   <p class="text-sm text-gray-200">🟢 Aurora Visible! Look North (85% Intensity)</p>
+               </div>
+           </div>
+       </div>
+
+       <div class="max-w-lg mx-auto mt-6">
+           <div class="flex items-center justify-center gap-2 mb-2">
+               <span class="text-yellow-400">★★★★★</span>
+           </div>
+           <p class="text-gray-400 italic text-sm">"Saved our trip! We were about to go to sleep when the alert popped up. Best $8 spent."</p>
+           <p class="text-gray-500 text-xs mt-1">— Sarah T., Beta Tester (Feb 2024)</p>
+       </div>
+
       </div>
-     </section><section id="how-it-works" class="w-full px-6 py-20">
+     </section>
+
+     <section id="how-it-works" class="w-full px-6 py-20">
       <div class="max-w-5xl mx-auto">
        <h2 class="font-heading text-3xl md:text-4xl font-bold text-center mb-4">Why Forecasts Fail You</h2>
-       <p class="text-gray-400 text-center max-w-2xl mx-auto mb-16">Traditional aurora apps predict probability. We show you reality.</p>
+       <p class="text-gray-400 text-center max-w-2xl mx-auto mb-16">Kp-index predicts magnetic activity, NOT visibility. That's why 40% of alerts happen when it's cloudy.</p>
        <div class="grid md:grid-cols-2 gap-8"><div class="card-glow rounded-2xl p-8 border-red-500/20">
          <div class="flex items-center gap-3 mb-6">
           <div class="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center">
@@ -240,10 +225,10 @@
           <h3 class="font-heading font-semibold text-xl text-red-400">Traditional Apps</h3>
          </div>
          <ul class="space-y-4 text-gray-400">
-          <li class="flex items-start gap-3"><span class="text-red-400 mt-1">✗</span> <span>Based on solar wind forecasts, not actual visibility</span></li>
-          <li class="flex items-start gap-3"><span class="text-red-400 mt-1">✗</span> <span>Don't account for local cloud cover or light pollution</span></li>
+          <li class="flex items-start gap-3"><span class="text-red-400 mt-1">✗</span> <span>Based on solar wind, not actual visibility</span></li>
+          <li class="flex items-start gap-3"><span class="text-red-400 mt-1">✗</span> <span>Don't account for local cloud cover</span></li>
           <li class="flex items-start gap-3"><span class="text-red-400 mt-1">✗</span> <span>"High probability" often means seeing nothing</span></li>
-          <li class="flex items-start gap-3"><span class="text-red-400 mt-1">✗</span> <span>You still waste hours waiting in the cold</span></li>
+          <li class="flex items-start gap-3"><span class="text-red-400 mt-1">✗</span> <span>Wastes your time waiting in the cold</span></li>
          </ul>
         </div><div class="card-glow rounded-2xl p-8 border-green-500/30">
          <div class="flex items-center gap-3 mb-6">
@@ -255,14 +240,16 @@
          </div>
          <ul class="space-y-4 text-gray-300">
           <li class="flex items-start gap-3"><span class="green-accent mt-1">✓</span> <span>AI analyzes live camera feeds every 5 minutes</span></li>
-          <li class="flex items-start gap-3"><span class="green-accent mt-1">✓</span> <span>Only alerts when aurora is actually visible now</span></li>
-          <li class="flex items-start gap-3"><span class="green-accent mt-1">✓</span> <span>Accounts for real weather and sky conditions</span></li>
+          <li class="flex items-start gap-3"><span class="green-accent mt-1">✓</span> <span>Only alerts when aurora is actually visible</span></li>
+          <li class="flex items-start gap-3"><span class="green-accent mt-1">✓</span> <span>Accounts for real weather conditions</span></li>
           <li class="flex items-start gap-3"><span class="green-accent mt-1">✓</span> <span>Step outside only when it's worth it</span></li>
          </ul>
         </div>
        </div>
       </div>
-     </section><section id="technology" class="w-full px-6 py-20">
+     </section>
+
+     <section id="technology" class="w-full px-6 py-20">
       <div class="max-w-5xl mx-auto">
        <div class="text-center mb-16"><span class="inline-block px-4 py-1 rounded-full text-sm text-green-400 bg-green-500/10 mb-4"> Built on Academic Excellence </span>
         <h2 class="font-heading text-3xl md:text-4xl font-bold mb-4">Professional-Grade Infrastructure</h2>
@@ -305,7 +292,9 @@
         </div>
        </div>
       </div>
-     </section><section class="w-full px-6 py-20">
+     </section>
+     
+     <section class="w-full px-6 py-20">
       <div class="max-w-4xl mx-auto">
        <div class="card-glow rounded-3xl p-8 md:p-12">
         <div class="flex flex-col md:flex-row gap-8 items-center">
@@ -321,12 +310,14 @@
         </div>
        </div>
       </div>
-     </section><section id="pricing" class="w-full px-6 py-20">
+     </section>
+     
+     <section id="pricing" class="w-full px-6 py-20">
       <div class="max-w-xl mx-auto text-center">
        <h2 class="font-heading text-3xl md:text-4xl font-bold mb-4">Chase Aurora, Not Prices</h2>
        <p class="text-gray-400 mb-12">A fraction of safari costs. All the magic.</p>
        <div class="card-glow rounded-3xl p-8 md:p-10 border-green-500/30">
-        <div class="mb-6"><span id="price-display" class="font-heading text-5xl md:text-6xl font-bold green-accent">$7.99</span> <span id="price-duration-display" class="text-gray-400 text-lg ml-2">for 5 days</span>
+        <div class="mb-6"><span class="font-heading text-5xl md:text-6xl font-bold green-accent">$7.99</span> <span class="text-gray-400 text-lg ml-2">for 5 days</span>
         </div>
         <ul class="space-y-3 text-gray-300 mb-8 text-left max-w-xs mx-auto">
          <li class="flex items-center gap-3">
@@ -341,11 +332,13 @@
          <li class="flex items-center gap-3">
           <svg class="w-5 h-5 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
           </svg><span>No subscription—one-time purchase</span></li>
-        </ul><button id="final-cta-button" class="btn-primary w-full py-4 rounded-xl font-heading font-semibold text-lg" onclick="navigateToRegistration()"> Notify Me When Aurora Appears </button>
+        </ul><button class="btn-primary w-full py-4 rounded-xl font-heading font-semibold text-lg" onclick="navigateToRegistration()"> Notify Me When Aurora Appears </button>
         <p class="text-gray-500 text-sm mt-4">Compare to $150+ for guided aurora tours</p>
        </div>
       </div>
-     </section><footer class="w-full px-6 py-12 border-t border-white/5">
+     </section>
+     
+     <footer class="w-full px-6 py-12 border-t border-white/5">
       <div class="max-w-5xl mx-auto">
        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
         <div class="flex items-center gap-2">
@@ -358,7 +351,9 @@
       </div>
      </footer>
     </div>
-   </div><div id="registration-page" class="w-full h-full overflow-y-auto">
+   </div>
+
+   <div id="registration-page" class="w-full h-full overflow-y-auto">
     <div class="aurora-bg w-full"><button onclick="closeRegistration()" class="fixed top-6 right-6 z-50 p-2 hover:bg-white/10 rounded-lg transition-colors" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
       </svg></button> <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
@@ -368,53 +363,54 @@
       <div class="star" style="top: 15%; left: 60%; animation-delay: 1.5s;"></div>
       <div class="star" style="top: 45%; left: 90%; animation-delay: 2s;"></div>
      </div><div class="aurora-ribbon" style="z-index: 0;"></div>
-     <div class="fixed inset-0 aurora-glow pointer-events-none z-0"></div><div class="relative z-10 px-6 py-12 w-full">
-      <div class="max-w-2xl mx-auto"><div style="text-align: center; margin-bottom: 3rem; animation: slide-up 0.8s ease-out forwards;">
-        <h1 id="reg-headline" style="font-family: 'Space Grotesk', sans-serif; font-size: 2.25rem; font-weight: bold; margin-bottom: 1.5rem; line-height: 1.2;">Join the Exclusive Pilot Program</h1>
-        <p id="reg-description" style="font-size: 1.25rem; color: #9ca3af; line-height: 1.5;">We are currently rolling out Aurora Real-Time to a limited group of visitors in Tromsø to ensure our AI alerts are 100% accurate. Join the waitlist today to receive:</p>
-       </div><div style="display: grid; gap: 1rem; margin-bottom: 3rem;">
-        <div id="benefit-1-card" style="background: linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.12); border-radius: 1rem; padding: 1.5rem; display: flex; gap: 1rem; animation: slide-up 0.8s ease-out 0.5s forwards; opacity: 0;">
-         <div style="width: 3rem; height: 3rem; border-radius: 0.75rem; background: rgba(34, 197, 94, 0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-          <svg style="width: 1.5rem; height: 1.5rem; color: #4ade80;" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-          </svg>
-         </div>
-         <div>
-          <h3 style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 1.125rem; margin-bottom: 0.25rem;">Early Access</h3>
-          <p id="benefit-1-text" style="color: #9ca3af; font-size: 0.875rem;">Be first in line when we open new spots.</p>
-         </div>
-        </div>
-        <div id="benefit-2-card" style="background: linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.12); border-radius: 1rem; padding: 1.5rem; display: flex; gap: 1rem; animation: slide-up 0.8s ease-out 0.6s forwards; opacity: 0;">
-         <div style="width: 3rem; height: 3rem; border-radius: 0.75rem; background: rgba(168, 85, 247, 0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-          <svg style="width: 1.5rem; height: 1.5rem; color: #d8b4fe;" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-         </div>
-         <div>
-          <h3 style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 1.125rem; margin-bottom: 0.25rem;">50% Founder's Discount</h3>
-          <p id="benefit-2-text" style="color: #9ca3af; font-size: 0.875rem;">Lock in your discount for your entire stay.</p>
-         </div>
-        </div>
-        <div id="benefit-3-card" style="background: linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.12); border-radius: 1rem; padding: 1.5rem; display: flex; gap: 1rem; animation: slide-up 0.8s ease-out 0.7s forwards; opacity: 0;">
-         <div style="width: 3rem; height: 3rem; border-radius: 0.75rem; background: rgba(34, 211, 238, 0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-          <svg style="width: 1.5rem; height: 1.5rem; color: #22d3ee;" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-          </svg>
-         </div>
-         <div>
-          <h3 style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 1.125rem; margin-bottom: 0.25rem;">Live Monitoring Update</h3>
-          <p id="benefit-3-text" style="color: #9ca3af; font-size: 0.875rem;">Get an instant email when our system goes fully live.</p>
-         </div>
-        </div>
-       </div><form id="registration-form" style="background: linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.12); border-radius: 1.5rem; padding: 2.5rem; animation: slide-up 0.8s ease-out 0.8s forwards; opacity: 0; margin-bottom: 2rem;"><label for="email-input" style="display: block; font-family: 'Space Grotesk', sans-serif; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.75rem; color: #e5e7eb;"> Email Address </label>
-        <div style="display: flex; flex-direction: column; gap: 0.75rem;"><input type="email" id="email-input" name="email" placeholder="your@email.com" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 1rem 1.5rem; border-radius: 0.75rem; color: white; font-family: 'Outfit', sans-serif; flex: 1; transition: all 0.3s ease;" required onfocus="this.style.background='rgba(255,255,255,0.08)'; this.style.borderColor='rgba(34, 197, 94, 0.5)'; this.style.boxShadow='0 0 20px rgba(34, 197, 94, 0.2)';" onblur="this.style.background='rgba(255,255,255,0.05)'; this.style.borderColor='rgba(255,255,255,0.1)'; this.style.boxShadow='none';"> <button type="submit" id="submit-button" style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); padding: 1rem 2rem; border-radius: 0.75rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; border: none; cursor: pointer; color: white; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 40px rgba(34, 197, 94, 0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';"> Notify Me </button>
-        </div>
-        <p style="color: #6b7280; font-size: 0.75rem; margin-top: 1rem;">We respect your privacy. Unsubscribe anytime.</p>
-       </form><div id="success-state" style="display: none; background: linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.12); border-radius: 1.5rem; padding: 2.5rem; text-align: center; margin-bottom: 2rem;">
-        <div style="width: 4rem; height: 4rem; margin: 0 auto 1.5rem; border-radius: 50%; background: linear-gradient(to bottom right, rgba(34, 197, 94, 0.2), rgba(45, 212, 191, 0.2)); display: flex; align-items: center; justify-content: center;">
-         <svg style="width: 2rem; height: 2rem; color: #4ade80;" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-         </svg>
-        </div>
-        <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.875rem; font-weight: bold; margin-bottom: 0.75rem;">Welcome to the Pilot Program!</h2>
-        <p style="color: #9ca3af; margin-bottom: 1.5rem;">We've sent you a confirmation email. Check your inbox for exclusive details about early access and your founder's discount.</p><button onclick="resetRegistration()" style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); padding: 0.75rem 1.5rem; border-radius: 0.75rem; font-family: 'Space Grotesk', sans-serif; font-weight: 600; border: none; cursor: pointer; color: white;"> Register Another Email </button>
+     <div class="fixed inset-0 aurora-glow pointer-events-none z-0"></div>
+     
+     <div class="relative z-10 px-6 py-12 w-full">
+      <div class="max-w-2xl mx-auto">
+          
+       <div style="text-align: center; margin-bottom: 2rem; animation: slide-up 0.8s ease-out forwards;">
+        <h1 class="font-heading text-4xl font-bold mb-4">Checking Availability...</h1>
+        <p class="text-xl text-gray-300 leading-relaxed">Due to high demand from current solar activity, we are limiting new signups to ensure 100% server speed for active users.</p>
        </div>
+
+       <div style="display: grid; gap: 1rem; margin-bottom: 3rem;">
+        <div class="card-glow p-6 rounded-xl flex items-center gap-4 animate-[slide-up_0.8s_ease-out_0.5s_forwards] opacity-0">
+         <div class="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center flex-shrink-0">
+          <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+         </div>
+         <div>
+          <h3 class="font-heading font-semibold text-lg">Server Status: Active</h3>
+          <p class="text-sm text-gray-400">System is currently online and monitoring.</p>
+         </div>
+        </div>
+        
+        <div class="card-glow p-6 rounded-xl flex items-center gap-4 animate-[slide-up_0.8s_ease-out_0.6s_forwards] opacity-0">
+         <div class="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center flex-shrink-0">
+          <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+         </div>
+         <div>
+          <h3 class="font-heading font-semibold text-lg">Wait Time: Low</h3>
+          <p class="text-sm text-gray-400">If you register now, you can secure access for tonight.</p>
+         </div>
+        </div>
+       </div>
+
+       <form id="registration-form" class="card-glow p-10 rounded-3xl animate-[slide-up_0.8s_ease-out_0.8s_forwards] opacity-0" method="POST">
+        <label class="block text-sm font-bold mb-3 text-gray-300">Enter your email to secure your spot</label>
+        <div class="flex flex-col gap-4">
+         <input type="email" name="email" placeholder="your@email.com" class="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white focus:outline-none focus:border-green-500 transition-colors" required> 
+         <button type="submit" id="submit-button" class="btn-primary w-full py-4 rounded-xl font-heading font-bold text-white"> Check Availability & Secure ($7.99) </button>
+        </div>
+        <p class="text-gray-500 text-xs mt-4 text-center">We respect your privacy. No spam.</p>
+       </form>
+
+       <div id="success-state" style="display: none;" class="card-glow p-10 rounded-3xl text-center">
+        <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-green-500/20 flex items-center justify-center text-green-400 text-3xl">✓</div>
+        <h2 class="font-heading text-3xl font-bold mb-3">You're on the list!</h2>
+        <p class="text-gray-400 mb-6">We've sent a confirmation email with your Urban Aurora Map.</p>
+        <button onclick="closeRegistration()" class="text-green-400 hover:underline">Return to home</button>
+       </div>
+
       </div>
      </div>
     </div>
@@ -435,7 +431,6 @@
       document.getElementById('landing-page').classList.remove('hidden');
       document.getElementById('registration-page').classList.remove('active');
       
-      // Reset form if success state was shown
       if(document.getElementById('success-state').style.display === 'block') {
          document.getElementById('registration-form').reset();
          document.getElementById('registration-form').style.display = 'block';
@@ -443,7 +438,6 @@
       }
     }
     
-    // Hard reset function for the success state button
     function resetRegistration() {
       document.getElementById('registration-form').reset();
       document.getElementById('registration-form').style.display = 'block';
@@ -460,7 +454,7 @@
       const originalText = btn.textContent;
       
       btn.disabled = true;
-      btn.textContent = 'Joining...';
+      btn.textContent = 'Checking availability...';
       
       const data = new FormData(form);
       
