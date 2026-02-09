@@ -464,15 +464,15 @@
         <div class="flex items-start gap-4 mb-8">
             <input type="checkbox" id="terms-checkbox" class="mt-1 w-5 h-5 accent-green-500 cursor-pointer flex-shrink-0" onchange="togglePaymentButton()">
             <label for="terms-checkbox" class="text-sm text-gray-300 cursor-pointer select-none">
-                Jeg har lest og godtar <button type="button" onclick="openTermsModal()" class="text-green-400 hover:text-green-300 underline font-semibold focus:outline-none">retningslinjene for hva som er inkludert i kjøpet</button>.
+                I have read and agree <button type="button" onclick="openTermsModal()" class="text-green-400 hover:text-green-300 underline font-semibold focus:outline-none">to the terms of what is included in this purchase.</button>.
             </label>
         </div>
 
         <button id="stripe-btn" onclick="goToStripe()" class="btn-primary btn-disabled w-full py-4 rounded-xl font-heading font-bold text-white transition-all duration-300" disabled>
-            Gå til betaling ($7.99)
+            Proceed to Checkout ($7.99)
         </button>
         
-        <p class="text-gray-500 text-xs mt-6 text-center">Sikker betaling via Stripe. Ingen abonnement.</p>
+        <p class="text-gray-500 text-xs mt-6 text-center">Secure payment via Stripe. No subscription.</p>
        </div>
 
       </div>
@@ -486,33 +486,33 @@
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
            </button>
            
-           <h3 class="font-heading text-2xl font-bold mb-6 text-white">Inkludert i kjøpet</h3>
+           <h3 class="font-heading text-2xl font-bold mb-6 text-white">Included in your purchase</h3>
            
            <ul class="space-y-4 text-gray-300 text-sm mb-8">
                <li class="flex gap-3">
                    <span class="text-green-400 mt-0.5">✓</span>
-                   <span><strong>Sanntidsvarsling (SMS):</strong> Du mottar SMS kun når nordlyset faktisk er synlig på himmelen.</span>
+                   <span><strong>Real-time alerts (SMS):</strong> You will receive an SMS only when the Northern Lights are actually visible in the sky.</span>
                </li>
                <li class="flex gap-3">
                    <span class="text-green-400 mt-0.5">✓</span>
-                   <span><strong>Overvåkingstider:</strong> Systemet er aktivt i "Prime Time" mellom kl. 18:00 og 00:00 hver kveld.</span>
+                   <span><strong>Monitoring hours:</strong> The system is active during "Prime Time" between 6:00 PM and 12:00 AM every night.</span>
                </li>
                <li class="flex gap-3">
                    <span class="text-green-400 mt-0.5">✓</span>
-                   <span><strong>Ingen Spam:</strong> Maksimalt 1 varsel per time for å unngå unødvendige meldinger.</span>
+                   <span><strong>No Spam:</strong> A maximum of one alert per hour to avoid unnecessary notifications.</span>
                </li>
                <li class="flex gap-3">
                    <span class="text-green-400 mt-0.5">✓</span>
-                   <span><strong>Varighet:</strong> Tilgangen gjelder i 5 dager fra kjøpstidspunktet.</span>
+                   <span><strong>Duration:</strong> Your access is valid for 5 days from the time of purchase.</span>
                </li>
                <li class="flex gap-3">
                    <span class="text-gray-500 mt-0.5">ℹ</span>
-                   <span class="text-gray-400 text-xs italic">Dette er et pilotprosjekt basert på data fra UiT StormCast. Værforbehold gjelder (overskyet vær kan hindre sikt).</span>
+                   <span class="text-gray-400 text-xs italic">Disclaimer: This is a pilot project based on data from UiT StormCast. Please note that visibility depends on weather conditions (cloud cover may obstruct the view).</span>
                </li>
            </ul>
            
            <button onclick="acceptTerms()" class="btn-primary w-full py-3 rounded-xl font-heading font-semibold text-white">
-               Jeg forstår
+               I understand
            </button>
        </div>
    </div>
@@ -521,7 +521,7 @@
   <script>
     // --- Configuration ---
     // LEGGE INN DIN EGEN STRIPE BETALINGSLENKE HER:
-    const STRIPE_LINK = "DIN_STRIPE_LINK_HER"; 
+    const STRIPE_LINK = "https://buy.stripe.com/8x2dRb1jV9KTbnP0E8ds403"; 
     // ---------------------
 
     function navigateToRegistration() {
@@ -564,7 +564,7 @@
     }
 
     function goToStripe() {
-        if (STRIPE_LINK === "DIN_STRIPE_LINK_HER") {
+        if (STRIPE_LINK === "") {
             alert("Vennligst legg inn din Stripe-lenke i koden først.");
             return;
         }
