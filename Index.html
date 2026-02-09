@@ -116,6 +116,13 @@
       box-shadow: 0 10px 40px rgba(34, 197, 94, 0.4);
     }
     
+    /* Disabled State for Button */
+    .btn-disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        filter: grayscale(1);
+    }
+
     .floating { animation: float 6s ease-in-out infinite; }
     
     .star {
@@ -130,6 +137,14 @@
     }
     #registration-page.active { display: block; }
     #landing-page.hidden { display: none; }
+    
+    /* Modal Styles */
+    #terms-modal {
+        display: none;
+    }
+    #terms-modal.active {
+        display: flex;
+    }
   </style>
  </head>
  <body class="font-body aurora-bg text-white w-full h-full overflow-auto">
@@ -182,7 +197,7 @@
        <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-10">Real time notifications when aurora is actually visible in Tromsø. Not predictions, but verified sightings.</p>
        
        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-           <button class="btn-primary px-8 py-4 rounded-xl font-heading font-semibold text-lg w-full sm:w-auto" onclick="navigateToRegistration()"> Get Real Time Access, $4.99 </button> 
+           <button class="btn-primary px-8 py-4 rounded-xl font-heading font-semibold text-lg w-full sm:w-auto" onclick="navigateToRegistration()"> Get Real Time Access, $7.99 </button> 
            <span class="text-gray-500 text-sm">One time payment for 5 days</span>
        </div>
 
@@ -205,7 +220,7 @@
            <div class="flex items-center justify-center gap-2 mb-2">
                <span class="text-yellow-400">★★★★★</span>
            </div>
-           <p class="text-gray-400 italic text-sm">"Saved our trip! We were about to go to sleep when the alert popped up. Best $5 spent."</p>
+           <p class="text-gray-400 italic text-sm">"Saved our trip! We were about to go to sleep when the alert popped up."</p>
            <p class="text-gray-500 text-xs mt-1">— Sarah T., Beta Tester (Feb 2024)</p>
        </div>
 
@@ -363,7 +378,7 @@
        <h2 class="font-heading text-3xl md:text-4xl font-bold mb-4">Chase Aurora, Not Prices</h2>
        <p class="text-gray-400 mb-12">A fraction of safari costs. All the magic.</p>
        <div class="card-glow rounded-3xl p-8 md:p-10 border-green-500/30">
-        <div class="mb-6"><span class="font-heading text-5xl md:text-6xl font-bold green-accent">$4.99</span> <span class="text-gray-400 text-lg ml-2">for 5 days</span>
+        <div class="mb-6"><span class="font-heading text-5xl md:text-6xl font-bold green-accent">$7.99</span> <span class="text-gray-400 text-lg ml-2">for 5 days</span>
         </div>
         <ul class="space-y-3 text-gray-300 mb-8 text-left max-w-xs mx-auto">
          <li class="flex items-center gap-3">
@@ -400,15 +415,19 @@
    </div>
 
    <div id="registration-page" class="w-full h-full overflow-y-auto">
-    <div class="aurora-bg w-full"><button onclick="closeRegistration()" class="fixed top-6 right-6 z-50 p-2 hover:bg-white/10 rounded-lg transition-colors" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+    <div class="aurora-bg w-full">
+      <button onclick="closeRegistration()" class="fixed top-6 right-6 z-50 p-2 hover:bg-white/10 rounded-lg transition-colors" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-      </svg></button> <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+      </svg></button> 
+      
+      <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
       <div class="star" style="top: 10%; left: 15%; animation-delay: 0s;"></div>
       <div class="star" style="top: 20%; left: 80%; animation-delay: 0.5s;"></div>
       <div class="star" style="top: 35%; left: 25%; animation-delay: 1s;"></div>
       <div class="star" style="top: 15%; left: 60%; animation-delay: 1.5s;"></div>
       <div class="star" style="top: 45%; left: 90%; animation-delay: 2s;"></div>
-     </div><div class="aurora-ribbon" style="z-index: 0;"></div>
+     </div>
+     <div class="aurora-ribbon" style="z-index: 0;"></div>
      <div class="fixed inset-0 aurora-glow pointer-events-none z-0"></div>
      
      <div class="relative z-10 px-6 py-12 w-full">
@@ -441,31 +460,68 @@
         </div>
        </div>
 
-       <form id="registration-form" class="card-glow p-10 rounded-3xl animate-[slide-up_0.8s_ease-out_0.8s_forwards] opacity-0" method="POST">
-        <label class="block text-sm font-bold mb-3 text-gray-300">Enter your email to secure your spot</label>
-        <div class="flex flex-col gap-4">
-         <input type="email" name="email" placeholder="your@email.com" class="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white focus:outline-none focus:border-green-500 transition-colors" required> 
-         <button type="submit" id="submit-button" class="btn-primary w-full py-4 rounded-xl font-heading font-bold text-white"> Check Availability & Secure ($4.99) </button>
+       <div class="card-glow p-10 rounded-3xl animate-[slide-up_0.8s_ease-out_0.8s_forwards] opacity-0">
+        <div class="flex items-start gap-4 mb-8">
+            <input type="checkbox" id="terms-checkbox" class="mt-1 w-5 h-5 accent-green-500 cursor-pointer flex-shrink-0" onchange="togglePaymentButton()">
+            <label for="terms-checkbox" class="text-sm text-gray-300 cursor-pointer select-none">
+                Jeg har lest og godtar <button type="button" onclick="openTermsModal()" class="text-green-400 hover:text-green-300 underline font-semibold focus:outline-none">retningslinjene for hva som er inkludert i kjøpet</button>.
+            </label>
         </div>
-        <p class="text-gray-500 text-xs mt-4 text-center">We respect your privacy. No spam.</p>
-       </form>
 
-       <div id="success-state" style="display: none;" class="card-glow p-10 rounded-3xl text-center">
-        <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-green-500/20 flex items-center justify-center text-green-400 text-3xl">✓</div>
-        <h2 class="font-heading text-3xl font-bold mb-3">You're on the list!</h2>
-        <p class="text-gray-400 mb-6">We've sent a confirmation email.</p>
-        <button onclick="closeRegistration()" class="text-green-400 hover:underline">Return to home</button>
+        <button id="stripe-btn" onclick="goToStripe()" class="btn-primary btn-disabled w-full py-4 rounded-xl font-heading font-bold text-white transition-all duration-300" disabled>
+            Gå til betaling ($7.99)
+        </button>
+        
+        <p class="text-gray-500 text-xs mt-6 text-center">Sikker betaling via Stripe. Ingen abonnement.</p>
        </div>
 
       </div>
      </div>
     </div>
    </div>
+
+   <div id="terms-modal" class="fixed inset-0 z-[2000] items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-[pop-in_0.3s_ease-out]">
+       <div class="card-glow max-w-md w-full rounded-3xl p-8 relative">
+           <button onclick="closeTermsModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white p-2">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+           </button>
+           
+           <h3 class="font-heading text-2xl font-bold mb-6 text-white">Inkludert i kjøpet</h3>
+           
+           <ul class="space-y-4 text-gray-300 text-sm mb-8">
+               <li class="flex gap-3">
+                   <span class="text-green-400 mt-0.5">✓</span>
+                   <span><strong>Sanntidsvarsling (SMS):</strong> Du mottar SMS kun når nordlyset faktisk er synlig på himmelen.</span>
+               </li>
+               <li class="flex gap-3">
+                   <span class="text-green-400 mt-0.5">✓</span>
+                   <span><strong>Overvåkingstider:</strong> Systemet er aktivt i "Prime Time" mellom kl. 18:00 og 00:00 hver kveld.</span>
+               </li>
+               <li class="flex gap-3">
+                   <span class="text-green-400 mt-0.5">✓</span>
+                   <span><strong>Ingen Spam:</strong> Maksimalt 1 varsel per time for å unngå unødvendige meldinger.</span>
+               </li>
+               <li class="flex gap-3">
+                   <span class="text-green-400 mt-0.5">✓</span>
+                   <span><strong>Varighet:</strong> Tilgangen gjelder i 5 dager fra kjøpstidspunktet.</span>
+               </li>
+               <li class="flex gap-3">
+                   <span class="text-gray-500 mt-0.5">ℹ</span>
+                   <span class="text-gray-400 text-xs italic">Dette er et pilotprosjekt basert på data fra UiT StormCast. Værforbehold gjelder (overskyet vær kan hindre sikt).</span>
+               </li>
+           </ul>
+           
+           <button onclick="acceptTerms()" class="btn-primary w-full py-3 rounded-xl font-heading font-semibold text-white">
+               Jeg forstår
+           </button>
+       </div>
+   </div>
+
   </div>
   <script>
     // --- Configuration ---
-    // HUSK Å LEGGE INN DIN EGEN FORMSPREE KODE HER:
-    const FORMSPREE_ID = "xgolvvwk"; 
+    // LEGGE INN DIN EGEN STRIPE BETALINGSLENKE HER:
+    const STRIPE_LINK = "DIN_STRIPE_LINK_HER"; 
     // ---------------------
 
     function navigateToRegistration() {
@@ -476,57 +532,44 @@
     function closeRegistration() {
       document.getElementById('landing-page').classList.remove('hidden');
       document.getElementById('registration-page').classList.remove('active');
-      
-      if(document.getElementById('success-state').style.display === 'block') {
-         document.getElementById('registration-form').reset();
-         document.getElementById('registration-form').style.display = 'block';
-         document.getElementById('success-state').style.display = 'none';
-      }
     }
-    
-    function resetRegistration() {
-      document.getElementById('registration-form').reset();
-      document.getElementById('registration-form').style.display = 'block';
-      document.getElementById('success-state').style.display = 'none';
-      document.getElementById('email-input').focus();
+
+    // Terms Modal Functions
+    function openTermsModal() {
+        document.getElementById('terms-modal').classList.add('active');
     }
-    
-    const form = document.getElementById('registration-form');
-    
-    form.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      
-      const btn = document.getElementById('submit-button');
-      const originalText = btn.textContent;
-      
-      btn.disabled = true;
-      btn.textContent = 'Checking availability...';
-      
-      const data = new FormData(form);
-      
-      try {
-        const response = await fetch("https://formspree.io/f/" + FORMSPREE_ID, {
-          method: "POST",
-          body: data,
-          headers: {
-              'Accept': 'application/json'
-          }
-        });
+
+    function closeTermsModal() {
+        document.getElementById('terms-modal').classList.remove('active');
+    }
+
+    function acceptTerms() {
+        document.getElementById('terms-checkbox').checked = true;
+        togglePaymentButton();
+        closeTermsModal();
+    }
+
+    // Payment Logic
+    function togglePaymentButton() {
+        const checkbox = document.getElementById('terms-checkbox');
+        const btn = document.getElementById('stripe-btn');
         
-        if (response.ok) {
-          document.getElementById('registration-form').style.display = 'none';
-          document.getElementById('success-state').style.display = 'block';
+        if(checkbox.checked) {
+            btn.disabled = false;
+            btn.classList.remove('btn-disabled');
         } else {
-          const jsonData = await response.json();
-          alert("Oops! " + (jsonData.errors ? jsonData.errors.map(e => e.message).join(", ") : "Unknown error"));
+            btn.disabled = true;
+            btn.classList.add('btn-disabled');
         }
-      } catch (error) {
-        alert("Network error. Please try again.");
-      } finally {
-        btn.disabled = false;
-        btn.textContent = originalText;
-      }
-    });
+    }
+
+    function goToStripe() {
+        if (STRIPE_LINK === "DIN_STRIPE_LINK_HER") {
+            alert("Vennligst legg inn din Stripe-lenke i koden først.");
+            return;
+        }
+        window.location.href = STRIPE_LINK;
+    }
   </script>
  </body>
 </html>
