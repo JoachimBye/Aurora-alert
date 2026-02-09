@@ -3,8 +3,8 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aurora Real Time | Northern Lights Alerts in Tromsø</title>
-  <meta name="description" content="Get instant alerts when the Northern Lights appear over Tromsø. Our AI monitors professional camera feeds from the UiT Department of Computer Science 24/7.">
+  <title>Aurora Real Time | Pilot Program</title>
+  <meta name="description" content="Join the exclusive Pilot Program. Get instant SMS alerts when the Northern Lights appear over Tromsø. Powered by UiT StormCast data.">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,13 +16,8 @@
       width: 100%;
     }
     
-    .font-heading {
-      font-family: 'Space Grotesk', sans-serif;
-    }
-    
-    .font-body {
-      font-family: 'Outfit', sans-serif;
-    }
+    .font-heading { font-family: 'Space Grotesk', sans-serif; }
+    .font-body { font-family: 'Outfit', sans-serif; }
     
     @keyframes aurora-flow {
       0%, 100% { background-position: 0% 50%; }
@@ -49,7 +44,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* New Animation for Notification */
+    /* iOS Notification Style */
     @keyframes pop-in {
         0% { transform: scale(0.8); opacity: 0; }
         100% { transform: scale(1); opacity: 1; }
@@ -94,7 +89,6 @@
       border: 1px solid rgba(255,255,255,0.08);
     }
 
-    /* iOS Notification Style */
     .notification-card {
         background: rgba(255, 255, 255, 0.15);
         backdrop-filter: blur(20px);
@@ -109,11 +103,19 @@
     .btn-primary {
       background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
       transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
     }
     
     .btn-primary:hover {
       transform: translateY(-2px);
       box-shadow: 0 10px 40px rgba(34, 197, 94, 0.4);
+    }
+
+    .btn-disabled {
+        background: #374151;
+        cursor: not-allowed;
+        opacity: 0.6;
     }
     
     .floating { animation: float 6s ease-in-out infinite; }
@@ -130,342 +132,231 @@
     }
     #registration-page.active { display: block; }
     #landing-page.hidden { display: none; }
+
+    /* Checkbox custom style */
+    .custom-checkbox {
+        accent-color: #22c55e;
+        width: 1.2rem;
+        height: 1.2rem;
+        cursor: pointer;
+    }
   </style>
  </head>
  <body class="font-body aurora-bg text-white w-full h-full overflow-auto">
   <div id="app-wrapper" class="w-full h-full">
-   
+    
    <div id="landing-page" class="w-full">
     <div class="fixed inset-0 pointer-events-none overflow-hidden">
-     <div class="star" style="top: 10%; left: 15%; animation-delay: 0s;"></div>
-     <div class="star" style="top: 20%; left: 80%; animation-delay: 0.5s;"></div>
-     <div class="star" style="top: 35%; left: 25%; animation-delay: 1s;"></div>
-     <div class="star" style="top: 15%; left: 60%; animation-delay: 1.5s;"></div>
-     <div class="star" style="top: 45%; left: 90%; animation-delay: 2s;"></div>
-     <div class="star" style="top: 8%; left: 45%; animation-delay: 2.5s;"></div>
-     <div class="star" style="top: 25%; left: 5%; animation-delay: 0.3s;"></div>
-     <div class="star" style="top: 50%; left: 70%; animation-delay: 1.2s;"></div>
-     <div class="star" style="top: 5%; left: 35%; animation-delay: 1.8s;"></div>
-     <div class="star" style="top: 30%; left: 55%; animation-delay: 0.8s;"></div>
+      <div class="star" style="top: 10%; left: 15%; animation-delay: 0s;"></div>
+      <div class="star" style="top: 20%; left: 80%; animation-delay: 0.5s;"></div>
+      <div class="star" style="top: 35%; left: 25%; animation-delay: 1s;"></div>
+      <div class="star" style="top: 15%; left: 60%; animation-delay: 1.5s;"></div>
+      <div class="star" style="top: 45%; left: 90%; animation-delay: 2s;"></div>
+      <div class="star" style="top: 8%; left: 45%; animation-delay: 2.5s;"></div>
+      <div class="star" style="top: 25%; left: 5%; animation-delay: 0.3s;"></div>
+      <div class="star" style="top: 50%; left: 70%; animation-delay: 1.2s;"></div>
     </div>
     
     <div class="aurora-ribbon"></div>
     <div class="fixed inset-0 aurora-glow pointer-events-none"></div>
 
     <div class="relative z-10">
-     <nav class="w-full px-6 py-5">
-      <div class="max-w-6xl mx-auto flex items-center justify-between">
-       <div class="flex items-center gap-2">
-        <svg class="w-8 h-8" viewbox="0 0 40 40" fill="none"><circle cx="20" cy="28" r="10" fill="url(#mountain-grad)" opacity="0.6" /> <path d="M5 32 L20 12 L35 32" stroke="url(#aurora-line)" stroke-width="2" fill="none" /> <path d="M8 28 Q20 5 32 28" stroke="#22c55e" stroke-width="3" fill="none" opacity="0.8" /> <path d="M12 25 Q20 8 28 25" stroke="#2dd4bf" stroke-width="2" fill="none" opacity="0.6" /> <defs>
-          <lineargradient id="mountain-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-           <stop offset="0%" stop-color="#1e3a5f" />
-           <stop offset="100%" stop-color="#0f172a" />
-          </lineargradient>
-          <lineargradient id="aurora-line" x1="0%" y1="0%" x2="100%" y2="0%">
-           <stop offset="0%" stop-color="#22c55e" />
-           <stop offset="100%" stop-color="#2dd4bf" />
-          </lineargradient>
-         </defs>
-        </svg><span class="font-heading font-semibold text-lg">Aurora Real Time</span>
-       </div>
-       <div class="hidden md:flex items-center gap-8 text-sm text-gray-400"><a href="#how-it-works" class="hover:text-white transition-colors">How It Works</a> <a href="#technology" class="hover:text-white transition-colors">Technology</a> <a href="#pricing" class="hover:text-white transition-colors">Pricing</a>
-       </div>
-      </div>
-     </nav>
-
-     <section class="w-full px-6 pt-16 pb-12">
-      <div class="max-w-4xl mx-auto text-center">
-       <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full card-glow text-sm text-gray-300 mb-8"><span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Live monitoring from Tromsø, Norway
-       </div>
-       
-       <h1 class="font-heading text-4xl md:text-6xl font-bold leading-tight mb-6">See the Northern Lights Tonight<br><span class="green-accent">Without the $150 Safari Price Tag</span></h1>
-       <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-10">Real time notifications when aurora is actually visible in Tromsø. Not predictions, but verified sightings.</p>
-       
-       <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-           <button class="btn-primary px-8 py-4 rounded-xl font-heading font-semibold text-lg w-full sm:w-auto" onclick="navigateToRegistration()"> Get Real Time Access, $4.99 </button> 
-           <span class="text-gray-500 text-sm">One time payment for 5 days</span>
-       </div>
-
-       <div class="mt-12 mb-8 flex justify-center">
-           <div class="notification-card rounded-2xl p-4 w-full max-w-sm text-left flex gap-4 items-center transform hover:scale-105 transition-transform duration-300 cursor-default">
-               <div class="w-10 h-10 rounded-lg bg-black flex items-center justify-center flex-shrink-0">
-                   <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-               </div>
-               <div>
-                   <div class="flex justify-between items-center w-full min-w-[200px]">
-                       <h4 class="font-semibold text-sm">Aurora Real Time</h4>
-                       <span class="text-xs text-gray-400">now</span>
-                   </div>
-                   <p class="text-sm text-gray-200">🟢 Aurora Visible! Look North (85% Intensity)</p>
-               </div>
-           </div>
-       </div>
-
-       <div class="max-w-lg mx-auto mt-6">
-           <div class="flex items-center justify-center gap-2 mb-2">
-               <span class="text-yellow-400">★★★★★</span>
-           </div>
-           <p class="text-gray-400 italic text-sm">"Saved our trip! We were about to go to sleep when the alert popped up. Best $5 spent."</p>
-           <p class="text-gray-500 text-xs mt-1">— Sarah T., Beta Tester (Feb 2024)</p>
-       </div>
-
-      </div>
-     </section>
-
-     <section id="how-it-works" class="w-full px-6 py-20">
-      <div class="max-w-5xl mx-auto">
-       <h2 class="font-heading text-3xl md:text-4xl font-bold text-center mb-4">Why Forecasts Fail You</h2>
-       <p class="text-gray-400 text-center max-w-2xl mx-auto mb-16">Traditional aurora apps predict probability. We show you reality.</p>
-       <div class="grid md:grid-cols-2 gap-8"><div class="card-glow rounded-2xl p-8 border-red-500/20">
-         <div class="flex items-center gap-3 mb-6">
-          <div class="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center">
-           <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-           </svg>
-          </div>
-          <h3 class="font-heading font-semibold text-xl text-red-400">Traditional Apps</h3>
-         </div>
-         <ul class="space-y-4 text-gray-400">
-          <li class="flex items-start gap-3"><span class="text-red-400 mt-1">✗</span> <span>Based on solar wind, not actual visibility</span></li>
-          <li class="flex items-start gap-3"><span class="text-red-400 mt-1">✗</span> <span>Don't account for local cloud cover</span></li>
-          <li class="flex items-start gap-3"><span class="text-red-400 mt-1">✗</span> <span>"High probability" often means seeing nothing</span></li>
-          <li class="flex items-start gap-3"><span class="text-red-400 mt-1">✗</span> <span>Wastes your time waiting in the cold</span></li>
-         </ul>
-        </div><div class="card-glow rounded-2xl p-8 border-green-500/30">
-         <div class="flex items-center gap-3 mb-6">
-          <div class="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center">
-           <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-           </svg>
-          </div>
-          <h3 class="font-heading font-semibold text-xl green-accent">Aurora Real Time</h3>
-         </div>
-         <ul class="space-y-4 text-gray-300">
-          <li class="flex items-start gap-3"><span class="green-accent mt-1">✓</span> <span>AI analyzes live camera feeds every 5 minutes</span></li>
-          <li class="flex items-start gap-3"><span class="green-accent mt-1">✓</span> <span>Only alerts when aurora is actually visible</span></li>
-          <li class="flex items-start gap-3"><span class="green-accent mt-1">✓</span> <span>Accounts for real weather conditions</span></li>
-          <li class="flex items-start gap-3"><span class="green-accent mt-1">✓</span> <span>Step outside only when it's worth it</span></li>
-         </ul>
-        </div>
-       </div>
-      </div>
-     </section>
-
-     <section id="technology" class="w-full px-6 py-20">
-      <div class="max-w-5xl mx-auto">
-       <div class="text-center mb-16"><span class="inline-block px-4 py-1 rounded-full text-sm text-green-400 bg-green-500/10 mb-4"> Built on Academic Excellence </span>
-        <h2 class="font-heading text-3xl md:text-4xl font-bold mb-4">Professional Grade Infrastructure</h2>
-        <p class="text-gray-400 max-w-2xl mx-auto">Powered by the StormCast project at UiT The Arctic University of Norway</p>
-       </div>
-       <div class="grid md:grid-cols-3 gap-6">
-        <div class="card-glow rounded-2xl p-6 text-center">
-         <div class="w-14 h-14 mx-auto mb-4 rounded-xl bg-gradient-to-br from-green-500/20 to-teal-500/20 flex items-center justify-center">
-          <svg class="w-7 h-7 text-green-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-          </svg>
-         </div>
-         <h3 class="font-heading font-semibold text-lg mb-2">Axis HD Cameras</h3>
-         <p class="text-gray-400 text-sm">High-resolution network cameras mounted in Breivika, Tromsø</p>
-        </div>
-        <div class="card-glow rounded-2xl p-6 text-center">
-         <div class="w-14 h-14 mx-auto mb-4 rounded-xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
-          <svg class="w-7 h-7 text-purple-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-          </svg>
-         </div>
-         <h3 class="font-heading font-semibold text-lg mb-2">AI Analysis</h3>
-         <p class="text-gray-400 text-sm">Machine learning models trained specifically for aurora detection</p>
-        </div>
-        <div class="card-glow rounded-2xl p-6 text-center">
-         <div class="w-14 h-14 mx-auto mb-4 rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center">
-          <svg class="w-7 h-7 text-blue-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-         </div>
-         <h3 class="font-heading font-semibold text-lg mb-2">5 Minute Updates</h3>
-         <p class="text-gray-400 text-sm">Continuous monitoring ensures you never miss a display</p>
-        </div>
-       </div>
-       <div class="mt-12 card-glow rounded-2xl p-6 flex flex-col md:flex-row items-center gap-6">
-        <div class="w-16 h-16 rounded-xl bg-white/5 flex items-center justify-center flex-shrink-0">
-         <svg class="w-10 h-10 text-gray-300" viewbox="0 0 40 40" fill="currentColor"><path d="M20 4C11.16 4 4 11.16 4 20C4 28.84 11.16 36 20 36C28.84 36 36 28.84 36 20C36 11.16 28.84 4 20 4ZM20 8C26.63 8 32 13.37 32 20C32 26.63 26.63 32 20 32C13.37 32 8 26.63 8 20C8 13.37 13.37 8 20 8Z" />
-         </svg>
-        </div>
-        <div>
-         <h4 class="font-heading font-semibold text-lg mb-1">UiT The Arctic University of Norway</h4>
-         <p class="text-gray-400 text-sm">Data sourced from the Department of Computer Science's StormCast project. Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0).</p>
-        </div>
-       </div>
-      </div>
-     </section>
-
-     <section class="w-full px-6 py-20">
-  <div class="max-w-6xl mx-auto">
-    <div class="text-center mb-16">
-      <h2 class="font-heading text-3xl md:text-4xl font-bold mb-4">Transparency &amp; Data Integrity</h2>
-      <p class="text-gray-400 max-w-2xl mx-auto">Built on open science principles with respect for privacy, research, and technical infrastructure.</p>
-    </div>
-    <div class="grid md:grid-cols-2 gap-6">
-      <div class="card-glow rounded-2xl p-8">
-        <div class="flex items-start gap-4 mb-4">
-          <div class="w-12 h-12 rounded-lg bg-green-500/20 flex items-center justify-center flex-shrink-0">
-            <svg class="w-6 h-6 green-accent" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C6.5 6.253 2 10.998 2 17s4.5 10.747 10 10.747c5.5 0 10-4.998 10-10.747 0-6.002-4.5-10.747-10-10.747z" />
-            </svg>
-          </div>
-          <div>
-            <h3 class="font-heading font-semibold text-lg mb-2">Open Research Data</h3>
-          </div>
-        </div>
-        <p class="text-gray-400 leading-relaxed">Visual data is sourced from the StormCast project at the UiT Department of Computer Science and used under the Creative Commons Attribution 4.0 International license (CC BY 4.0).</p>
-      </div>
-      <div class="card-glow rounded-2xl p-8">
-        <div class="flex items-start gap-4 mb-4">
-          <div class="w-12 h-12 rounded-lg bg-green-500/20 flex items-center justify-center flex-shrink-0">
-            <svg class="w-6 h-6 green-accent" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-          <div>
-            <h3 class="font-heading font-semibold text-lg mb-2">Privacy-First Design</h3>
-          </div>
-        </div>
-        <p class="text-gray-400 leading-relaxed">Our service utilizes infrastructure specifically designed for atmospheric monitoring. Cameras are strategically angled toward the horizon and sky to ensure full GDPR compliance and the anonymity of individuals on the ground.</p>
-      </div>
-      <div class="card-glow rounded-2xl p-8">
-        <div class="flex items-start gap-4 mb-4">
-          <div class="w-12 h-12 rounded-lg bg-green-500/20 flex items-center justify-center flex-shrink-0">
-            <svg class="w-6 h-6 green-accent" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
-            </svg>
-          </div>
-          <div>
-            <h3 class="font-heading font-semibold text-lg mb-2">Infrastructure Respect</h3>
-          </div>
-        </div>
-        <p class="text-gray-400 leading-relaxed">We adhere to strict data retrieval protocols and utilize official interfaces to ensure zero negative impact on university research servers and infrastructure.</p>
-      </div>
-      <div class="card-glow rounded-2xl p-8">
-        <div class="flex items-start gap-4 mb-4">
-          <div class="w-12 h-12 rounded-lg bg-green-500/20 flex items-center justify-center flex-shrink-0">
-            <svg class="w-6 h-6 green-accent" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-          <div>
-            <h3 class="font-heading font-semibold text-lg mb-2">TGO Disclaimer</h3>
-          </div>
-        </div>
-        <p class="text-gray-400 leading-relaxed">Note: This service currently utilizes open meteorological data (StormCast) and does not claim affiliation with or use restricted data from Tromsø Geophysical Observatory (TGO) without explicit agreement.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-     
-     <section id="pricing" class="w-full px-6 py-20">
-      <div class="max-w-xl mx-auto text-center">
-       <h2 class="font-heading text-3xl md:text-4xl font-bold mb-4">Chase Aurora, Not Prices</h2>
-       <p class="text-gray-400 mb-12">A fraction of safari costs. All the magic.</p>
-       <div class="card-glow rounded-3xl p-8 md:p-10 border-green-500/30">
-        <div class="mb-6"><span class="font-heading text-5xl md:text-6xl font-bold green-accent">$4.99</span> <span class="text-gray-400 text-lg ml-2">for 5 days</span>
-        </div>
-        <ul class="space-y-3 text-gray-300 mb-8 text-left max-w-xs mx-auto">
-         <li class="flex items-center gap-3">
-          <svg class="w-5 h-5 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-          </svg><span>Instant push notifications</span></li>
-         <li class="flex items-center gap-3">
-          <svg class="w-5 h-5 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-          </svg><span>5 minute monitoring cycles</span></li>
-         <li class="flex items-center gap-3">
-          <svg class="w-5 h-5 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-          </svg><span>Only alerts for visible aurora</span></li>
-         <li class="flex items-center gap-3">
-          <svg class="w-5 h-5 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-          </svg><span>No subscription one time purchase</span></li>
-        </ul><button class="btn-primary w-full py-4 rounded-xl font-heading font-semibold text-lg" onclick="navigateToRegistration()"> Notify Me When Aurora Appears </button>
-        <p class="text-gray-500 text-sm mt-4">Compare to $150+ for guided aurora tours</p>
-       </div>
-      </div>
-     </section>
-     
-     <footer class="w-full px-6 py-12 border-t border-white/5">
-      <div class="max-w-5xl mx-auto">
-       <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+      <nav class="w-full px-6 py-5">
+       <div class="max-w-6xl mx-auto flex items-center justify-between">
         <div class="flex items-center gap-2">
-         <svg class="w-6 h-6" viewbox="0 0 40 40" fill="none"><path d="M8 28 Q20 5 32 28" stroke="#22c55e" stroke-width="3" fill="none" opacity="0.8" /> <path d="M12 25 Q20 8 28 25" stroke="#2dd4bf" stroke-width="2" fill="none" opacity="0.6" />
-         </svg><span class="font-heading font-semibold">Aurora Real Time</span>
+         <svg class="w-8 h-8" viewbox="0 0 40 40" fill="none"><circle cx="20" cy="28" r="10" fill="url(#mountain-grad)" opacity="0.6" /> <path d="M5 32 L20 12 L35 32" stroke="url(#aurora-line)" stroke-width="2" fill="none" /> <path d="M8 28 Q20 5 32 28" stroke="#22c55e" stroke-width="3" fill="none" opacity="0.8" /> <path d="M12 25 Q20 8 28 25" stroke="#2dd4bf" stroke-width="2" fill="none" opacity="0.6" /> <defs>
+            <lineargradient id="mountain-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+             <stop offset="0%" stop-color="#1e3a5f" />
+             <stop offset="100%" stop-color="#0f172a" />
+            </lineargradient>
+            <lineargradient id="aurora-line" x1="0%" y1="0%" x2="100%" y2="0%">
+             <stop offset="0%" stop-color="#22c55e" />
+             <stop offset="100%" stop-color="#2dd4bf" />
+            </lineargradient>
+           </defs>
+          </svg><span class="font-heading font-semibold text-lg">Aurora Real Time</span>
+          <span class="bg-green-500/20 text-green-400 text-xs px-2 py-0.5 rounded ml-2 border border-green-500/30">PILOT</span>
         </div>
-        <div class="flex items-center gap-6 text-sm text-gray-500"><span>Data: UiT StormCast (CC BY 4.0)</span> <span>•</span> <span>Tromsø, Norway 🇳🇴</span>
+        <div class="hidden md:flex items-center gap-8 text-sm text-gray-400"><a href="#how-it-works" class="hover:text-white transition-colors">How It Works</a> <a href="#technology" class="hover:text-white transition-colors">Technology</a> <a href="#pricing" class="hover:text-white transition-colors">Pricing</a>
         </div>
        </div>
-      </div>
-     </footer>
+      </nav>
+
+      <section class="w-full px-6 pt-16 pb-12">
+       <div class="max-w-4xl mx-auto text-center">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full card-glow text-sm text-gray-300 mb-8"><span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Pilot Program: Live Monitoring
+        </div>
+        
+        <h1 class="font-heading text-4xl md:text-6xl font-bold leading-tight mb-6">See the Northern Lights Tonight<br><span class="green-accent">Instant SMS Alerts</span></h1>
+        <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-10">Don't stare at the sky for hours. Our AI monitors professional camera feeds every 5 minutes and texts you the second the lights appear.</p>
+        
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button class="btn-primary px-8 py-4 rounded-xl font-heading font-bold text-lg w-full sm:w-auto shadow-lg shadow-green-900/20" onclick="navigateToRegistration()"> Join Pilot Waitlist - $9.99 </button> 
+            <span class="text-gray-500 text-sm">5 days access • No subscription</span>
+        </div>
+
+        <div class="mt-12 mb-8 flex justify-center">
+            <div class="notification-card rounded-2xl p-4 w-full max-w-sm text-left flex gap-4 items-center transform hover:scale-105 transition-transform duration-300 cursor-default">
+                <div class="w-10 h-10 rounded-lg bg-black flex items-center justify-center flex-shrink-0">
+                    <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>
+                </div>
+                <div>
+                    <div class="flex justify-between items-center w-full min-w-[200px]">
+                        <h4 class="font-semibold text-sm">Messages</h4>
+                        <span class="text-xs text-gray-400">now</span>
+                    </div>
+                    <p class="text-sm text-gray-200">🟢 Aurora Visible! Look up now. (Intense)</p>
+                </div>
+            </div>
+        </div>
+       </div>
+      </section>
+
+      <section id="how-it-works" class="w-full px-6 py-20">
+       <div class="max-w-5xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-8"><div class="card-glow rounded-2xl p-8 border-red-500/20">
+          <div class="flex items-center gap-3 mb-6">
+           <div class="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center">
+            <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+           </div>
+           <h3 class="font-heading font-semibold text-xl text-red-400">The Old Way</h3>
+          </div>
+          <ul class="space-y-4 text-gray-400">
+           <li class="flex items-start gap-3"><span class="text-red-400 mt-1">✗</span> <span>Based on "KP-index" predictions (often wrong)</span></li>
+           <li class="flex items-start gap-3"><span class="text-red-400 mt-1">✗</span> <span>You check the window every 10 minutes</span></li>
+           <li class="flex items-start gap-3"><span class="text-red-400 mt-1">✗</span> <span>Wastes your holiday waiting in the cold</span></li>
+          </ul>
+         </div><div class="card-glow rounded-2xl p-8 border-green-500/30">
+          <div class="flex items-center gap-3 mb-6">
+           <div class="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center">
+            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+           </div>
+           <h3 class="font-heading font-semibold text-xl green-accent">The Pilot Way</h3>
+          </div>
+          <ul class="space-y-4 text-gray-300">
+           <li class="flex items-start gap-3"><span class="green-accent mt-1">✓</span> <span>AI analyzes live camera images</span></li>
+           <li class="flex items-start gap-3"><span class="green-accent mt-1">✓</span> <span>SMS Alert ONLY when aurora is visible</span></li>
+           <li class="flex items-start gap-3"><span class="green-accent mt-1">✓</span> <span>Prime-time monitoring: 18:00 - 00:00</span></li>
+          </ul>
+         </div>
+        </div>
+       </div>
+      </section>
+
+      <section id="technology" class="w-full px-6 py-20">
+       <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-16"><span class="inline-block px-4 py-1 rounded-full text-sm text-green-400 bg-green-500/10 mb-4"> Built on Academic Excellence </span>
+         <h2 class="font-heading text-3xl md:text-4xl font-bold mb-4">Professional Grade Infrastructure</h2>
+         <p class="text-gray-400 max-w-2xl mx-auto">We utilize data from the StormCast project at UiT The Arctic University of Norway to give you the most accurate real-time status.</p>
+        </div>
+        
+        <div class="mt-12 card-glow rounded-2xl p-6 flex flex-col md:flex-row items-center gap-6">
+         <div class="w-16 h-16 rounded-xl bg-white/5 flex items-center justify-center flex-shrink-0">
+          <svg class="w-10 h-10 text-gray-300" viewbox="0 0 40 40" fill="currentColor"><path d="M20 4C11.16 4 4 11.16 4 20C4 28.84 11.16 36 20 36C28.84 36 36 28.84 36 20C36 11.16 28.84 4 20 4ZM20 8C26.63 8 32 13.37 32 20C32 26.63 26.63 32 20 32C13.37 32 8 26.63 8 20C8 13.37 13.37 8 20 8Z" />
+          </svg>
+         </div>
+         <div>
+          <h4 class="font-heading font-semibold text-lg mb-1">UiT The Arctic University of Norway</h4>
+          <p class="text-gray-400 text-sm">Visual data sourced from the Department of Computer Science's StormCast project. Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0). Note: This is an independent pilot service and is not officially endorsed by UiT.</p>
+         </div>
+        </div>
+       </div>
+      </section>
+      
+      <section id="pricing" class="w-full px-6 py-20">
+       <div class="max-w-xl mx-auto text-center">
+        <h2 class="font-heading text-3xl md:text-4xl font-bold mb-4">Chase Aurora, Not Prices</h2>
+        <div class="card-glow rounded-3xl p-8 md:p-10 border-green-500/30 mt-8">
+         <div class="mb-6"><span class="font-heading text-5xl md:text-6xl font-bold green-accent">$9.99</span> <span class="text-gray-400 text-lg ml-2">/ 5 days</span>
+         </div>
+         <ul class="space-y-3 text-gray-300 mb-8 text-left max-w-xs mx-auto">
+          <li class="flex items-center gap-3">
+           <svg class="w-5 h-5 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg><span>SMS Notifications</span></li>
+          <li class="flex items-center gap-3">
+           <svg class="w-5 h-5 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg><span>Prime-Time (18:00-00:00)</span></li>
+          <li class="flex items-center gap-3">
+           <svg class="w-5 h-5 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg><span>Max 1 alert/hour (No Spam)</span></li>
+          <li class="flex items-center gap-3">
+           <svg class="w-5 h-5 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg><span>Bonus: Urban Aurora Map</span></li>
+         </ul><button class="btn-primary w-full py-4 rounded-xl font-heading font-semibold text-lg" onclick="navigateToRegistration()"> Join Pilot Program </button>
+        </div>
+       </div>
+      </section>
+      
+      <footer class="w-full px-6 py-12 border-t border-white/5">
+       <div class="max-w-5xl mx-auto">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+         <div class="flex items-center gap-2">
+          <span class="font-heading font-semibold">Aurora Real Time</span>
+         </div>
+         <div class="flex items-center gap-6 text-sm text-gray-500"><span>Data: UiT StormCast (CC BY 4.0)</span> <span>•</span> <span>Tromsø, Norway 🇳🇴</span>
+         </div>
+        </div>
+       </div>
+      </footer>
     </div>
    </div>
 
    <div id="registration-page" class="w-full h-full overflow-y-auto">
-    <div class="aurora-bg w-full"><button onclick="closeRegistration()" class="fixed top-6 right-6 z-50 p-2 hover:bg-white/10 rounded-lg transition-colors" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-      </svg></button> <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
-      <div class="star" style="top: 10%; left: 15%; animation-delay: 0s;"></div>
-      <div class="star" style="top: 20%; left: 80%; animation-delay: 0.5s;"></div>
-      <div class="star" style="top: 35%; left: 25%; animation-delay: 1s;"></div>
-      <div class="star" style="top: 15%; left: 60%; animation-delay: 1.5s;"></div>
-      <div class="star" style="top: 45%; left: 90%; animation-delay: 2s;"></div>
-     </div><div class="aurora-ribbon" style="z-index: 0;"></div>
-     <div class="fixed inset-0 aurora-glow pointer-events-none z-0"></div>
-     
-     <div class="relative z-10 px-6 py-12 w-full">
-      <div class="max-w-2xl mx-auto">
+    <div class="aurora-bg w-full min-h-full">
+      <button onclick="closeRegistration()" class="fixed top-6 right-6 z-50 p-2 hover:bg-white/10 rounded-lg transition-colors" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+      </button> 
+      
+      <div class="relative z-10 px-6 py-12 w-full flex flex-col items-center justify-center min-h-full">
+       <div class="max-w-xl w-full">
           
-       <div style="text-align: center; margin-bottom: 2rem; animation: slide-up 0.8s ease-out forwards;">
-        <h1 class="font-heading text-4xl font-bold mb-4">Checking Availability...</h1>
-        <p class="text-xl text-gray-300 leading-relaxed">Due to high demand from current solar activity, we are limiting new signups to ensure 100% server speed for active users.</p>
-       </div>
-
-       <div style="display: grid; gap: 1rem; margin-bottom: 3rem;">
-        <div class="card-glow p-6 rounded-xl flex items-center gap-4 animate-[slide-up_0.8s_ease-out_0.5s_forwards] opacity-0">
-         <div class="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center flex-shrink-0">
-          <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-         </div>
-         <div>
-          <h3 class="font-heading font-semibold text-lg">Server Status: Active</h3>
-          <p class="text-sm text-gray-400">System is currently online and monitoring.</p>
-         </div>
+        <div style="text-align: center; margin-bottom: 2rem; animation: slide-up 0.5s ease-out forwards;">
+         <h1 class="font-heading text-3xl font-bold mb-4">Pilot Access Setup</h1>
+         <p class="text-gray-300">To ensure the best experience, please confirm you understand how the pilot service works before proceeding to payment.</p>
         </div>
-        
-        <div class="card-glow p-6 rounded-xl flex items-center gap-4 animate-[slide-up_0.8s_ease-out_0.6s_forwards] opacity-0">
-         <div class="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center flex-shrink-0">
-          <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+
+        <div class="card-glow p-8 rounded-3xl animate-[slide-up_0.6s_ease-out_0.2s_forwards] opacity-0">
+         
+         <div class="space-y-6">
+            <label class="flex items-start gap-4 cursor-pointer group">
+                <input type="checkbox" class="custom-checkbox mt-1 flex-shrink-0" onchange="checkForm()">
+                <div class="text-sm text-gray-300 group-hover:text-white transition-colors">
+                    <strong>Service Hours:</strong> I understand that the AI monitoring is active during prime viewing hours (18:00 - 00:00) to ensure high accuracy.
+                </div>
+            </label>
+
+            <label class="flex items-start gap-4 cursor-pointer group">
+                <input type="checkbox" class="custom-checkbox mt-1 flex-shrink-0" onchange="checkForm()">
+                <div class="text-sm text-gray-300 group-hover:text-white transition-colors">
+                    <strong>International Number:</strong> I have my phone number ready with the correct country code (e.g. +44 or +1) for the payment page.
+                </div>
+            </label>
+
+            <label class="flex items-start gap-4 cursor-pointer group">
+                <input type="checkbox" class="custom-checkbox mt-1 flex-shrink-0" onchange="checkForm()">
+                <div class="text-sm text-gray-300 group-hover:text-white transition-colors">
+                    <strong>Privacy & GDPR:</strong> I consent to receiving automated SMS alerts for the duration of my 5-day pass. My data is handled securely via Stripe.
+                </div>
+            </label>
          </div>
-         <div>
-          <h3 class="font-heading font-semibold text-lg">Wait Time: Low</h3>
-          <p class="text-sm text-gray-400">If you register now, you can secure access for tonight.</p>
+
+         <div class="mt-8 pt-6 border-t border-white/10">
+            <button id="stripe-button" onclick="goToStripe()" class="w-full py-4 rounded-xl font-heading font-bold text-white btn-disabled transition-all" disabled>
+                I Agree - Proceed to Payment ($9.99)
+            </button>
+            <p class="text-center text-xs text-gray-500 mt-4">Secure payment processing via Stripe</p>
          </div>
+
         </div>
+
        </div>
-
-       <form id="registration-form" class="card-glow p-10 rounded-3xl animate-[slide-up_0.8s_ease-out_0.8s_forwards] opacity-0" method="POST">
-        <label class="block text-sm font-bold mb-3 text-gray-300">Enter your email to secure your spot</label>
-        <div class="flex flex-col gap-4">
-         <input type="email" name="email" placeholder="your@email.com" class="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white focus:outline-none focus:border-green-500 transition-colors" required> 
-         <button type="submit" id="submit-button" class="btn-primary w-full py-4 rounded-xl font-heading font-bold text-white"> Check Availability & Secure ($4.99) </button>
-        </div>
-        <p class="text-gray-500 text-xs mt-4 text-center">We respect your privacy. No spam.</p>
-       </form>
-
-       <div id="success-state" style="display: none;" class="card-glow p-10 rounded-3xl text-center">
-        <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-green-500/20 flex items-center justify-center text-green-400 text-3xl">✓</div>
-        <h2 class="font-heading text-3xl font-bold mb-3">You're on the list!</h2>
-        <p class="text-gray-400 mb-6">We've sent a confirmation email.</p>
-        <button onclick="closeRegistration()" class="text-green-400 hover:underline">Return to home</button>
-       </div>
-
       </div>
-     </div>
     </div>
    </div>
   </div>
+
   <script>
-    // --- Configuration ---
-    // HUSK Å LEGGE INN DIN EGEN FORMSPREE KODE HER:
-    const FORMSPREE_ID = "xgolvvwk"; 
+    // --- CONFIGURATION ---
+    // LIM INN DIN STRIPE LINK HER (Husk å lage en link som samler telefonnummer!)
+    const STRIPE_PAYMENT_LINK = "DIN_STRIPE_LINK_HER"; 
     // ---------------------
 
     function navigateToRegistration() {
@@ -476,57 +367,34 @@
     function closeRegistration() {
       document.getElementById('landing-page').classList.remove('hidden');
       document.getElementById('registration-page').classList.remove('active');
-      
-      if(document.getElementById('success-state').style.display === 'block') {
-         document.getElementById('registration-form').reset();
-         document.getElementById('registration-form').style.display = 'block';
-         document.getElementById('success-state').style.display = 'none';
-      }
     }
     
-    function resetRegistration() {
-      document.getElementById('registration-form').reset();
-      document.getElementById('registration-form').style.display = 'block';
-      document.getElementById('success-state').style.display = 'none';
-      document.getElementById('email-input').focus();
-    }
-    
-    const form = document.getElementById('registration-form');
-    
-    form.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      
-      const btn = document.getElementById('submit-button');
-      const originalText = btn.textContent;
-      
-      btn.disabled = true;
-      btn.textContent = 'Checking availability...';
-      
-      const data = new FormData(form);
-      
-      try {
-        const response = await fetch("https://formspree.io/f/" + FORMSPREE_ID, {
-          method: "POST",
-          body: data,
-          headers: {
-              'Accept': 'application/json'
-          }
-        });
+    function checkForm() {
+        const checkboxes = document.querySelectorAll('.custom-checkbox');
+        const btn = document.getElementById('stripe-button');
         
-        if (response.ok) {
-          document.getElementById('registration-form').style.display = 'none';
-          document.getElementById('success-state').style.display = 'block';
+        // Sjekk om ALLE boksene er krysset av
+        const allChecked = Array.from(checkboxes).every(box => box.checked);
+        
+        if (allChecked) {
+            btn.disabled = false;
+            btn.classList.remove('btn-disabled');
+            btn.classList.add('btn-primary');
         } else {
-          const jsonData = await response.json();
-          alert("Oops! " + (jsonData.errors ? jsonData.errors.map(e => e.message).join(", ") : "Unknown error"));
+            btn.disabled = true;
+            btn.classList.add('btn-disabled');
+            btn.classList.remove('btn-primary');
         }
-      } catch (error) {
-        alert("Network error. Please try again.");
-      } finally {
-        btn.disabled = false;
-        btn.textContent = originalText;
-      }
-    });
+    }
+
+    function goToStripe() {
+        if (STRIPE_PAYMENT_LINK === "DIN_STRIPE_LINK_HER") {
+            alert("Feil: Eieren av nettsiden må legge inn Stripe-linken i koden.");
+            return;
+        }
+        // Send brukeren til Stripe
+        window.location.href = STRIPE_PAYMENT_LINK;
+    }
   </script>
  </body>
 </html>
