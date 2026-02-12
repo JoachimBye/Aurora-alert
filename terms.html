@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="no" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brukervilkår / Terms of Service | Aurora Real Time</title>
+  <meta name="description" content="Brukervilkår for Aurora Real Time (AuroraAlerts). Les om tjenestens omfang, ansvarsfraskrivelse, betalingsvilkår og dine rettigheter som forbruker.">
+  <meta name="theme-color" content="#0a0f1a">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --color-bg-primary: #0a0f1a;
+      --color-bg-secondary: #0d1929;
+      --color-bg-card: rgba(255, 255, 255, 0.04);
+      --color-border: rgba(255, 255, 255, 0.08);
+      --color-border-hover: rgba(255, 255, 255, 0.15);
+      --color-green-primary: #22c55e;
+      --color-green-dark: #16a34a;
+      --color-text-primary: #f1f5f9;
+      --color-text-secondary: #94a3b8;
+      --color-text-muted: #64748b;
+      --color-amber: #f59e0b;
+      --font-heading: 'Space Grotesk', system-ui, sans-serif;
+      --font-body: 'Outfit', system-ui, sans-serif;
+      --radius-lg: 1rem;
+      --radius-xl: 1.25rem;
+      --radius-2xl: 1.5rem;
+      --transition-base: 200ms ease;
+      --transition-smooth: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%; width: 100%;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--color-bg-primary);
+      color: var(--color-text-primary);
+      overflow-x: hidden;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--color-green-primary);
+      outline-offset: 3px; border-radius: 4px;
+    }
+    :focus:not(:focus-visible) { outline: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    .skip-link {
+      position: absolute; top: -100%; left: 1rem; z-index: 9999;
+      background: var(--color-green-primary); color: #000;
+      padding: 0.75rem 1.5rem; border-radius: var(--radius-lg);
+      font-weight: 600; font-family: var(--font-heading); text-decoration: none;
+    }
+    .skip-link:focus { top: 1rem; }
+
+    .font-heading { font-family: var(--font-heading); }
+
+    .aurora-bg {
+      background: linear-gradient(135deg,
+        var(--color-bg-primary) 0%, var(--color-bg-secondary) 25%,
+        #0a1628 50%, #061220 75%, #040810 100%);
+    }
+
+    .page-glow {
+      position: fixed; top: 0; left: 0; right: 0; height: 300px;
+      background: linear-gradient(180deg,
+        rgba(34, 197, 94, 0.04) 0%,
+        rgba(45, 212, 191, 0.02) 40%,
+        transparent 100%);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ---- NAV ---- */
+    .nav {
+      position: relative; z-index: 50; padding: 1.25rem 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .nav__inner {
+      max-width: 72rem; margin: 0 auto; padding: 0 1.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav__brand {
+      display: flex; align-items: center; gap: 0.625rem;
+      text-decoration: none; color: var(--color-text-primary);
+    }
+    .nav__brand-name { font-family: var(--font-heading); font-weight: 600; font-size: 1.125rem; }
+    .nav__back {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.875rem; color: var(--color-text-secondary);
+      text-decoration: none; transition: color var(--transition-base);
+    }
+    .nav__back:hover { color: var(--color-text-primary); }
+
+    /* ---- CONTENT ---- */
+    .legal-container {
+      position: relative; z-index: 10;
+      max-width: 48rem; margin: 0 auto; padding: 3rem 1.5rem 5rem;
+    }
+
+    .legal-header {
+      margin-bottom: 3rem; padding-bottom: 2rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .legal-header__label {
+      display: inline-block; padding: 0.375rem 1rem; border-radius: 9999px;
+      font-size: 0.8125rem; color: var(--color-green-primary);
+      background: rgba(34, 197, 94, 0.08); margin-bottom: 1rem;
+    }
+    .legal-header__title {
+      font-family: var(--font-heading); font-weight: 700;
+      font-size: clamp(1.75rem, 4vw, 2.5rem); line-height: 1.15;
+      margin-bottom: 0.75rem;
+    }
+    .legal-header__meta {
+      font-size: 0.875rem; color: var(--color-text-secondary); line-height: 1.6;
+    }
+
+    /* Language Switcher */
+    .lang-switcher {
+      display: inline-flex; border-radius: var(--radius-lg); overflow: hidden;
+      border: 1px solid var(--color-border); margin-bottom: 2rem;
+    }
+    .lang-btn {
+      padding: 0.5rem 1.25rem; font-size: 0.8125rem; font-weight: 500;
+      font-family: var(--font-heading); background: transparent;
+      color: var(--color-text-secondary); border: none; cursor: pointer;
+      transition: all var(--transition-base);
+    }
+    .lang-btn:hover { color: var(--color-text-primary); background: rgba(255,255,255,0.04); }
+    .lang-btn.active { background: rgba(34, 197, 94, 0.12); color: var(--color-green-primary); }
+
+    /* Sections */
+    .legal-section { margin-bottom: 2.5rem; }
+    .legal-section__number {
+      font-family: var(--font-heading); font-size: 0.75rem; font-weight: 600;
+      color: var(--color-green-primary); text-transform: uppercase;
+      letter-spacing: 0.1em; margin-bottom: 0.375rem;
+    }
+    .legal-section__title {
+      font-family: var(--font-heading); font-weight: 600; font-size: 1.25rem;
+      margin-bottom: 0.875rem; line-height: 1.3;
+    }
+    .legal-section p {
+      color: var(--color-text-secondary); font-size: 0.9375rem;
+      line-height: 1.75; margin-bottom: 0.875rem;
+    }
+    .legal-section p:last-child { margin-bottom: 0; }
+
+    .legal-section ul {
+      list-style: none; padding: 0; margin: 0.75rem 0;
+      display: flex; flex-direction: column; gap: 0.625rem;
+    }
+    .legal-section li {
+      display: flex; align-items: flex-start; gap: 0.75rem;
+      color: var(--color-text-secondary); font-size: 0.9375rem; line-height: 1.65;
+    }
+    .legal-section li::before {
+      content: ''; flex-shrink: 0; margin-top: 0.5rem;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--color-green-primary); opacity: 0.6;
+    }
+
+    .legal-highlight {
+      color: var(--color-text-primary); font-weight: 500;
+    }
+
+    /* Important Callout Box */
+    .callout {
+      background: rgba(245, 158, 11, 0.06);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: var(--radius-xl);
+      padding: 1.25rem 1.5rem;
+      margin: 1.25rem 0;
+    }
+    .callout__label {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--font-heading); font-weight: 600;
+      font-size: 0.8125rem; color: var(--color-amber);
+      text-transform: uppercase; letter-spacing: 0.06em;
+      margin-bottom: 0.625rem;
+    }
+    .callout p {
+      color: var(--color-text-secondary) !important;
+      font-size: 0.875rem !important;
+      line-height: 1.7 !important;
+      margin: 0 !important;
+    }
+
+    /* Numbered Sub-items */
+    .legal-section ol {
+      list-style: none; padding: 0; margin: 0.75rem 0;
+      counter-reset: legal-counter;
+      display: flex; flex-direction: column; gap: 0.625rem;
+    }
+    .legal-section ol li {
+      counter-increment: legal-counter;
+      display: flex; align-items: flex-start; gap: 0.75rem;
+    }
+    .legal-section ol li::before {
+      content: counter(legal-counter) '.';
+      flex-shrink: 0; margin-top: 0;
+      width: auto; height: auto; border-radius: 0;
+      background: none; opacity: 1;
+      font-family: var(--font-heading); font-weight: 600;
+      color: var(--color-green-primary); font-size: 0.875rem;
+    }
+
+    /* Contact Box */
+    .contact-box {
+      background: var(--color-bg-card); border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl); padding: 1.5rem; margin-top: 1rem;
+    }
+    .contact-box a {
+      color: var(--color-green-primary); text-decoration: none;
+      border-bottom: 1px solid rgba(34,197,94,0.3);
+      transition: border-color var(--transition-base);
+    }
+    .contact-box a:hover { border-color: var(--color-green-primary); }
+
+    /* ---- FOOTER ---- */
+    .footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 2rem 0;
+    }
+    .footer__inner {
+      max-width: 72rem; margin: 0 auto; padding: 0 1.5rem;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+    .footer__links {
+      display: flex; flex-wrap: wrap; gap: 1.5rem;
+    }
+    .footer__links a {
+      font-size: 0.875rem; color: var(--color-text-secondary);
+      text-decoration: none; transition: color var(--transition-base);
+    }
+    .footer__links a:hover { color: var(--color-text-primary); }
+    .footer__copy {
+      font-size: 0.75rem; color: var(--color-text-muted); line-height: 1.8;
+    }
+
+    @media (min-width: 768px) {
+      .footer__inner {
+        flex-direction: row; align-items: center; justify-content: space-between;
+      }
+    }
+
+    .lang-content { display: none; }
+    .lang-content.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0, 0, 0, 0); border: 0;
+    }
+  </style>
+</head>
+<body class="aurora-bg">
+  <a href="#main-content" class="skip-link">Hopp til hovedinnhold</a>
+  <div class="page-glow" aria-hidden="true"></div>
+
+  <!-- NAV -->
+  <nav class="nav" aria-label="Navigasjon">
+    <div class="nav__inner">
+      <a href="/" class="nav__brand" aria-label="Aurora Real Time – Hjem">
+        <svg width="32" height="32" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+          <path d="M5 32 L20 12 L35 32" stroke="url(#al)" stroke-width="2" fill="none"/>
+          <path d="M8 28 Q20 5 32 28" stroke="#22c55e" stroke-width="3" fill="none" opacity="0.8"/>
+          <path d="M12 25 Q20 8 28 25" stroke="#2dd4bf" stroke-width="2" fill="none" opacity="0.6"/>
+          <defs><linearGradient id="al" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#22c55e"/><stop offset="100%" stop-color="#2dd4bf"/>
+          </linearGradient></defs>
+        </svg>
+        <span class="nav__brand-name">Aurora Real Time</span>
+      </a>
+      <a href="/" class="nav__back">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+        Tilbake til forsiden
+      </a>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main id="main-content">
+    <div class="legal-container">
+
+      <!-- Header -->
+      <header class="legal-header">
+        <span class="legal-header__label">Juridisk dokument</span>
+        <h1 class="legal-header__title">Brukervilkår</h1>
+        <p class="legal-header__meta">
+          Sist oppdatert: 12. februar 2026<br>
+          Gjelder for tjenesten AuroraAlerts levert av Aurora Real Time, Tromsø, Norge.<br>
+          Regulert av digitalytelsesloven (lov 2022-06-17-56) og angrerettloven (lov 2014-06-20-27).
+        </p>
+      </header>
+
+      <!-- Language Switcher -->
+      <div class="lang-switcher" role="tablist" aria-label="Velg språk">
+        <button class="lang-btn active" role="tab" aria-selected="true" aria-controls="terms-no" data-lang="no">Norsk</button>
+        <button class="lang-btn" role="tab" aria-selected="false" aria-controls="terms-en" data-lang="en">English</button>
+      </div>
+
+      <!-- ===================== NORSK ===================== -->
+      <div id="terms-no" class="lang-content active" role="tabpanel" lang="no">
+
+        <div class="legal-section">
+          <div class="legal-section__number">§ 1</div>
+          <h2 class="legal-section__title">Tjenestens omfang</h2>
+          <p>AuroraAlerts leverer et tidsbegrenset pass ($7.99 for 5 dager) som overvåker himmelforholdene i Tromsø via offentlige værkameraer ved Universitetet i Tromsø (UiT). Ved hjelp av AI-analyse sender vi SMS-varsler når potensielt nordlys detekteres.</p>
+          <p>Tjenesten er aktiv i nøyaktig 120 timer (5 dager) fra kjøpstidspunktet. Overvåking skjer i «Prime Time» mellom kl. 18:00 og 00:00 hver kveld, med maksimalt ett varsel per time for å unngå unødvendige notifikasjoner.</p>
+        </div>
+
+        <div class="legal-section">
+          <div class="legal-section__number">§ 2</div>
+          <h2 class="legal-section__title">Ingen garanti for nordlys (Ansvarsfraskrivelse)</h2>
+
+          <div class="callout">
+            <div class="callout__label">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4.5c-.77-.833-2.694-.833-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+              </svg>
+              Viktig informasjon
+            </div>
+            <p>Nordlys er et naturfenomen styrt av solpartikler og jordens magnetfelt. AuroraAlerts selger en <strong style="color:var(--color-text-primary)">overvåkings- og varslingsprosess</strong>, ikke en garanti for observasjon av nordlys. Denne distinksjonen er i tråd med digitalytelsesloven § 15 annet ledd.</p>
+          </div>
+
+          <ul>
+            <li><span class="legal-highlight">Ingen observasjonsgaranti:</span> Vi garanterer ikke at du faktisk vil få se nordlys i løpet av din tilgangsperiode.</li>
+            <li><span class="legal-highlight">Værforhold:</span> Vår AI varsler om aktivitet som fanges opp av kameraene. Vi er ikke ansvarlige for lokale værforhold (skydekke, tåke, snø) eller lysforurensning som hindrer sikt der du befinner deg.</li>
+            <li><span class="legal-highlight">AI og teknologi:</span> Vi benytter avansert bildeanalyse (GPT-4o Vision), men systemet kan ha feilmarginer. Det kan forekomme feilaktige varsler (f.eks. ved kraftig månelys) eller manglende varsler ved tekniske brudd.</li>
+          </ul>
+        </div>
+
+        <div class="legal-section">
+          <div class="legal-section__number">§ 3</div>
+          <h2 class="legal-section__title">Betaling og refusjon</h2>
+          <p>Betalingen på $7.99 gjelder for tilgang til selve overvåknings- og varslingstjenesten. Betalingen anses som vederlag for tilgangen og beredskapen i systemet.</p>
+          <ul>
+            <li><span class="legal-highlight">Ingen refusjon ved dårlig vær:</span> Det gis ingen refusjon selv om det skulle være overskyet eller lav solaktivitet i hele din tilgangsperiode. Dersom du har hatt tilgang til varslene i hele perioden, anses tjenesten som fullt levert.</li>
+            <li><span class="legal-highlight">Angrerett:</span> Ved kjøp ber du om umiddelbar oppstart av tjenesten. Du samtykker til at den lovfestede angreretten på 14 dager (jf. angrerettloven kapittel 6) bortfaller idet leveringen av den digitale tjenesten påbegynnes, i tråd med angrerettloven § 22 bokstav n.</li>
+          </ul>
+
+          <div class="callout">
+            <div class="callout__label">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              Angrerett – ditt samtykke
+            </div>
+            <p>Ved å gjennomføre kjøpet samtykker du til at: (1) leveringen starter umiddelbart, og (2) du erkjenner at angreretten går tapt når leveringen har begynt. En bekreftelse på dette samtykket sendes til deg på et varig medium (e-post).</p>
+          </div>
+        </div>
+
+        <div class="legal-section">
+          <div class="legal-section__number">§ 4</div>
+          <h2 class="legal-section__title">Tredjepartsavhengighet</h2>
+          <p>AuroraAlerts er en integrator som er avhengig av ekstern infrastruktur. Tjenesten defineres som en «Best Effort»-ytelse når det gjelder tredjepartskomponenter. Vi er ikke ansvarlige for forsinkelser eller manglende varsler som skyldes nedetid eller tekniske feil hos disse uavhengige partene:</p>
+          <ul>
+            <li><span class="legal-highlight">UiT-kameraer:</span> AuroraAlerts har ingen kontroll over vedlikehold, snøfall på linsen eller strømbrudd ved universitetets lokasjoner.</li>
+            <li><span class="legal-highlight">OpenAI GPT-4o Vision:</span> Eventuell nedetid hos OpenAI som hindrer bildeanalyse, defineres som en teknisk hindring utenfor AuroraAlerts' kontroll.</li>
+            <li><span class="legal-highlight">Twilio / Mobilnett:</span> Forsinkelser i SMS-levering grunnet overbelastning i mobilnettet, roaming-problemer hos brukerens operatør, eller tekniske feil hos Twilio.</li>
+          </ul>
+          <p>AuroraAlerts er ikke erstatningsansvarlig for indirekte tap, som for eksempel kostnader til leiebil, turoperatør eller andre arrangementer som kunden har pådratt seg basert på (eller mangel på) et varsel.</p>
+        </div>
+
+        <div class="legal-section">
+          <div class="legal-section__number">§ 5</div>
+          <h2 class="legal-section__title">Akseptabel bruk</h2>
+          <ul>
+            <li><span class="legal-highlight">Kun personlig bruk:</span> Tjenesten er kun ment for privatpersoner og individuelle turister/entusiaster.</li>
+            <li><span class="legal-highlight">Kommersielt forbud:</span> Det er strengt forbudt å videresende varsler til kommersielle aktører (f.eks. turoperatører, hoteller) eller bruke varslene som et verktøy i profesjonell guidingvirksomhet uten særskilt avtale.</li>
+            <li><span class="legal-highlight">Automatisert bruk forbudt:</span> Det er ikke tillatt å automatisk avlese, skrape eller integrere varslene inn i andre systemer eller dashbord.</li>
+            <li><span class="legal-highlight">Utestengelse:</span> Ved mistanke om kommersielt misbruk eller automatisert dataskraping, forbeholder vi oss retten til å stenge tilgangen umiddelbart uten refusjon, og potensielt kreve erstatning for tapt lisensinntekt.</li>
+          </ul>
+        </div>
+
+        <div class="legal-section">
+          <div class="legal-section__number">§ 6</div>
+          <h2 class="legal-section__title">Datakilde og lisens</h2>
+          <p>Visuell data er hentet fra StormCast-prosjektet ved UiT – Institutt for informatikk, og benyttes under Creative Commons Attribution 4.0 International (CC BY 4.0). AuroraAlerts hevder ingen tilknytning til eller bruk av begrensede data fra Tromsø Geofysiske Observatorium (TGO) uten eksplisitt avtale.</p>
+        </div>
+
+        <div class="legal-section">
+          <div class="legal-section__number">§ 7</div>
+          <h2 class="legal-section__title">Lovvalg og verneting</h2>
+          <p>Disse vilkårene er underlagt norsk rett. Eventuelle tvister skal søkes løst i minnelighet. Dersom dette ikke fører frem, er Nord-Troms tingrett rett verneting, med mindre forbrukeren har rett til å bringe saken inn for sitt eget verneting i henhold til tvisteloven.</p>
+
+          <div class="contact-box">
+            <p style="color:var(--color-text-secondary);font-size:0.9375rem;line-height:1.65;margin:0">
+              Spørsmål om vilkårene? Kontakt oss på
+              <a href="mailto:support@aurorarealtime.com">support@aurorarealtime.com</a>.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ===================== ENGLISH ===================== -->
+      <div id="terms-en" class="lang-content" role="tabpanel" lang="en">
+
+        <div class="legal-section">
+          <div class="legal-section__number">§ 1</div>
+          <h2 class="legal-section__title">Scope of Service</h2>
+          <p>AuroraAlerts provides a time-limited access pass ($7.99 for 5 days) that monitors sky conditions in Tromsø via public weather cameras at the University of Tromsø (UiT). Using AI analysis, we send SMS alerts when potential aurora borealis activity is detected.</p>
+          <p>One subscription is valid for exactly 120 hours (5 days) from the moment of purchase. Monitoring takes place during "Prime Time" between 6:00 PM and 12:00 AM every evening, with a maximum of one alert per hour to avoid unnecessary notifications.</p>
+        </div>
+
+        <div class="legal-section">
+          <div class="legal-section__number">§ 2</div>
+          <h2 class="legal-section__title">No Sighting Guarantee (Nature Disclaimer)</h2>
+
+          <div class="callout">
+            <div class="callout__label">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4.5c-.77-.833-2.694-.833-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+              </svg>
+              Important
+            </div>
+            <p>Aurora borealis is a natural phenomenon governed by solar activity and Earth's magnetosphere. AuroraAlerts sells a <strong style="color:var(--color-text-primary)">monitoring and alerting process</strong>, not a guarantee of aurora observation. This distinction is governed by the Norwegian Digital Services Act (digitalytelsesloven) § 15.</p>
+          </div>
+
+          <ul>
+            <li><span class="legal-highlight">Observational Uncertainty:</span> We do not guarantee that you will see the Northern Lights during your subscription period.</li>
+            <li><span class="legal-highlight">Weather and Visibility:</span> Our AI detects activity captured by the cameras. We are not responsible for local weather conditions (clouds, fog, snow) or light pollution that may prevent you from seeing the aurora at your specific location.</li>
+            <li><span class="legal-highlight">AI Accuracy:</span> While we use advanced models (GPT-4o Vision), the system may occasionally generate false positives (e.g., mistaking moon glare for aurora) or false negatives.</li>
+          </ul>
+        </div>
+
+        <div class="legal-section">
+          <div class="legal-section__number">§ 3</div>
+          <h2 class="legal-section__title">Payment and Refund Policy</h2>
+          <p>The fee of $7.99 covers access to the monitoring and alerting system. The payment constitutes consideration for system access and standby readiness.</p>
+          <ul>
+            <li><span class="legal-highlight">No Refunds for Weather:</span> No refunds will be issued due to cloudy skies, lack of solar activity, or if the aurora is not spotted during your stay. If you have had access to alerts for the full period, the service is considered fully delivered.</li>
+            <li><span class="legal-highlight">Right of Withdrawal:</span> By purchasing this service, you request immediate delivery. You explicitly agree that the 14-day statutory cooling-off period (right of withdrawal) is waived as the service is delivered digitally and instantly, in accordance with the Norwegian Right of Withdrawal Act (angrerettloven) § 22(n).</li>
+          </ul>
+
+          <div class="callout">
+            <div class="callout__label">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              Withdrawal — your consent
+            </div>
+            <p>By completing the purchase, you consent to: (1) delivery starting immediately, and (2) you acknowledge that the right of withdrawal is lost once delivery has begun. A confirmation of this consent will be sent to you on a durable medium (email).</p>
+          </div>
+        </div>
+
+        <div class="legal-section">
+          <div class="legal-section__number">§ 4</div>
+          <h2 class="legal-section__title">Third-Party Dependencies</h2>
+          <p>AuroraAlerts is an integrator that relies on external infrastructure. The service is defined as a "Best Effort" service with regard to third-party components. We are not liable for service failures, delays, or inaccuracies caused by the downtime or technical errors of these independent entities:</p>
+          <ul>
+            <li><span class="legal-highlight">UiT Cameras:</span> AuroraAlerts has no control over maintenance, snow on the lens, or power outages at the university's locations.</li>
+            <li><span class="legal-highlight">OpenAI GPT-4o Vision:</span> Any downtime at OpenAI that prevents image analysis is defined as a technical impediment beyond AuroraAlerts' control.</li>
+            <li><span class="legal-highlight">Twilio / Mobile Network:</span> Delays in SMS delivery due to network congestion, roaming issues with the user's carrier, or technical failures at Twilio.</li>
+          </ul>
+          <p>AuroraAlerts is not liable for indirect losses, such as costs for car rental, tour operators, or other arrangements that the customer has incurred based on (or lack of) an alert.</p>
+        </div>
+
+        <div class="legal-section">
+          <div class="legal-section__number">§ 5</div>
+          <h2 class="legal-section__title">Acceptable Use</h2>
+          <ul>
+            <li><span class="legal-highlight">Personal Use:</span> This service is for private individuals and tourists only.</li>
+            <li><span class="legal-highlight">Commercial Prohibition:</span> You are strictly prohibited from redistributing, reselling, or forwarding our alerts to commercial entities (e.g., tour operators, hotels) or using the alerts to conduct professional guiding services without a separate agreement.</li>
+            <li><span class="legal-highlight">Automated Use Prohibited:</span> Automated scraping, reading, or integrating alerts into other systems or dashboards is not permitted.</li>
+            <li><span class="legal-highlight">Termination:</span> We reserve the right to terminate your access immediately without a refund if commercial misuse or automated scraping of our data is detected, and to potentially claim compensation for lost licensing revenue.</li>
+          </ul>
+        </div>
+
+        <div class="legal-section">
+          <div class="legal-section__number">§ 6</div>
+          <h2 class="legal-section__title">Data Source and License</h2>
+          <p>Visual data is sourced from the StormCast project at UiT – Department of Computer Science, and is used under the Creative Commons Attribution 4.0 International license (CC BY 4.0). AuroraAlerts does not claim affiliation with or use restricted data from the Tromsø Geophysical Observatory (TGO) without explicit agreement.</p>
+        </div>
+
+        <div class="legal-section">
+          <div class="legal-section__number">§ 7</div>
+          <h2 class="legal-section__title">Governing Law and Jurisdiction</h2>
+          <p>These terms are governed by Norwegian law. Any disputes shall first be sought resolved amicably. If this is unsuccessful, the Nord-Troms District Court (Nord-Troms tingrett) shall have jurisdiction, unless the consumer is entitled to bring the case before their own jurisdiction pursuant to the Norwegian Dispute Act (tvisteloven).</p>
+
+          <div class="contact-box">
+            <p style="color:var(--color-text-secondary);font-size:0.9375rem;line-height:1.65;margin:0">
+              Questions about these terms? Contact us at
+              <a href="mailto:support@aurorarealtime.com">support@aurorarealtime.com</a>.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <nav class="footer__links" aria-label="Footer navigation">
+        <a href="/privacy">Personvern</a>
+        <a href="/terms">Brukervilkår</a>
+        <a href="mailto:support@aurorarealtime.com">Kontakt</a>
+      </nav>
+      <div class="footer__copy">
+        <p>© 2025 Aurora Real Time · Tromsø, Norge · Data: UiT StormCast (CC BY 4.0)</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Language switcher
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const lang = btn.dataset.lang;
+
+        document.querySelectorAll('.lang-btn').forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-selected', 'false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+
+        document.querySelectorAll('.lang-content').forEach(c => c.classList.remove('active'));
+        document.getElementById(lang === 'no' ? 'terms-no' : 'terms-en').classList.add('active');
+
+        document.documentElement.lang = lang;
+      });
+    });
+  </script>
+</body>
+</html>
