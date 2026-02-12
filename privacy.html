@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="no" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personvernerklæring / Privacy Policy | Aurora Real Time</title>
+  <meta name="description" content="Personvernerklæring for Aurora Real Time (AuroraAlerts). Les om hvordan vi samler inn, behandler og beskytter dine personopplysninger i samsvar med GDPR.">
+  <meta name="theme-color" content="#0a0f1a">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --color-bg-primary: #0a0f1a;
+      --color-bg-secondary: #0d1929;
+      --color-bg-card: rgba(255, 255, 255, 0.04);
+      --color-border: rgba(255, 255, 255, 0.08);
+      --color-border-hover: rgba(255, 255, 255, 0.15);
+      --color-green-primary: #22c55e;
+      --color-green-dark: #16a34a;
+      --color-text-primary: #f1f5f9;
+      --color-text-secondary: #94a3b8;
+      --color-text-muted: #64748b;
+      --font-heading: 'Space Grotesk', system-ui, sans-serif;
+      --font-body: 'Outfit', system-ui, sans-serif;
+      --radius-lg: 1rem;
+      --radius-xl: 1.25rem;
+      --radius-2xl: 1.5rem;
+      --transition-base: 200ms ease;
+      --transition-smooth: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--color-bg-primary);
+      color: var(--color-text-primary);
+      overflow-x: hidden;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--color-green-primary);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+    :focus:not(:focus-visible) { outline: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    .skip-link {
+      position: absolute; top: -100%; left: 1rem; z-index: 9999;
+      background: var(--color-green-primary); color: #000;
+      padding: 0.75rem 1.5rem; border-radius: var(--radius-lg);
+      font-weight: 600; font-family: var(--font-heading); text-decoration: none;
+    }
+    .skip-link:focus { top: 1rem; }
+
+    .font-heading { font-family: var(--font-heading); }
+
+    .aurora-bg {
+      background: linear-gradient(135deg,
+        var(--color-bg-primary) 0%, var(--color-bg-secondary) 25%,
+        #0a1628 50%, #061220 75%, #040810 100%);
+    }
+
+    /* Subtle aurora glow at top */
+    .page-glow {
+      position: fixed; top: 0; left: 0; right: 0; height: 300px;
+      background: linear-gradient(180deg,
+        rgba(34, 197, 94, 0.04) 0%,
+        rgba(45, 212, 191, 0.02) 40%,
+        transparent 100%);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ---- NAV ---- */
+    .nav {
+      position: relative; z-index: 50; padding: 1.25rem 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .nav__inner {
+      max-width: 72rem; margin: 0 auto; padding: 0 1.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav__brand {
+      display: flex; align-items: center; gap: 0.625rem;
+      text-decoration: none; color: var(--color-text-primary);
+    }
+    .nav__brand-name { font-family: var(--font-heading); font-weight: 600; font-size: 1.125rem; }
+    .nav__back {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.875rem; color: var(--color-text-secondary);
+      text-decoration: none; transition: color var(--transition-base);
+    }
+    .nav__back:hover { color: var(--color-text-primary); }
+
+    /* ---- CONTENT ---- */
+    .legal-container {
+      position: relative; z-index: 10;
+      max-width: 48rem; margin: 0 auto; padding: 3rem 1.5rem 5rem;
+    }
+
+    .legal-header {
+      margin-bottom: 3rem; padding-bottom: 2rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .legal-header__label {
+      display: inline-block; padding: 0.375rem 1rem; border-radius: 9999px;
+      font-size: 0.8125rem; color: var(--color-green-primary);
+      background: rgba(34, 197, 94, 0.08); margin-bottom: 1rem;
+    }
+    .legal-header__title {
+      font-family: var(--font-heading); font-weight: 700;
+      font-size: clamp(1.75rem, 4vw, 2.5rem); line-height: 1.15;
+      margin-bottom: 0.75rem;
+    }
+    .legal-header__meta {
+      font-size: 0.875rem; color: var(--color-text-secondary); line-height: 1.6;
+    }
+
+    /* Language Switcher */
+    .lang-switcher {
+      display: inline-flex; border-radius: var(--radius-lg); overflow: hidden;
+      border: 1px solid var(--color-border); margin-bottom: 2rem;
+    }
+    .lang-btn {
+      padding: 0.5rem 1.25rem; font-size: 0.8125rem; font-weight: 500;
+      font-family: var(--font-heading); background: transparent;
+      color: var(--color-text-secondary); border: none; cursor: pointer;
+      transition: all var(--transition-base);
+    }
+    .lang-btn:hover { color: var(--color-text-primary); background: rgba(255,255,255,0.04); }
+    .lang-btn.active {
+      background: rgba(34, 197, 94, 0.12); color: var(--color-green-primary);
+    }
+
+    /* Sections */
+    .legal-section { margin-bottom: 2.5rem; }
+    .legal-section__number {
+      font-family: var(--font-heading); font-size: 0.75rem; font-weight: 600;
+      color: var(--color-green-primary); text-transform: uppercase;
+      letter-spacing: 0.1em; margin-bottom: 0.375rem;
+    }
+    .legal-section__title {
+      font-family: var(--font-heading); font-weight: 600; font-size: 1.25rem;
+      margin-bottom: 0.875rem; line-height: 1.3;
+    }
+    .legal-section p {
+      color: var(--color-text-secondary); font-size: 0.9375rem;
+      line-height: 1.75; margin-bottom: 0.875rem;
+    }
+    .legal-section p:last-child { margin-bottom: 0; }
+
+    .legal-section ul {
+      list-style: none; padding: 0; margin: 0.75rem 0;
+      display: flex; flex-direction: column; gap: 0.625rem;
+    }
+    .legal-section li {
+      display: flex; align-items: flex-start; gap: 0.75rem;
+      color: var(--color-text-secondary); font-size: 0.9375rem; line-height: 1.65;
+    }
+    .legal-section li::before {
+      content: ''; flex-shrink: 0; margin-top: 0.5rem;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--color-green-primary); opacity: 0.6;
+    }
+
+    .legal-highlight {
+      color: var(--color-text-primary); font-weight: 500;
+    }
+
+    /* Data Table */
+    .data-table-wrapper {
+      overflow-x: auto; margin: 1.25rem 0;
+      border: 1px solid var(--color-border); border-radius: var(--radius-xl);
+    }
+    .data-table {
+      width: 100%; border-collapse: collapse; font-size: 0.8125rem;
+    }
+    .data-table th {
+      text-align: left; padding: 0.75rem 1rem;
+      font-family: var(--font-heading); font-weight: 600; font-size: 0.75rem;
+      color: var(--color-green-primary); text-transform: uppercase;
+      letter-spacing: 0.06em; background: rgba(255,255,255,0.03);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .data-table td {
+      padding: 0.75rem 1rem; color: var(--color-text-secondary);
+      border-bottom: 1px solid rgba(255,255,255,0.03); vertical-align: top;
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+
+    /* Contact Box */
+    .contact-box {
+      background: var(--color-bg-card); border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl); padding: 1.5rem; margin-top: 1rem;
+    }
+    .contact-box a {
+      color: var(--color-green-primary); text-decoration: none;
+      border-bottom: 1px solid rgba(34,197,94,0.3);
+      transition: border-color var(--transition-base);
+    }
+    .contact-box a:hover { border-color: var(--color-green-primary); }
+
+    /* ---- FOOTER ---- */
+    .footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 2rem 0;
+    }
+    .footer__inner {
+      max-width: 72rem; margin: 0 auto; padding: 0 1.5rem;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+    .footer__links {
+      display: flex; flex-wrap: wrap; gap: 1.5rem;
+    }
+    .footer__links a {
+      font-size: 0.875rem; color: var(--color-text-secondary);
+      text-decoration: none; transition: color var(--transition-base);
+    }
+    .footer__links a:hover { color: var(--color-text-primary); }
+    .footer__copy {
+      font-size: 0.75rem; color: var(--color-text-muted); line-height: 1.8;
+    }
+
+    @media (min-width: 768px) {
+      .footer__inner {
+        flex-direction: row; align-items: center; justify-content: space-between;
+      }
+    }
+
+    /* Smooth language content toggle */
+    .lang-content { display: none; }
+    .lang-content.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0, 0, 0, 0); border: 0;
+    }
+  </style>
+</head>
+<body class="aurora-bg">
+  <a href="#main-content" class="skip-link">Hopp til hovedinnhold</a>
+  <div class="page-glow" aria-hidden="true"></div>
+
+  <!-- NAV -->
+  <nav class="nav" aria-label="Navigasjon">
+    <div class="nav__inner">
+      <a href="/" class="nav__brand" aria-label="Aurora Real Time – Hjem">
+        <svg width="32" height="32" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+          <path d="M5 32 L20 12 L35 32" stroke="url(#al)" stroke-width="2" fill="none"/>
+          <path d="M8 28 Q20 5 32 28" stroke="#22c55e" stroke-width="3" fill="none" opacity="0.8"/>
+          <path d="M12 25 Q20 8 28 25" stroke="#2dd4bf" stroke-width="2" fill="none" opacity="0.6"/>
+          <defs><linearGradient id="al" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#22c55e"/><stop offset="100%" stop-color="#2dd4bf"/>
+          </linearGradient></defs>
+        </svg>
+        <span class="nav__brand-name">Aurora Real Time</span>
+      </a>
+      <a href="/" class="nav__back">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+        Tilbake til forsiden
+      </a>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main id="main-content">
+    <div class="legal-container">
+
+      <!-- Header -->
+      <header class="legal-header">
+        <span class="legal-header__label">Juridisk dokument</span>
+        <h1 class="legal-header__title">Personvernerklæring</h1>
+        <p class="legal-header__meta">
+          Sist oppdatert: 12. februar 2026<br>
+          Gjelder for tjenesten AuroraAlerts levert av Aurora Real Time, Tromsø, Norge.
+        </p>
+      </header>
+
+      <!-- Language Switcher -->
+      <div class="lang-switcher" role="tablist" aria-label="Velg språk">
+        <button class="lang-btn active" role="tab" aria-selected="true" aria-controls="privacy-no" data-lang="no">Norsk</button>
+        <button class="lang-btn" role="tab" aria-selected="false" aria-controls="privacy-en" data-lang="en">English</button>
+      </div>
+
+      <!-- ===================== NORSK ===================== -->
+      <div id="privacy-no" class="lang-content active" role="tabpanel" lang="no">
+
+        <div class="legal-section">
+          <div class="legal-section__number">§ 1</div>
+          <h2 class="legal-section__title">Innledning</h2>
+          <p>Velkommen til AuroraAlerts. Vi tilbyr en AI-drevet varslingstjeneste for nordlys i Tromsø-området. Ditt personvern er viktig for oss, og denne erklæringen forklarer hvordan vi samler inn, bruker og beskytter dine personopplysninger i samsvar med personvernforordningen (GDPR) og den norske personopplysningsloven.</p>
+        </div>
+
+        <div class="legal-section">
+          <div class="legal-section__number">§ 2</div>
+          <h2 class="legal-section__title">Opplysninger vi samler inn og formål</h2>
+          <p>For å kunne levere tjenesten du har betalt for, behandler vi følgende opplysninger:</p>
+          <ul>
+            <li><span class="legal-highlight">Telefonnummer:</span> Brukes utelukkende til å sende deg automatiserte SMS-varsler når vår AI detekterer nordlysaktivitet.</li>
+            <li><span class="legal-highlight">Betalingsdata:</span> Vi mottar informasjon om transaksjonstidspunkt og abonnementsstatus fra Stripe for å styre din tilgang. <em>Merk: Vi lagrer aldri dine kortdetaljer på våre egne servere; dette håndteres av Stripe i tråd med PCI-DSS standarder.</em></li>
+            <li><span class="legal-highlight">Kommunikasjonslogger:</span> Vi beholder en logg over sendte SMS i 48 timer for å kunne yte support ved tekniske feil.</li>
+          </ul>
+
+          <div class="data-table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Datakategori</th>
+                  <th>Behandlingsgrunnlag</th>
+                  <th>Formål</th>
+                  <th>Ansvarlig</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Telefonnummer</td>
+                  <td>Art. 6(1)(b) – Avtale</td>
+                  <td>Levering av SMS-varsler</td>
+                  <td>AuroraAlerts</td>
+                </tr>
+                <tr>
+                  <td>E-postadresse</td>
+                  <td>Art. 6(1)(b) – Avtale</td>
+                  <td>Kvittering og support</td>
+                  <td>AuroraAlerts</td>
+                </tr>
+                <tr>
+                  <td>Kortdetaljer</td>
+                  <td>Art. 6(1)(b) – Avtale</td>
+                  <td>Betalingsgjennomføring</td>
+                  <td>Stripe (PCI-DSS)</td>
+                </tr>
+                <tr>
+                  <td>IP-adresse</td>
+                  <td>Art. 6(1)(f) – Interesse</td>
+                  <td>Svindelforebygging</td>
+                  <td>Stripe & AuroraAlerts</td>
+                </tr>
+                <tr>
+                  <td>Transaksjonshistorikk</td>
+                  <td>Art. 6(1)(c) – Lovkrav</td>
+                  <td>Regnskap og skatt</td>
+                  <td>AuroraAlerts</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="legal-section">
+          <div class="legal-section__number">§ 3</div>
+          <h2 class="legal-section__title">Behandlingsgrunnlag</h2>
+          <ul>
+            <li><span class="legal-highlight">Oppfyllelse av avtale (GDPR Art. 6 nr. 1 b):</span> Behandlingen av telefonnummeret er nødvendig for å levere tjenesten du har bestilt.</li>
+            <li><span class="legal-highlight">Rettslig forpliktelse (GDPR Art. 6 nr. 1 c):</span> Vi er pålagt å oppbevare transaksjonsdata for regnskaps- og skatteformål i henhold til norsk lov.</li>
+          </ul>
+        </div>
+
+        <div class="legal-section">
+          <div class="legal-section__number">§ 4</div>
+          <h2 class="legal-section__title">Dataflyt og overføring til utlandet (Norge til USA)</h2>
+          <p>For å sikre rask AI-analyse og stabil utsendelse av meldinger, benytter vi underleverandører med infrastruktur i USA:</p>
+          <ul>
+            <li><span class="legal-highlight">OpenAI:</span> For AI-analyse av kamerabilder av himmelen.</li>
+            <li><span class="legal-highlight">Twilio & Zapier:</span> For utsendelse av SMS og automatisering av varslingsflyten.</li>
+            <li><span class="legal-highlight">Stripe:</span> For sikker betalingsformidling.</li>
+          </ul>
+          <p>Alle overføringer skjer i samsvar med EU-U.S. Data Privacy Framework (DPF). Vi benytter i tillegg EU-kommisjonens Standardkontrakter (SCCs) for å sikre at dine personopplysninger er beskyttet etter europeisk standard, uavhengig av geografisk lokasjon.</p>
+        </div>
+
+        <div class="legal-section">
+          <div class="legal-section__number">§ 5</div>
+          <h2 class="legal-section__title">Sletterutine og lagringsbegrensning</h2>
+          <p>Vi praktiserer streng lagringsbegrensning i tråd med GDPR artikkel 5 nr. 1 bokstav e:</p>
+          <ul>
+            <li><span class="legal-highlight">Telefonnummer:</span> Ditt nummer slettes automatisk fra vårt aktive varslingssystem innen 48 timer etter at tilgangsperioden din er utløpt.</li>
+            <li><span class="legal-highlight">Regnskapsdata:</span> Transaksjonsbilag lagres så lenge norsk lov krever det (5–10 år), men separeres fra ditt aktive telefonnummer for å beskytte ditt personvern.</li>
+            <li><span class="legal-highlight">Kommunikasjonslogger:</span> Loggen over sendte SMS slettes automatisk etter 48 timer.</li>
+          </ul>
+        </div>
+
+        <div class="legal-section">
+          <div class="legal-section__number">§ 6</div>
+          <h2 class="legal-section__title">Dine rettigheter</h2>
+          <p>I henhold til GDPR har du følgende rettigheter:</p>
+          <ul>
+            <li><span class="legal-highlight">Rett til innsyn</span> i egne personopplysninger.</li>
+            <li><span class="legal-highlight">Rett til retting</span> av uriktige opplysninger.</li>
+            <li><span class="legal-highlight">Rett til sletting</span> av dine personopplysninger.</li>
+            <li><span class="legal-highlight">Rett til å protestere</span> mot behandlingen av dine data.</li>
+            <li><span class="legal-highlight">Rett til dataportabilitet</span> – å motta dine opplysninger i et maskinlesbart format.</li>
+            <li><span class="legal-highlight">Rett til å klage</span> til Datatilsynet dersom du mener vi behandler opplysningene dine i strid med regelverket.</li>
+          </ul>
+          <div class="contact-box">
+            <p style="color:var(--color-text-secondary);font-size:0.9375rem;line-height:1.65;margin:0">
+              For å utøve dine rettigheter, kontakt oss på
+              <a href="mailto:privacy@auroraalerts.com">privacy@auroraalerts.com</a>.
+              Vi vil besvare din henvendelse innen 30 dager.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ===================== ENGLISH ===================== -->
+      <div id="privacy-en" class="lang-content" role="tabpanel" lang="en">
+
+        <div class="legal-section">
+          <div class="legal-section__number">§ 1</div>
+          <h2 class="legal-section__title">Introduction</h2>
+          <p>Welcome to AuroraAlerts. We provide AI-driven Northern Lights notification services for the Tromsø region. Your privacy is a priority for us, and this policy explains how we collect, process, and protect your personal data in accordance with the General Data Protection Regulation (GDPR) and the Norwegian Personal Data Act.</p>
+        </div>
+
+        <div class="legal-section">
+          <div class="legal-section__number">§ 2</div>
+          <h2 class="legal-section__title">Data We Collect and Purpose</h2>
+          <p>To deliver the service you have purchased, we process the following data:</p>
+          <ul>
+            <li><span class="legal-highlight">Phone Number:</span> This is used exclusively to send you automated SMS alerts when our AI detects Northern Lights activity.</li>
+            <li><span class="legal-highlight">Payment Metadata:</span> We collect transaction timestamps and subscription status via Stripe to manage your access pass. <em>Note: We do not store your credit card information; this is handled securely by our PCI-compliant partner, Stripe.</em></li>
+            <li><span class="legal-highlight">Communication Logs:</span> We may retain records of sent messages for 48 hours for technical troubleshooting and support.</li>
+          </ul>
+
+          <div class="data-table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Data Category</th>
+                  <th>Legal Basis</th>
+                  <th>Purpose</th>
+                  <th>Responsible Party</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Phone number</td>
+                  <td>Art. 6(1)(b) – Contract</td>
+                  <td>SMS alert delivery</td>
+                  <td>AuroraAlerts</td>
+                </tr>
+                <tr>
+                  <td>Email address</td>
+                  <td>Art. 6(1)(b) – Contract</td>
+                  <td>Receipt and support</td>
+                  <td>AuroraAlerts</td>
+                </tr>
+                <tr>
+                  <td>Card details</td>
+                  <td>Art. 6(1)(b) – Contract</td>
+                  <td>Payment processing</td>
+                  <td>Stripe (PCI-DSS)</td>
+                </tr>
+                <tr>
+                  <td>IP address</td>
+                  <td>Art. 6(1)(f) – Legit. interest</td>
+                  <td>Fraud prevention</td>
+                  <td>Stripe & AuroraAlerts</td>
+                </tr>
+                <tr>
+                  <td>Transaction history</td>
+                  <td>Art. 6(1)(c) – Legal obligation</td>
+                  <td>Accounting and tax</td>
+                  <td>AuroraAlerts</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="legal-section">
+          <div class="legal-section__number">§ 3</div>
+          <h2 class="legal-section__title">Legal Basis for Processing</h2>
+          <ul>
+            <li><span class="legal-highlight">Performance of a Contract (Art. 6(1)(b) GDPR):</span> We process your phone number because it is objectively necessary to fulfill our agreement to provide alerts during your stay.</li>
+            <li><span class="legal-highlight">Compliance with Legal Obligations (Art. 6(1)(c) GDPR):</span> We retain transaction records as required by Norwegian accounting and tax laws.</li>
+          </ul>
+        </div>
+
+        <div class="legal-section">
+          <div class="legal-section__number">§ 4</div>
+          <h2 class="legal-section__title">International Data Transfers (Norway to USA)</h2>
+          <p>To provide high-performance AI analysis and reliable SMS delivery, your data is processed by the following sub-processors based in the United States:</p>
+          <ul>
+            <li><span class="legal-highlight">OpenAI:</span> For AI visual analysis of sky conditions.</li>
+            <li><span class="legal-highlight">Twilio & Zapier:</span> For SMS routing and workflow automation.</li>
+            <li><span class="legal-highlight">Stripe:</span> For secure payment processing.</li>
+          </ul>
+          <p>All transfers are governed by the EU-U.S. Data Privacy Framework (DPF). Additionally, we maintain Standard Contractual Clauses (SCCs) with our providers to ensure that your data is protected even if the DPF status changes.</p>
+        </div>
+
+        <div class="legal-section">
+          <div class="legal-section__number">§ 5</div>
+          <h2 class="legal-section__title">Data Retention and Deletion Routine</h2>
+          <p>We follow a strict "Storage Limitation" principle in accordance with GDPR Article 5(1)(e):</p>
+          <ul>
+            <li><span class="legal-highlight">Phone Numbers:</span> Your phone number is automatically purged from our active alerting system within 48 hours after your access pass expires.</li>
+            <li><span class="legal-highlight">Payment Records:</span> Financial records are kept for the duration required by Norwegian law (5–10 years) but are stored separately from your active notification profile.</li>
+            <li><span class="legal-highlight">Communication Logs:</span> Logs of sent SMS messages are automatically deleted after 48 hours.</li>
+          </ul>
+        </div>
+
+        <div class="legal-section">
+          <div class="legal-section__number">§ 6</div>
+          <h2 class="legal-section__title">Your Rights</h2>
+          <p>Under the GDPR, you have the following rights:</p>
+          <ul>
+            <li><span class="legal-highlight">Right of access</span> to your personal data.</li>
+            <li><span class="legal-highlight">Right to rectification</span> of inaccurate data.</li>
+            <li><span class="legal-highlight">Right to erasure</span> of your personal data.</li>
+            <li><span class="legal-highlight">Right to object</span> to the processing of your data.</li>
+            <li><span class="legal-highlight">Right to data portability</span> — to receive your data in a machine-readable format.</li>
+            <li><span class="legal-highlight">Right to lodge a complaint</span> with the Norwegian Data Protection Authority (Datatilsynet) if you believe your data is being processed unlawfully.</li>
+          </ul>
+          <div class="contact-box">
+            <p style="color:var(--color-text-secondary);font-size:0.9375rem;line-height:1.65;margin:0">
+              To exercise your rights, please contact us at
+              <a href="mailto:privacy@auroraalerts.com">privacy@auroraalerts.com</a>.
+              We will respond to your request within 30 days.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <nav class="footer__links" aria-label="Bunntekst-navigasjon">
+        <a href="/privacy">Personvern</a>
+        <a href="/terms">Brukervilkår</a>
+        <a href="mailto:support@aurorarealtime.com">Kontakt</a>
+      </nav>
+      <div class="footer__copy">
+        <p>© 2025 Aurora Real Time · Tromsø, Norge · Data: UiT StormCast (CC BY 4.0)</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Language switcher
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const lang = btn.dataset.lang;
+
+        // Update tabs
+        document.querySelectorAll('.lang-btn').forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-selected', 'false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+
+        // Update content
+        document.querySelectorAll('.lang-content').forEach(c => c.classList.remove('active'));
+        document.getElementById(lang === 'no' ? 'privacy-no' : 'privacy-en').classList.add('active');
+
+        // Update html lang
+        document.documentElement.lang = lang;
+      });
+    });
+  </script>
+</body>
+</html>
