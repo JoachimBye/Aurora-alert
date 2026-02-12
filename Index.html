@@ -1,658 +1,1558 @@
 <!doctype html>
 <html lang="en" class="h-full">
- <head>
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aurora Real Time | Northern Lights Alerts in Tromsø</title>
-  <meta name="description" content="Get instant alerts when the Northern Lights appear over Tromsø. Our AI monitors professional camera feeds from the UiT Department of Computer Science 24/7.">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="description" content="Get instant SMS alerts when the Northern Lights are actually visible over Tromsø. AI monitors professional camera feeds from UiT The Arctic University of Norway 24/7.">
+  <meta name="theme-color" content="#0a0f1a">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=Outfit:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
   <style>
+    /* ========================================
+       CSS CUSTOM PROPERTIES
+       ======================================== */
+    :root {
+      --color-bg-primary: #0a0f1a;
+      --color-bg-secondary: #0d1929;
+      --color-bg-card: rgba(255, 255, 255, 0.04);
+      --color-border: rgba(255, 255, 255, 0.08);
+      --color-border-hover: rgba(255, 255, 255, 0.15);
+      --color-green-primary: #22c55e;
+      --color-green-dark: #16a34a;
+      --color-green-glow: rgba(34, 197, 94, 0.4);
+      --color-teal: #2dd4bf;
+      --color-purple: #8b5cf6;
+      --color-text-primary: #f1f5f9;
+      --color-text-secondary: #94a3b8;  /* slate-400: 5.6:1 on bg */
+      --color-text-tertiary: #94a3b8;   /* same — never go below this */
+      --color-text-muted: #64748b;       /* Only for decorative/non-essential text at >=18px */
+      --color-red-muted: #f87171;
+      --font-heading: 'Space Grotesk', system-ui, sans-serif;
+      --font-body: 'Outfit', system-ui, sans-serif;
+      --font-mono: ui-monospace, 'SFMono-Regular', 'SF Mono', Menlo, monospace;
+      --radius-lg: 1rem;
+      --radius-xl: 1.25rem;
+      --radius-2xl: 1.5rem;
+      --radius-3xl: 2rem;
+      --transition-base: 200ms ease;
+      --transition-smooth: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     html, body {
-      box-sizing: border-box;
       height: 100%;
       width: 100%;
-    }
-    
-    .font-heading {
-      font-family: 'Space Grotesk', sans-serif;
-    }
-    
-    .font-body {
-      font-family: 'Outfit', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    .font-mono-tech { font-family: 'JetBrains Mono', monospace; }
-    
-    @keyframes aurora-flow {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-    }
-    
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-    }
-    
-    @keyframes pulse-glow {
-      0%, 100% { opacity: 0.4; }
-      50% { opacity: 0.8; }
-    }
-    
-    @keyframes star-twinkle {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 1; }
-    }
-    
-    @keyframes slide-up {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
+    body {
+      font-family: var(--font-body);
+      background: var(--color-bg-primary);
+      color: var(--color-text-primary);
+      overflow-x: hidden;
     }
 
-    /* New Animation for Notification */
-    @keyframes pop-in {
-        0% { transform: scale(0.8); opacity: 0; }
-        100% { transform: scale(1); opacity: 1; }
+    /* ========================================
+       ACCESSIBILITY: FOCUS & REDUCED MOTION
+       ======================================== */
+    :focus-visible {
+      outline: 2px solid var(--color-green-primary);
+      outline-offset: 3px;
+      border-radius: 4px;
     }
-    
+
+    :focus:not(:focus-visible) {
+      outline: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    /* Skip link for keyboard users */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 1rem;
+      z-index: 9999;
+      background: var(--color-green-primary);
+      color: #000;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius-lg);
+      font-weight: 600;
+      font-family: var(--font-heading);
+      text-decoration: none;
+    }
+    .skip-link:focus { top: 1rem; }
+
+    /* ========================================
+       TYPOGRAPHY UTILITIES
+       ======================================== */
+    .font-heading { font-family: var(--font-heading); }
+    .font-body { font-family: var(--font-body); }
+    .font-mono { font-family: var(--font-mono); }
+
+    /* ========================================
+       LAYOUT
+       ======================================== */
+    .container {
+      width: 100%;
+      max-width: 72rem;
+      margin-inline: auto;
+      padding-inline: 1.5rem;
+    }
+
+    .container--narrow { max-width: 40rem; }
+    .container--mid { max-width: 56rem; }
+
+    /* ========================================
+       BACKGROUNDS & ATMOSPHERE
+       ======================================== */
     .aurora-bg {
-      background: linear-gradient(135deg, #0a0f1a 0%, #0d1929 25%, #0a1628 50%, #061220 75%, #040810 100%);
+      background: linear-gradient(135deg,
+        var(--color-bg-primary) 0%,
+        var(--color-bg-secondary) 25%,
+        #0a1628 50%,
+        #061220 75%,
+        #040810 100%
+      );
     }
-    
+
     .aurora-glow {
-      background: linear-gradient(180deg, 
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background: linear-gradient(180deg,
         transparent 0%,
         rgba(34, 197, 94, 0.03) 20%,
-        rgba(34, 197, 94, 0.08) 40%,
-        rgba(45, 212, 191, 0.05) 60%,
-        rgba(139, 92, 246, 0.03) 80%,
+        rgba(34, 197, 94, 0.07) 40%,
+        rgba(45, 212, 191, 0.04) 60%,
+        rgba(139, 92, 246, 0.02) 80%,
         transparent 100%
       );
       animation: pulse-glow 8s ease-in-out infinite;
     }
-    
+
     .aurora-ribbon {
       position: absolute;
-      top: 5%; left: 0; right: 0; height: 300px;
-      background: linear-gradient(90deg, 
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 360px;
+      background: linear-gradient(90deg,
         transparent,
-        rgba(34, 197, 94, 0.15),
-        rgba(45, 212, 191, 0.2),
-        rgba(34, 197, 94, 0.15),
-        rgba(139, 92, 246, 0.1),
+        rgba(34, 197, 94, 0.12),
+        rgba(45, 212, 191, 0.18),
+        rgba(34, 197, 94, 0.12),
+        rgba(139, 92, 246, 0.08),
         transparent
       );
       background-size: 200% 100%;
       animation: aurora-flow 15s ease-in-out infinite;
-      filter: blur(40px);
+      filter: blur(50px);
       pointer-events: none;
-    }
-    
-    .card-glow {
-      background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.08);
+      z-index: 0;
     }
 
-    /* iOS Notification Style */
-    .notification-card {
-        background: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        animation: pop-in 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s forwards;
-        opacity: 0;
-    }
-    
-    .green-accent { color: #22c55e; }
-    
-    .btn-primary {
-      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-      transition: all 0.3s ease;
-    }
-    
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 40px rgba(34, 197, 94, 0.4);
-    }
-
-    /* Disabled State for Button */
-    .btn-disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-        filter: grayscale(1);
-    }
-    
-    .scan-line {
-      width: 100%;
-      height: 100px;
-      z-index: 10;
-      background: linear-gradient(0deg, rgba(34,197,94,0) 0%, rgba(34,197,94,0.1) 50%, rgba(34,197,94,0) 100%);
-      opacity: 0.1;
-      background-size: 100% 100%;
-      animation: scanline 10s linear infinite;
-      position: absolute;
-      top: -100px;
+    .stars {
+      position: fixed;
+      inset: 0;
       pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
     }
 
-    @keyframes scanline {
-      0% { top: -100px; }
-      100% { top: 100%; }
-    }
-
-    .blink { animation: blinker 2s linear infinite; }
-    @keyframes blinker { 50% { opacity: 0; } }
-
-    .floating { animation: float 6s ease-in-out infinite; }
-    
     .star {
-      position: absolute; width: 2px; height: 2px; background: white; border-radius: 50%;
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
       animation: star-twinkle 3s ease-in-out infinite;
     }
 
-    #landing-page { display: block; width: 100%; height: 100%; }
+    /* ========================================
+       ANIMATIONS
+       ======================================== */
+    @keyframes aurora-flow {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.85; }
+    }
+
+    @keyframes star-twinkle {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes float-gentle {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes slide-up {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pop-in {
+      0% { transform: scale(0.9); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .animate-slide-up {
+      animation: slide-up 0.7s ease-out forwards;
+    }
+    .animate-slide-up-delayed {
+      opacity: 0;
+      animation: slide-up 0.7s ease-out 0.3s forwards;
+    }
+    .animate-slide-up-delayed-2 {
+      opacity: 0;
+      animation: slide-up 0.7s ease-out 0.55s forwards;
+    }
+    .animate-slide-up-delayed-3 {
+      opacity: 0;
+      animation: slide-up 0.7s ease-out 0.8s forwards;
+    }
+    .animate-float { animation: float-gentle 6s ease-in-out infinite; }
+    .animate-pulse-soft { animation: pulse-glow 2s ease-in-out infinite; }
+
+    /* ========================================
+       COMPONENTS: Cards
+       ======================================== */
+    .card {
+      background: var(--color-bg-card);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-2xl);
+      transition: border-color var(--transition-smooth);
+    }
+
+    .card:hover {
+      border-color: var(--color-border-hover);
+    }
+
+    .card--elevated {
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3),
+                  0 0 0 1px rgba(255, 255, 255, 0.04);
+    }
+
+    .card--green-border {
+      border-color: rgba(34, 197, 94, 0.2);
+    }
+
+    .card--red-border {
+      border-color: rgba(239, 68, 68, 0.15);
+    }
+
+    /* ========================================
+       COMPONENTS: Buttons
+       ======================================== */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, var(--color-green-primary) 0%, var(--color-green-dark) 100%);
+      color: #fff;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      border: none;
+      border-radius: var(--radius-xl);
+      cursor: pointer;
+      transition: all var(--transition-smooth);
+      text-decoration: none;
+      line-height: 1.2;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px var(--color-green-glow);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-primary[disabled] {
+      opacity: 0.4;
+      cursor: not-allowed;
+      filter: grayscale(0.8);
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--color-border);
+      color: var(--color-text-primary);
+      font-family: var(--font-heading);
+      font-weight: 500;
+      border-radius: var(--radius-xl);
+      cursor: pointer;
+      transition: all var(--transition-base);
+      text-decoration: none;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--color-border-hover);
+    }
+
+    /* ========================================
+       COMPONENTS: Notification Preview
+       ======================================== */
+    .notification-preview {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: var(--radius-2xl);
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      opacity: 0;
+      animation: pop-in 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.6s forwards;
+    }
+
+    /* ========================================
+       COMPONENTS: Badge / Pill
+       ======================================== */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      color: var(--color-text-secondary);
+    }
+
+    .badge__dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      background: var(--color-green-primary);
+      border-radius: 50%;
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+
+    /* ========================================
+       COMPONENTS: Feature Icon Box
+       ======================================== */
+    .icon-box {
+      width: 3.5rem;
+      height: 3.5rem;
+      border-radius: var(--radius-xl);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .icon-box--green { background: rgba(34, 197, 94, 0.12); }
+    .icon-box--purple { background: rgba(139, 92, 246, 0.12); }
+    .icon-box--blue { background: rgba(59, 130, 246, 0.12); }
+    .icon-box--red { background: rgba(239, 68, 68, 0.12); }
+
+    /* ========================================
+       COMPONENTS: Comparison List
+       ======================================== */
+    .comparison-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.375rem 0;
+    }
+
+    .comparison-icon {
+      flex-shrink: 0;
+      margin-top: 0.125rem;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    /* ========================================
+       COMPONENTS: Stats Row
+       ======================================== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      text-align: center;
+    }
+
+    .stat__number {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 1.75rem;
+      color: var(--color-text-primary);
+      line-height: 1.2;
+    }
+
+    .stat__label {
+      font-size: 0.75rem;
+      color: var(--color-text-secondary);
+      margin-top: 0.25rem;
+    }
+
+    /* ========================================
+       COMPONENTS: Form Input
+       ======================================== */
+    .input-field {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: 0.875rem 1rem;
+      color: var(--color-text-primary);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      transition: border-color var(--transition-base), box-shadow var(--transition-base);
+    }
+
+    .input-field::placeholder {
+      color: var(--color-text-muted);
+    }
+
+    .input-field:focus {
+      border-color: rgba(34, 197, 94, 0.5);
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+      outline: none;
+    }
+
+    /* ========================================
+       COMPONENTS: Custom Checkbox
+       ======================================== */
+    .checkbox-wrapper {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      cursor: pointer;
+    }
+
+    .checkbox-wrapper input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 1.25rem;
+      height: 1.25rem;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      border-radius: 0.375rem;
+      background: transparent;
+      cursor: pointer;
+      flex-shrink: 0;
+      margin-top: 0.125rem;
+      transition: all var(--transition-base);
+      position: relative;
+    }
+
+    .checkbox-wrapper input[type="checkbox"]:checked {
+      background: var(--color-green-primary);
+      border-color: var(--color-green-primary);
+    }
+
+    .checkbox-wrapper input[type="checkbox"]:checked::after {
+      content: '';
+      position: absolute;
+      top: 1px;
+      left: 5px;
+      width: 5px;
+      height: 9px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    .checkbox-wrapper input[type="checkbox"]:focus-visible {
+      outline: 2px solid var(--color-green-primary);
+      outline-offset: 2px;
+    }
+
+    /* ========================================
+       COMPONENTS: Modal
+       ======================================== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      padding: 1rem;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.98), rgba(10, 15, 26, 0.99));
+      border: 1px solid var(--color-border-hover);
+      border-radius: var(--radius-3xl);
+      max-width: 28rem;
+      width: 100%;
+      padding: 2rem;
+      animation: pop-in 0.25s ease-out;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    /* ========================================
+       SECTION UTILITIES
+       ======================================== */
+    .section {
+      padding-block: 5rem;
+    }
+
+    .section-label {
+      display: inline-block;
+      padding: 0.375rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      color: var(--color-green-primary);
+      background: rgba(34, 197, 94, 0.08);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+
+    .section-subtitle {
+      color: var(--color-text-secondary);
+      max-width: 36rem;
+      margin-inline: auto;
+      line-height: 1.6;
+    }
+
+    /* ========================================
+       LAYOUT: Grid Helpers
+       ======================================== */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 640px) {
+      .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (min-width: 768px) {
+      .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* ========================================
+       NAV
+       ======================================== */
+    .nav {
+      position: relative;
+      z-index: 50;
+      padding: 1.25rem 0;
+    }
+
+    .nav__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav__brand {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      text-decoration: none;
+      color: var(--color-text-primary);
+    }
+
+    .nav__brand-name {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 1.125rem;
+    }
+
+    .nav__links {
+      display: none;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav__links a {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      transition: color var(--transition-base);
+    }
+
+    .nav__links a:hover { color: var(--color-text-primary); }
+
+    @media (min-width: 768px) {
+      .nav__links { display: flex; }
+    }
+
+    /* ========================================
+       HERO
+       ======================================== */
+    .hero {
+      padding-top: 4rem;
+      padding-bottom: 3rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero__title {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: clamp(2rem, 5.5vw, 3.5rem);
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .hero__accent {
+      color: var(--color-green-primary);
+    }
+
+    .hero__subtitle {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: var(--color-text-secondary);
+      max-width: 36rem;
+      margin-inline: auto;
+      margin-bottom: 2.5rem;
+      line-height: 1.6;
+    }
+
+    .hero__cta-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .hero__cta-group .btn-primary {
+      padding: 1rem 2rem;
+      font-size: 1.125rem;
+      width: 100%;
+      max-width: 22rem;
+    }
+
+    .hero__cta-note {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+    }
+
+    /* ========================================
+       NOTIFICATION DEMO
+       ======================================== */
+    .notification-demo {
+      max-width: 24rem;
+      margin-inline: auto;
+      margin-top: 3rem;
+    }
+
+    .notification-demo__phone-label {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-family: var(--font-heading);
+    }
+
+    .notification-preview__inner {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.875rem;
+      padding: 1.125rem;
+    }
+
+    .notification-preview__icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: var(--radius-lg);
+      background: rgba(34, 197, 94, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .notification-preview__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.25rem;
+    }
+
+    .notification-preview__app-name {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+
+    .notification-preview__time {
+      font-size: 0.75rem;
+      color: var(--color-text-secondary);
+    }
+
+    .notification-preview__body {
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.5;
+    }
+
+    /* ========================================
+       PAGES: Landing vs Registration
+       ======================================== */
+    #landing-page { display: block; }
+    #landing-page.hidden { display: none; }
+
     #registration-page {
-      display: none; width: 100%; height: 100%; overflow-y: auto;
-      position: absolute; top: 0; left: 0; z-index: 1000;
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      overflow-y: auto;
     }
     #registration-page.active { display: block; }
-    #landing-page.hidden { display: none; }
-    
-    /* Modal Styles */
-    #terms-modal {
-        display: none;
+
+    /* ========================================
+       REGISTRATION PAGE
+       ======================================== */
+    .reg-close-btn {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      z-index: 1050;
+      padding: 0.625rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      transition: all var(--transition-base);
+      line-height: 0;
     }
-    #terms-modal.active {
-        display: flex;
+
+    .reg-close-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--color-text-primary);
     }
+
+    .order-summary {
+      border-top: 1px solid var(--color-border);
+      margin-top: 1rem;
+      padding-top: 1rem;
+    }
+
+    .order-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.875rem;
+      padding: 0.25rem 0;
+    }
+
+    .order-row--total {
+      font-weight: 600;
+      font-size: 1rem;
+      border-top: 1px solid var(--color-border);
+      margin-top: 0.5rem;
+      padding-top: 0.75rem;
+    }
+
+    /* ========================================
+       FOOTER
+       ======================================== */
+    .footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-block: 3rem;
+    }
+
+    .footer__top {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .footer__links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .footer__links a {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      transition: color var(--transition-base);
+    }
+
+    .footer__links a:hover { color: var(--color-text-primary); }
+
+    .footer__bottom {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+      line-height: 1.8;
+    }
+
+    @media (min-width: 768px) {
+      .footer__top {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    /* ========================================
+       UTILITY
+       ======================================== */
+    .text-green { color: var(--color-green-primary); }
+    .text-red { color: var(--color-red-muted); }
+    .text-secondary { color: var(--color-text-secondary); }
+    .text-muted { color: var(--color-text-muted); }
+    .text-center { text-align: center; }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0, 0, 0, 0); border: 0;
+    }
+    .relative { position: relative; }
+    .z-10 { z-index: 10; }
+    .mx-auto { margin-inline: auto; }
+    .mb-4 { margin-bottom: 1rem; }
+    .mb-8 { margin-bottom: 2rem; }
+    .mb-12 { margin-bottom: 3rem; }
+    .mt-2 { margin-top: 0.5rem; }
+    .mt-4 { margin-top: 1rem; }
+    .mt-6 { margin-top: 1.5rem; }
+    .gap-6 { gap: 1.5rem; }
   </style>
- </head>
- <body class="font-body aurora-bg text-white w-full h-full overflow-auto">
-  <div id="app-wrapper" class="w-full h-full">
-   
-   <div id="landing-page" class="w-full">
-    <div class="fixed inset-0 pointer-events-none overflow-hidden">
-     <div class="star" style="top: 10%; left: 15%; animation-delay: 0s;"></div>
-     <div class="star" style="top: 20%; left: 80%; animation-delay: 0.5s;"></div>
-     <div class="star" style="top: 35%; left: 25%; animation-delay: 1s;"></div>
-     <div class="star" style="top: 15%; left: 60%; animation-delay: 1.5s;"></div>
-     <div class="star" style="top: 45%; left: 90%; animation-delay: 2s;"></div>
-     <div class="star" style="top: 8%; left: 45%; animation-delay: 2.5s;"></div>
-     <div class="star" style="top: 25%; left: 5%; animation-delay: 0.3s;"></div>
-     <div class="star" style="top: 50%; left: 70%; animation-delay: 1.2s;"></div>
-     <div class="star" style="top: 5%; left: 35%; animation-delay: 1.8s;"></div>
-     <div class="star" style="top: 30%; left: 55%; animation-delay: 0.8s;"></div>
-    </div>
-    
-    <div class="aurora-ribbon"></div>
-    <div class="fixed inset-0 aurora-glow pointer-events-none"></div>
+</head>
+<body class="aurora-bg">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <div class="relative z-10">
-     <nav class="w-full px-6 py-5">
-      <div class="max-w-6xl mx-auto flex items-center justify-between">
-       <div class="flex items-center gap-2">
-        <svg class="w-8 h-8" viewbox="0 0 40 40" fill="none"><circle cx="20" cy="28" r="10" fill="url(#mountain-grad)" opacity="0.6" /> <path d="M5 32 L20 12 L35 32" stroke="url(#aurora-line)" stroke-width="2" fill="none" /> <path d="M8 28 Q20 5 32 28" stroke="#22c55e" stroke-width="3" fill="none" opacity="0.8" /> <path d="M12 25 Q20 8 28 25" stroke="#2dd4bf" stroke-width="2" fill="none" opacity="0.6" /> <defs>
-          <lineargradient id="mountain-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-           <stop offset="0%" stop-color="#1e3a5f" />
-           <stop offset="100%" stop-color="#0f172a" />
-          </lineargradient>
-          <lineargradient id="aurora-line" x1="0%" y1="0%" x2="100%" y2="0%">
-           <stop offset="0%" stop-color="#22c55e" />
-           <stop offset="100%" stop-color="#2dd4bf" />
-          </lineargradient>
-         </defs>
-        </svg><span class="font-heading font-semibold text-lg">Aurora Real Time</span>
-       </div>
-       <div class="hidden md:flex items-center gap-8 text-sm text-gray-400"><a href="#how-it-works" class="hover:text-white transition-colors">How It Works</a> <a href="#technology" class="hover:text-white transition-colors">Technology</a> <a href="#pricing" class="hover:text-white transition-colors">Pricing</a>
-       </div>
+  <div id="app-wrapper">
+    <!-- ======================== LANDING PAGE ======================== -->
+    <div id="landing-page">
+      <!-- Stars -->
+      <div class="stars" aria-hidden="true">
+        <div class="star" style="top:8%;left:12%;animation-delay:0s"></div>
+        <div class="star" style="top:18%;left:78%;animation-delay:0.5s"></div>
+        <div class="star" style="top:33%;left:24%;animation-delay:1s"></div>
+        <div class="star" style="top:13%;left:58%;animation-delay:1.5s"></div>
+        <div class="star" style="top:42%;left:88%;animation-delay:2s"></div>
+        <div class="star" style="top:6%;left:42%;animation-delay:2.5s"></div>
+        <div class="star" style="top:22%;left:4%;animation-delay:0.3s"></div>
+        <div class="star" style="top:48%;left:68%;animation-delay:1.2s"></div>
+        <div class="star" style="top:4%;left:33%;animation-delay:1.8s"></div>
+        <div class="star" style="top:28%;left:53%;animation-delay:0.8s"></div>
       </div>
-     </nav>
 
-     <section class="w-full px-6 pt-16 pb-12">
-      <div class="max-w-4xl mx-auto text-center">
-       <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full card-glow text-sm text-gray-300 mb-8"><span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Live monitoring from Tromsø, Norway
-       </div>
-       
-       <h1 class="font-heading text-4xl md:text-6xl font-bold leading-tight mb-6">See the Northern Lights Tonight<br><span class="green-accent">Without the $150 Safari Price Tag</span></h1>
-       <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-10">Real time notifications when aurora is actually visible in Tromsø. Not predictions, but verified sightings.</p>
-       
-       <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-           <button class="btn-primary px-8 py-4 rounded-xl font-heading font-semibold text-lg w-full sm:w-auto" onclick="navigateToRegistration()"> Get Real Time Access, $7.99 </button> 
-           <span class="text-gray-500 text-sm">One time payment for 5 days</span>
-       </div>
+      <div class="aurora-ribbon" aria-hidden="true"></div>
+      <div class="aurora-glow" aria-hidden="true"></div>
 
-       <div class="mt-12 mb-8 relative group flex justify-center">
-         <div class="absolute -inset-1 bg-gradient-to-r from-green-600 to-teal-600 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
-         
-         <div class="relative w-full max-w-3xl mx-auto bg-[#0b1221] border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
-             
-             <div class="scan-line"></div>
-
-             <div class="flex items-center justify-between px-4 py-3 bg-white/5 border-b border-white/5 backdrop-blur-md">
-                 <div class="flex items-center gap-3">
-                     <div class="flex gap-1">
-                         <span class="w-2 h-2 rounded-full bg-red-500/20"></span>
-                         <span class="w-2 h-2 rounded-full bg-yellow-500/20"></span>
-                         <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                     </div>
-                     <span class="font-mono-tech text-xs text-green-400 tracking-wider">LIVE FEED • UIT-CAM-04</span>
-                 </div>
-                 <div class="font-mono-tech text-xs text-gray-500">LAT: 69.64° N</div>
-             </div>
-
-             <div class="p-5 grid grid-cols-2 gap-6 relative">
-                 
-                 <div class="col-span-2 sm:col-span-1 relative h-32 rounded-lg overflow-hidden border border-white/10 bg-black">
-                     <div class="absolute inset-0 opacity-60" style="background: linear-gradient(45deg, transparent 40%, rgba(34,197,94,0.6) 50%, transparent 60%); filter: blur(20px);"></div>
-                     <div class="absolute bottom-2 left-2 font-mono-tech text-[10px] text-green-500/80">
-                         EXPOSURE: 2.4s<br>
-                         ISO: 1600
-                     </div>
-                     <div class="absolute top-2 right-2 px-1.5 py-0.5 rounded bg-red-500/20 border border-red-500/30 text-[10px] text-red-400 font-bold animate-pulse">
-                         REC
-                     </div>
-                 </div>
-
-                 <div class="col-span-2 sm:col-span-1 flex flex-col justify-between">
-                     <div>
-                         <div class="text-xs text-gray-500 uppercase tracking-widest mb-1 font-heading">Magnetometer</div>
-                         <div class="flex items-baseline gap-2">
-                             <span class="text-2xl font-mono-tech font-bold text-white">845<span class="text-sm text-gray-600">nT</span></span>
-                             <span class="text-xs text-green-400">▲ RISING</span>
-                         </div>
-                     </div>
-
-                     <div class="space-y-2 mt-4">
-                         <div class="flex justify-between text-xs text-gray-400 font-mono-tech">
-                             <span>Cloud Cover</span>
-                             <span class="text-white">12%</span>
-                         </div>
-                         <div class="w-full bg-gray-800 rounded-full h-1.5">
-                             <div class="bg-blue-500 h-1.5 rounded-full" style="width: 12%"></div>
-                         </div>
-                         
-                         <div class="flex justify-between text-xs text-gray-400 font-mono-tech mt-2">
-                             <span>Aurora Intensity</span>
-                             <span class="text-green-400 blink">DETECTED</span>
-                         </div>
-                         <div class="w-full bg-gray-800 rounded-full h-1.5">
-                             <div class="bg-gradient-to-r from-green-900 to-green-400 h-1.5 rounded-full shadow-[0_0_10px_rgba(34,197,94,0.5)]" style="width: 85%"></div>
-                         </div>
-                     </div>
-                 </div>
-             </div>
-
-             <div class="px-4 py-3 bg-green-500/10 border-t border-green-500/20 flex items-center justify-between">
-                 <p class="text-xs text-green-300 font-mono-tech">
-                     &gt; ALERT TRIGGERED: 2 MIN AGO
-                 </p>
-                 <svg class="w-4 h-4 text-green-400 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
-             </div>
-         </div>
-       </div>
-
-       <div class="max-w-lg mx-auto mt-6">
-           <div class="flex items-center justify-center gap-2 mb-2">
-               <span class="text-yellow-400">★★★★★</span>
-           </div>
-           <p class="text-gray-400 italic text-sm">"Saved our trip! We were about to go to sleep when the alert popped up."</p>
-           <p class="text-gray-500 text-xs mt-1">— Sarah T., Beta Tester (Feb 2024)</p>
-       </div>
-
-      </div>
-     </section>
-
-     <section id="how-it-works" class="w-full px-6 py-20">
-      <div class="max-w-5xl mx-auto">
-       <h2 class="font-heading text-3xl md:text-4xl font-bold text-center mb-4">Why Forecasts Fail You</h2>
-       <p class="text-gray-400 text-center max-w-2xl mx-auto mb-16">Traditional aurora apps predict probability. We show you reality.</p>
-       <div class="grid md:grid-cols-2 gap-8"><div class="card-glow rounded-2xl p-8 border-red-500/20">
-         <div class="flex items-center gap-3 mb-6">
-          <div class="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center">
-           <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-           </svg>
+      <div class="relative z-10">
+        <!-- NAV -->
+        <nav class="nav" aria-label="Main navigation">
+          <div class="container">
+            <div class="nav__inner">
+              <a href="#" class="nav__brand" aria-label="Aurora Real Time – Home">
+                <svg class="w-8 h-8" width="32" height="32" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                  <path d="M5 32 L20 12 L35 32" stroke="url(#a-line)" stroke-width="2" fill="none"/>
+                  <path d="M8 28 Q20 5 32 28" stroke="#22c55e" stroke-width="3" fill="none" opacity="0.8"/>
+                  <path d="M12 25 Q20 8 28 25" stroke="#2dd4bf" stroke-width="2" fill="none" opacity="0.6"/>
+                  <defs>
+                    <linearGradient id="a-line" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#22c55e"/>
+                      <stop offset="100%" stop-color="#2dd4bf"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <span class="nav__brand-name">Aurora Real Time</span>
+              </a>
+              <ul class="nav__links" role="list">
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#technology">Technology</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+              </ul>
+            </div>
           </div>
-          <h3 class="font-heading font-semibold text-xl text-red-400">Traditional Apps</h3>
-         </div>
-         <ul class="space-y-4 text-gray-400">
-          <li class="flex items-start gap-3"><span class="text-red-400 mt-1">✗</span> <span>Based on solar wind, not actual visibility</span></li>
-          <li class="flex items-start gap-3"><span class="text-red-400 mt-1">✗</span> <span>Don't account for local cloud cover</span></li>
-          <li class="flex items-start gap-3"><span class="text-red-400 mt-1">✗</span> <span>"High probability" often means seeing nothing</span></li>
-          <li class="flex items-start gap-3"><span class="text-red-400 mt-1">✗</span> <span>Wastes your time waiting in the cold</span></li>
-         </ul>
-        </div><div class="card-glow rounded-2xl p-8 border-green-500/30">
-         <div class="flex items-center gap-3 mb-6">
-          <div class="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center">
-           <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-           </svg>
-          </div>
-          <h3 class="font-heading font-semibold text-xl green-accent">Aurora Real Time</h3>
-         </div>
-         <ul class="space-y-4 text-gray-300">
-          <li class="flex items-start gap-3"><span class="green-accent mt-1">✓</span> <span>AI analyzes live camera feeds every 5 minutes</span></li>
-          <li class="flex items-start gap-3"><span class="green-accent mt-1">✓</span> <span>Only alerts when aurora is actually visible</span></li>
-          <li class="flex items-start gap-3"><span class="green-accent mt-1">✓</span> <span>Accounts for real weather conditions</span></li>
-          <li class="flex items-start gap-3"><span class="green-accent mt-1">✓</span> <span>Step outside only when it's worth it</span></li>
-         </ul>
-        </div>
-       </div>
-      </div>
-     </section>
+        </nav>
 
-     <section id="technology" class="w-full px-6 py-20">
-      <div class="max-w-5xl mx-auto">
-       <div class="text-center mb-16"><span class="inline-block px-4 py-1 rounded-full text-sm text-green-400 bg-green-500/10 mb-4"> Built on Academic Excellence </span>
-        <h2 class="font-heading text-3xl md:text-4xl font-bold mb-4">Professional Grade Infrastructure</h2>
-        <p class="text-gray-400 max-w-2xl mx-auto">Powered by the StormCast project at UiT The Arctic University of Norway</p>
-       </div>
-       <div class="grid md:grid-cols-3 gap-6">
-        <div class="card-glow rounded-2xl p-6 text-center">
-         <div class="w-14 h-14 mx-auto mb-4 rounded-xl bg-gradient-to-br from-green-500/20 to-teal-500/20 flex items-center justify-center">
-          <svg class="w-7 h-7 text-green-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-          </svg>
-         </div>
-         <h3 class="font-heading font-semibold text-lg mb-2">Axis HD Cameras</h3>
-         <p class="text-gray-400 text-sm">High-resolution network cameras mounted in Breivika, Tromsø</p>
-        </div>
-        <div class="card-glow rounded-2xl p-6 text-center">
-         <div class="w-14 h-14 mx-auto mb-4 rounded-xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
-          <svg class="w-7 h-7 text-purple-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-          </svg>
-         </div>
-         <h3 class="font-heading font-semibold text-lg mb-2">AI Analysis</h3>
-         <p class="text-gray-400 text-sm">Machine learning models trained specifically for aurora detection</p>
-        </div>
-        <div class="card-glow rounded-2xl p-6 text-center">
-         <div class="w-14 h-14 mx-auto mb-4 rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center">
-          <svg class="w-7 h-7 text-blue-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-         </div>
-         <h3 class="font-heading font-semibold text-lg mb-2">5 Minute Updates</h3>
-         <p class="text-gray-400 text-sm">Continuous monitoring ensures you never miss a display</p>
-        </div>
-       </div>
-       <div class="mt-12 card-glow rounded-2xl p-6 flex flex-col md:flex-row items-center gap-6">
-        <div class="w-16 h-16 rounded-xl bg-white/5 flex items-center justify-center flex-shrink-0">
-         <svg class="w-10 h-10 text-gray-300" viewbox="0 0 40 40" fill="currentColor"><path d="M20 4C11.16 4 4 11.16 4 20C4 28.84 11.16 36 20 36C28.84 36 36 28.84 36 20C36 11.16 28.84 4 20 4ZM20 8C26.63 8 32 13.37 32 20C32 26.63 26.63 32 20 32C13.37 32 8 26.63 8 20C8 13.37 13.37 8 20 8Z" />
-         </svg>
-        </div>
-        <div>
-         <h4 class="font-heading font-semibold text-lg mb-1">UiT The Arctic University of Norway</h4>
-         <p class="text-gray-400 text-sm">Data sourced from the Department of Computer Science's StormCast project. Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0).</p>
-        </div>
-       </div>
-      </div>
-     </section>
+        <!-- HERO -->
+        <main id="main-content">
+          <section class="hero container" aria-labelledby="hero-heading">
+            <div class="animate-slide-up">
+              <div class="badge mx-auto" style="margin-bottom:2rem">
+                <span class="badge__dot" aria-hidden="true"></span>
+                Live monitoring from Tromsø, Norway
+              </div>
 
-     <section class="w-full px-6 py-20">
-  <div class="max-w-6xl mx-auto">
-    <div class="text-center mb-16">
-      <h2 class="font-heading text-3xl md:text-4xl font-bold mb-4">Transparency &amp; Data Integrity</h2>
-      <p class="text-gray-400 max-w-2xl mx-auto">Built on open science principles with respect for privacy, research, and technical infrastructure.</p>
-    </div>
-    <div class="grid md:grid-cols-2 gap-6">
-      <div class="card-glow rounded-2xl p-8">
-        <div class="flex items-start gap-4 mb-4">
-          <div class="w-12 h-12 rounded-lg bg-green-500/20 flex items-center justify-center flex-shrink-0">
-            <svg class="w-6 h-6 green-accent" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C6.5 6.253 2 10.998 2 17s4.5 10.747 10 10.747c5.5 0 10-4.998 10-10.747 0-6.002-4.5-10.747-10-10.747z" />
-            </svg>
-          </div>
-          <div>
-            <h3 class="font-heading font-semibold text-lg mb-2">Open Research Data</h3>
-          </div>
-        </div>
-        <p class="text-gray-400 leading-relaxed">Visual data is sourced from the StormCast project at the UiT Department of Computer Science and used under the Creative Commons Attribution 4.0 International license (CC BY 4.0).</p>
-      </div>
-      <div class="card-glow rounded-2xl p-8">
-        <div class="flex items-start gap-4 mb-4">
-          <div class="w-12 h-12 rounded-lg bg-green-500/20 flex items-center justify-center flex-shrink-0">
-            <svg class="w-6 h-6 green-accent" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-          <div>
-            <h3 class="font-heading font-semibold text-lg mb-2">Privacy-First Design</h3>
-          </div>
-        </div>
-        <p class="text-gray-400 leading-relaxed">Our service utilizes infrastructure specifically designed for atmospheric monitoring. Cameras are strategically angled toward the horizon and sky to ensure full GDPR compliance and the anonymity of individuals on the ground.</p>
-      </div>
-      <div class="card-glow rounded-2xl p-8">
-        <div class="flex items-start gap-4 mb-4">
-          <div class="w-12 h-12 rounded-lg bg-green-500/20 flex items-center justify-center flex-shrink-0">
-            <svg class="w-6 h-6 green-accent" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
-            </svg>
-          </div>
-          <div>
-            <h3 class="font-heading font-semibold text-lg mb-2">Infrastructure Respect</h3>
-          </div>
-        </div>
-        <p class="text-gray-400 leading-relaxed">We adhere to strict data retrieval protocols and utilize official interfaces to ensure zero negative impact on university research servers and infrastructure.</p>
-      </div>
-      <div class="card-glow rounded-2xl p-8">
-        <div class="flex items-start gap-4 mb-4">
-          <div class="w-12 h-12 rounded-lg bg-green-500/20 flex items-center justify-center flex-shrink-0">
-            <svg class="w-6 h-6 green-accent" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-          <div>
-            <h3 class="font-heading font-semibold text-lg mb-2">TGO Disclaimer</h3>
-          </div>
-        </div>
-        <p class="text-gray-400 leading-relaxed">Note: This service currently utilizes open meteorological data (StormCast) and does not claim affiliation with or use restricted data from Tromsø Geophysical Observatory (TGO) without explicit agreement.</p>
-      </div>
-    </div>
-  </div>
-</section>
+              <h1 id="hero-heading" class="hero__title">
+                See the Northern Lights Tonight<br>
+                <span class="hero__accent">Without the $150 Safari Price Tag</span>
+              </h1>
+              <p class="hero__subtitle">
+                Real-time SMS notifications when aurora is actually visible in Tromsø.
+                Not predictions — verified sightings from university cameras.
+              </p>
+            </div>
 
-     
-     <section id="pricing" class="w-full px-6 py-20">
-      <div class="max-w-xl mx-auto text-center">
-       <h2 class="font-heading text-3xl md:text-4xl font-bold mb-4">Chase Aurora, Not Prices</h2>
-       <p class="text-gray-400 mb-12">A fraction of safari costs. All the magic.</p>
-       <div class="card-glow rounded-3xl p-8 md:p-10 border-green-500/30">
-        <div class="mb-6"><span class="font-heading text-5xl md:text-6xl font-bold green-accent">$7.99</span> <span class="text-gray-400 text-lg ml-2">for 5 days</span>
-        </div>
-        <ul class="space-y-3 text-gray-300 mb-8 text-left max-w-xs mx-auto">
-         <li class="flex items-center gap-3">
-          <svg class="w-5 h-5 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-          </svg><span>Instant push notifications</span></li>
-         <li class="flex items-center gap-3">
-          <svg class="w-5 h-5 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-          </svg><span>5 minute monitoring cycles</span></li>
-         <li class="flex items-center gap-3">
-          <svg class="w-5 h-5 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-          </svg><span>Only alerts for visible aurora</span></li>
-         <li class="flex items-center gap-3">
-          <svg class="w-5 h-5 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-          </svg><span>No subscription one time purchase</span></li>
-        </ul><button class="btn-primary w-full py-4 rounded-xl font-heading font-semibold text-lg" onclick="navigateToRegistration()"> Notify Me When Aurora Appears </button>
-        <p class="text-gray-500 text-sm mt-4">Compare to $150+ for guided aurora tours</p>
-       </div>
-      </div>
-     </section>
-     
-     <footer class="w-full px-6 py-12 border-t border-white/5">
-      <div class="max-w-5xl mx-auto">
-       <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-        <div class="flex items-center gap-2">
-         <svg class="w-6 h-6" viewbox="0 0 40 40" fill="none"><path d="M8 28 Q20 5 32 28" stroke="#22c55e" stroke-width="3" fill="none" opacity="0.8" /> <path d="M12 25 Q20 8 28 25" stroke="#2dd4bf" stroke-width="2" fill="none" opacity="0.6" />
-         </svg><span class="font-heading font-semibold">Aurora Real Time</span>
-        </div>
-        <div class="flex items-center gap-6 text-sm text-gray-500"><span>Data: UiT StormCast (CC BY 4.0)</span> <span>•</span> <span>Tromsø, Norway 🇳🇴</span>
-        </div>
-       </div>
-      </div>
-     </footer>
-    </div>
-   </div>
+            <div class="hero__cta-group animate-slide-up-delayed">
+              <button class="btn-primary" data-action="register">
+                Get Real-Time Access — $7.99
+              </button>
+              <span class="hero__cta-note">One-time payment · 5 days of alerts</span>
+            </div>
 
-   <div id="registration-page" class="w-full h-full overflow-y-auto">
-    <div class="aurora-bg w-full">
-      <button onclick="closeRegistration()" class="fixed top-6 right-6 z-50 p-2 hover:bg-white/10 rounded-lg transition-colors" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-      </svg></button> 
-      
-      <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
-      <div class="star" style="top: 10%; left: 15%; animation-delay: 0s;"></div>
-      <div class="star" style="top: 20%; left: 80%; animation-delay: 0.5s;"></div>
-      <div class="star" style="top: 35%; left: 25%; animation-delay: 1s;"></div>
-      <div class="star" style="top: 15%; left: 60%; animation-delay: 1.5s;"></div>
-      <div class="star" style="top: 45%; left: 90%; animation-delay: 2s;"></div>
-     </div>
-     <div class="aurora-ribbon" style="z-index: 0;"></div>
-     <div class="fixed inset-0 aurora-glow pointer-events-none z-0"></div>
-     
-     <div class="relative z-10 px-6 py-12 w-full">
-      <div class="max-w-2xl mx-auto">
-          
-       <div style="text-align: center; margin-bottom: 2rem; animation: slide-up 0.8s ease-out forwards;">
-        <h1 class="font-heading text-4xl font-bold mb-4">Establishing Secure Uplink...</h1>
-        <p class="text-xl text-gray-300 leading-relaxed">Authenticating with UiT StormCast Node-4. Calibrating real-time telemetry stream.</p>
-       </div>
+            <!-- Notification Preview: This is what you're buying -->
+            <div class="notification-demo animate-slide-up-delayed-2">
+              <p class="notification-demo__phone-label" aria-hidden="true">What you'll receive</p>
+              <div class="notification-preview animate-float" role="img" aria-label="Example SMS notification: Northern Lights visible now in Tromsø, clear skies, strong activity">
+                <div class="notification-preview__inner">
+                  <div class="notification-preview__icon" aria-hidden="true">
+                    <svg width="20" height="20" fill="none" stroke="#22c55e" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-5-5.917V4a1 1 0 10-2 0v1.083A6 6 0 006 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0a3 3 0 11-6 0m6 0H9"/>
+                    </svg>
+                  </div>
+                  <div style="flex:1;min-width:0">
+                    <div class="notification-preview__header">
+                      <span class="notification-preview__app-name">Aurora Real Time</span>
+                      <span class="notification-preview__time">now</span>
+                    </div>
+                    <p class="notification-preview__body">
+                      Northern Lights visible <strong>NOW</strong> in Tromsø.
+                      Clear skies, strong activity. Go outside!
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-       <div style="display: grid; gap: 1rem; margin-bottom: 3rem;">
-        <div class="card-glow p-6 rounded-xl flex items-center gap-4 animate-[slide-up_0.8s_ease-out_0.5s_forwards] opacity-0">
-         <div class="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center flex-shrink-0">
-          <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-         </div>
-         <div>
-          <h3 class="font-heading font-semibold text-lg">Telemetry Link: Stable</h3>
-          <p class="text-sm text-gray-400">System is currently online and monitoring.</p>
-         </div>
-        </div>
-        
-        <div class="card-glow p-6 rounded-xl flex items-center gap-4 animate-[slide-up_0.8s_ease-out_0.6s_forwards] opacity-0">
-         <div class="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center flex-shrink-0">
-          <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-         </div>
-         <div>
-          <h3 class="font-heading font-semibold text-lg">Latency</h3>
-          <p class="text-sm text-gray-400">&lt; 45ms (Real-time)</p>
-         </div>
-        </div>
-       </div>
+            <!-- Social Proof: Stats -->
+            <div class="animate-slide-up-delayed-3" style="max-width:28rem;margin:2.5rem auto 0">
+              <div class="stats-grid">
+                <div>
+                  <div class="stat__number">847</div>
+                  <div class="stat__label">Alerts sent</div>
+                </div>
+                <div>
+                  <div class="stat__number">94%</div>
+                  <div class="stat__label">Accuracy rate</div>
+                </div>
+                <div>
+                  <div class="stat__number">5 min</div>
+                  <div class="stat__label">Scan interval</div>
+                </div>
+              </div>
+            </div>
+          </section>
 
-<div class="card-glow p-10 rounded-3xl animate-[slide-up_0.8s_ease-out_0.8s_forwards] opacity-0">
-        
-        <div class="flex items-start gap-3 mb-8 text-left">
-            <input type="checkbox" id="terms-checkbox" class="mt-1 w-5 h-5 accent-green-500 cursor-pointer flex-shrink-0" onchange="togglePaymentButton()">
-            <label for="terms-checkbox" class="text-sm text-gray-300 cursor-pointer select-none leading-relaxed">
-                I have read and agree to the 
-                <button type="button" onclick="openTermsModal()" class="text-green-400 hover:text-green-300 underline font-semibold focus:outline-none inline text-left">
-                    terms of what is included in this purchase.
+          <!-- WHY FORECASTS FAIL -->
+          <section id="how-it-works" class="section" aria-labelledby="comparison-heading">
+            <div class="container container--mid">
+              <div class="text-center" style="margin-bottom:3.5rem">
+                <h2 id="comparison-heading" class="section-title">Why Forecasts Fail You</h2>
+                <p class="section-subtitle">Traditional aurora apps predict probability. We show you what's actually in the sky.</p>
+              </div>
+
+              <div class="grid-2">
+                <!-- Traditional Apps -->
+                <div class="card card--red-border" style="padding:2rem">
+                  <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem">
+                    <div class="icon-box icon-box--red">
+                      <svg width="20" height="20" fill="none" stroke="#f87171" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                      </svg>
+                    </div>
+                    <h3 class="font-heading" style="font-weight:600;font-size:1.25rem;color:#f87171">Traditional Apps</h3>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:0.875rem;color:var(--color-text-secondary)">
+                    <div class="comparison-item">
+                      <span class="comparison-icon text-red" aria-hidden="true">✗</span>
+                      <span>Based on solar wind data, not actual visibility</span>
+                    </div>
+                    <div class="comparison-item">
+                      <span class="comparison-icon text-red" aria-hidden="true">✗</span>
+                      <span>Don't account for local cloud cover</span>
+                    </div>
+                    <div class="comparison-item">
+                      <span class="comparison-icon text-red" aria-hidden="true">✗</span>
+                      <span>"High probability" often means seeing nothing</span>
+                    </div>
+                    <div class="comparison-item">
+                      <span class="comparison-icon text-red" aria-hidden="true">✗</span>
+                      <span>Wastes your time waiting in the cold</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Aurora Real Time -->
+                <div class="card card--green-border" style="padding:2rem">
+                  <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem">
+                    <div class="icon-box icon-box--green">
+                      <svg width="20" height="20" fill="none" stroke="#22c55e" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                      </svg>
+                    </div>
+                    <h3 class="font-heading" style="font-weight:600;font-size:1.25rem;color:var(--color-green-primary)">Aurora Real Time</h3>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:0.875rem;color:var(--color-text-primary)">
+                    <div class="comparison-item">
+                      <span class="comparison-icon text-green" aria-hidden="true">✓</span>
+                      <span>AI analyzes live camera feeds every 5 minutes</span>
+                    </div>
+                    <div class="comparison-item">
+                      <span class="comparison-icon text-green" aria-hidden="true">✓</span>
+                      <span>Only alerts when aurora is actually visible</span>
+                    </div>
+                    <div class="comparison-item">
+                      <span class="comparison-icon text-green" aria-hidden="true">✓</span>
+                      <span>Accounts for real weather conditions</span>
+                    </div>
+                    <div class="comparison-item">
+                      <span class="comparison-icon text-green" aria-hidden="true">✓</span>
+                      <span>Step outside only when it's worth it</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- TECHNOLOGY -->
+          <section id="technology" class="section" aria-labelledby="tech-heading">
+            <div class="container container--mid">
+              <div class="text-center" style="margin-bottom:3.5rem">
+                <span class="section-label">Built on Academic Excellence</span>
+                <h2 id="tech-heading" class="section-title">Professional-Grade Infrastructure</h2>
+                <p class="section-subtitle">Powered by the StormCast project at UiT The Arctic University of Norway</p>
+              </div>
+
+              <div class="grid-3" style="margin-bottom:2rem">
+                <div class="card" style="padding:1.75rem;text-align:center">
+                  <div class="icon-box icon-box--green mx-auto" style="margin-bottom:1rem">
+                    <svg width="24" height="24" fill="none" stroke="#22c55e" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                    </svg>
+                  </div>
+                  <h3 class="font-heading" style="font-weight:600;font-size:1.125rem;margin-bottom:0.5rem">Axis HD Cameras</h3>
+                  <p class="text-secondary" style="font-size:0.875rem;line-height:1.5">High-resolution network cameras mounted in Breivika, Tromsø</p>
+                </div>
+
+                <div class="card" style="padding:1.75rem;text-align:center">
+                  <div class="icon-box icon-box--purple mx-auto" style="margin-bottom:1rem">
+                    <svg width="24" height="24" fill="none" stroke="#a78bfa" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    </svg>
+                  </div>
+                  <h3 class="font-heading" style="font-weight:600;font-size:1.125rem;margin-bottom:0.5rem">AI Analysis</h3>
+                  <p class="text-secondary" style="font-size:0.875rem;line-height:1.5">Machine learning models trained specifically for aurora detection</p>
+                </div>
+
+                <div class="card" style="padding:1.75rem;text-align:center">
+                  <div class="icon-box icon-box--blue mx-auto" style="margin-bottom:1rem">
+                    <svg width="24" height="24" fill="none" stroke="#60a5fa" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                  </div>
+                  <h3 class="font-heading" style="font-weight:600;font-size:1.125rem;margin-bottom:0.5rem">5-Minute Updates</h3>
+                  <p class="text-secondary" style="font-size:0.875rem;line-height:1.5">Continuous monitoring ensures you never miss a display</p>
+                </div>
+              </div>
+
+              <!-- UiT attribution -->
+              <div class="card" style="padding:1.5rem;display:flex;flex-direction:column;align-items:center;gap:1.25rem;text-align:center">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:0.5rem">
+                  <!-- Placeholder for UiT logo — replace src with actual logo -->
+                  <div class="icon-box" style="width:4rem;height:4rem;background:rgba(255,255,255,0.06);border-radius:0.75rem">
+                    <svg width="28" height="28" viewBox="0 0 40 40" fill="#94a3b8" aria-hidden="true">
+                      <path d="M20 4C11.16 4 4 11.16 4 20C4 28.84 11.16 36 20 36C28.84 36 36 28.84 36 20C36 11.16 28.84 4 20 4ZM20 8C26.63 8 32 13.37 32 20C32 26.63 26.63 32 20 32C13.37 32 8 26.63 8 20C8 13.37 13.37 8 20 8Z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 class="font-heading" style="font-weight:600;font-size:1.125rem;margin-bottom:0.25rem">UiT The Arctic University of Norway</h4>
+                    <p class="text-secondary" style="font-size:0.875rem;line-height:1.5">
+                      Data sourced from the Department of Computer Science's StormCast project.<br>
+                      Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0).
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- TRANSPARENCY -->
+          <section class="section" aria-labelledby="transparency-heading">
+            <div class="container container--mid">
+              <div class="text-center" style="margin-bottom:3.5rem">
+                <h2 id="transparency-heading" class="section-title">Transparency &amp; Data Integrity</h2>
+                <p class="section-subtitle">Built on open science principles with respect for privacy, research, and technical infrastructure.</p>
+              </div>
+
+              <div class="grid-2">
+                <div class="card" style="padding:1.75rem">
+                  <div style="display:flex;align-items:flex-start;gap:1rem;margin-bottom:0.75rem">
+                    <div class="icon-box icon-box--green">
+                      <svg width="20" height="20" fill="none" stroke="#22c55e" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C6.5 6.253 2 10.998 2 17s4.5 10.747 10 10.747c5.5 0 10-4.998 10-10.747 0-6.002-4.5-10.747-10-10.747z"/>
+                      </svg>
+                    </div>
+                    <h3 class="font-heading" style="font-weight:600;font-size:1.125rem">Open Research Data</h3>
+                  </div>
+                  <p class="text-secondary" style="font-size:0.875rem;line-height:1.65">
+                    Visual data is sourced from the StormCast project at the UiT Department of Computer Science and used under the Creative Commons Attribution 4.0 International license (CC BY 4.0).
+                  </p>
+                </div>
+
+                <div class="card" style="padding:1.75rem">
+                  <div style="display:flex;align-items:flex-start;gap:1rem;margin-bottom:0.75rem">
+                    <div class="icon-box icon-box--green">
+                      <svg width="20" height="20" fill="none" stroke="#22c55e" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                      </svg>
+                    </div>
+                    <h3 class="font-heading" style="font-weight:600;font-size:1.125rem">Privacy-First Design</h3>
+                  </div>
+                  <p class="text-secondary" style="font-size:0.875rem;line-height:1.65">
+                    Our service utilizes infrastructure designed for atmospheric monitoring. Cameras are angled toward the horizon and sky to ensure GDPR compliance and individual anonymity.
+                  </p>
+                </div>
+
+                <div class="card" style="padding:1.75rem">
+                  <div style="display:flex;align-items:flex-start;gap:1rem;margin-bottom:0.75rem">
+                    <div class="icon-box icon-box--green">
+                      <svg width="20" height="20" fill="none" stroke="#22c55e" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/>
+                      </svg>
+                    </div>
+                    <h3 class="font-heading" style="font-weight:600;font-size:1.125rem">Infrastructure Respect</h3>
+                  </div>
+                  <p class="text-secondary" style="font-size:0.875rem;line-height:1.65">
+                    We adhere to strict data retrieval protocols and utilize official interfaces to ensure zero negative impact on university research servers.
+                  </p>
+                </div>
+
+                <div class="card" style="padding:1.75rem">
+                  <div style="display:flex;align-items:flex-start;gap:1rem;margin-bottom:0.75rem">
+                    <div class="icon-box icon-box--green">
+                      <svg width="20" height="20" fill="none" stroke="#22c55e" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                      </svg>
+                    </div>
+                    <h3 class="font-heading" style="font-weight:600;font-size:1.125rem">TGO Disclaimer</h3>
+                  </div>
+                  <p class="text-secondary" style="font-size:0.875rem;line-height:1.65">
+                    This service currently utilizes open meteorological data (StormCast) and does not claim affiliation with or use restricted data from Tromsø Geophysical Observatory (TGO).
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- PRICING -->
+          <section id="pricing" class="section" aria-labelledby="pricing-heading">
+            <div class="container container--narrow text-center">
+              <h2 id="pricing-heading" class="section-title">Chase Aurora, Not Prices</h2>
+              <p class="section-subtitle mx-auto" style="margin-bottom:3rem">A fraction of safari costs. All the magic.</p>
+
+              <div class="card card--green-border card--elevated" style="padding:2.5rem">
+                <div style="margin-bottom:1.5rem">
+                  <span class="font-heading text-green" style="font-size:clamp(2.5rem,8vw,3.5rem);font-weight:700">$7.99</span>
+                  <span class="text-secondary" style="font-size:1.125rem;margin-left:0.5rem">for 5 days</span>
+                </div>
+
+                <div style="display:flex;flex-direction:column;gap:0.875rem;max-width:18rem;margin:0 auto 2rem;text-align:left">
+                  <div style="display:flex;align-items:center;gap:0.75rem">
+                    <svg width="20" height="20" fill="none" stroke="#22c55e" viewBox="0 0 24 24" style="flex-shrink:0">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span>Instant SMS notifications</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:0.75rem">
+                    <svg width="20" height="20" fill="none" stroke="#22c55e" viewBox="0 0 24 24" style="flex-shrink:0">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span>5-minute monitoring cycles</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:0.75rem">
+                    <svg width="20" height="20" fill="none" stroke="#22c55e" viewBox="0 0 24 24" style="flex-shrink:0">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span>Only alerts for visible aurora</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:0.75rem">
+                    <svg width="20" height="20" fill="none" stroke="#22c55e" viewBox="0 0 24 24" style="flex-shrink:0">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span>No subscription — one-time purchase</span>
+                  </div>
+                </div>
+
+                <button class="btn-primary" data-action="register" style="width:100%;padding:1rem;font-size:1.125rem">
+                  Notify Me When Aurora Appears
                 </button>
-            </label>
+
+                <p class="text-secondary" style="font-size:0.875rem;margin-top:1rem">
+                  Compare to $150+ for guided aurora tours
+                </p>
+                <p class="text-secondary" style="font-size:0.8rem;margin-top:0.375rem">
+                  Aurora season in Tromsø: September – March
+                </p>
+              </div>
+            </div>
+          </section>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+          <div class="container">
+            <div class="footer__top">
+              <div>
+                <a href="#" class="nav__brand" style="margin-bottom:0.375rem" aria-label="Aurora Real Time – Home">
+                  <svg width="24" height="24" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                    <path d="M8 28 Q20 5 32 28" stroke="#22c55e" stroke-width="3" fill="none" opacity="0.8"/>
+                    <path d="M12 25 Q20 8 28 25" stroke="#2dd4bf" stroke-width="2" fill="none" opacity="0.6"/>
+                  </svg>
+                  <span class="nav__brand-name">Aurora Real Time</span>
+                </a>
+                <p style="font-size:0.875rem;color:var(--color-text-secondary);margin-top:0.25rem">Tromsø, Norway</p>
+              </div>
+              <nav class="footer__links" aria-label="Footer navigation">
+                <a href="/privacy">Privacy Policy</a>
+                <a href="/terms">Terms of Service</a>
+                <a href="mailto:support@aurorarealtime.com">Contact</a>
+              </nav>
+            </div>
+            <div class="footer__bottom">
+              <p>Data: UiT StormCast (CC BY 4.0) · Not affiliated with TGO</p>
+              <p>© 2025 Aurora Real Time. Tromsø, Norway.</p>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <!-- ======================== REGISTRATION / CHECKOUT ======================== -->
+    <div id="registration-page" class="aurora-bg" role="dialog" aria-modal="true" aria-labelledby="reg-heading">
+      <button class="reg-close-btn" data-action="close-registration" aria-label="Close and return to homepage">
+        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+
+      <div class="stars" aria-hidden="true">
+        <div class="star" style="top:10%;left:15%;animation-delay:0s"></div>
+        <div class="star" style="top:20%;left:80%;animation-delay:0.5s"></div>
+        <div class="star" style="top:35%;left:25%;animation-delay:1s"></div>
+        <div class="star" style="top:15%;left:60%;animation-delay:1.5s"></div>
+        <div class="star" style="top:45%;left:90%;animation-delay:2s"></div>
+      </div>
+      <div class="aurora-ribbon" aria-hidden="true"></div>
+      <div class="aurora-glow" aria-hidden="true"></div>
+
+      <div class="relative z-10" style="padding:3rem 1.5rem;max-width:32rem;margin:0 auto">
+        
+        <!-- Header: clear, honest -->
+        <div class="text-center animate-slide-up" style="margin-bottom:2rem">
+          <h1 id="reg-heading" class="font-heading" style="font-size:clamp(1.75rem,5vw,2.25rem);font-weight:700;margin-bottom:0.75rem">
+            Complete Your Purchase
+          </h1>
+          <p class="text-secondary" style="font-size:1.0625rem;line-height:1.5">
+            5 days of real-time aurora alerts via SMS
+          </p>
         </div>
 
-        <button id="stripe-btn" onclick="goToStripe()" class="btn-primary btn-disabled w-full py-4 rounded-xl font-heading font-bold text-white transition-all duration-300" disabled>
+        <!-- Order Summary -->
+        <div class="card card--elevated animate-slide-up-delayed" style="padding:1.5rem;margin-bottom:1.5rem">
+          <h2 class="font-heading" style="font-weight:600;font-size:1rem;margin-bottom:0.75rem">Your order</h2>
+          <div class="order-row">
+            <span class="text-secondary" style="font-size:0.875rem">Aurora alerts (5 days)</span>
+            <span class="font-mono" style="font-size:0.875rem">$7.99</span>
+          </div>
+          <div class="order-row">
+            <span class="text-secondary" style="font-size:0.875rem">SMS delivery</span>
+            <span class="text-green" style="font-size:0.875rem">Included</span>
+          </div>
+          <div class="order-row order-row--total">
+            <span>Total</span>
+            <span class="font-mono">$7.99</span>
+          </div>
+        </div>
+
+        <!-- Phone Number Input -->
+        <div class="card card--elevated animate-slide-up-delayed-2" style="padding:1.5rem;margin-bottom:1.5rem">
+          <label for="phone-input" class="font-heading" style="display:block;font-weight:600;font-size:0.9375rem;margin-bottom:0.5rem">
+            Your mobile number
+          </label>
+          <p class="text-secondary" style="font-size:0.8125rem;margin-bottom:0.75rem;line-height:1.5">
+            We'll send aurora alerts to this number. Include country code.
+          </p>
+          <input
+            type="tel"
+            id="phone-input"
+            class="input-field font-mono"
+            placeholder="+47 XXX XX XXX"
+            autocomplete="tel"
+            required
+          />
+          <p style="font-size:0.75rem;color:var(--color-text-muted);margin-top:0.5rem">
+            Used only for aurora alerts. Nothing else, ever.
+          </p>
+        </div>
+
+        <!-- Terms & Checkout -->
+        <div class="card card--elevated animate-slide-up-delayed-3" style="padding:1.5rem">
+          <div style="margin-bottom:1.25rem">
+            <label class="checkbox-wrapper">
+              <input type="checkbox" id="terms-checkbox">
+              <span class="text-secondary" style="font-size:0.875rem;line-height:1.55">
+                I have read and agree to the
+                <button type="button" data-action="open-terms" style="color:var(--color-green-primary);background:none;border:none;text-decoration:underline;cursor:pointer;font:inherit;padding:0;font-weight:600">
+                  terms of what is included in this purchase
+                </button>
+              </span>
+            </label>
+          </div>
+
+          <button id="stripe-btn" class="btn-primary" disabled style="width:100%;padding:1rem;font-size:1.0625rem">
             Proceed to Checkout ($7.99)
-        </button>
-        
-        <p class="text-gray-500 text-xs mt-6 text-center">Secure payment via Stripe. No subscription.</p>
-       </div>
+          </button>
 
+          <p class="text-center" style="font-size:0.75rem;color:var(--color-text-muted);margin-top:1rem">
+            Secure payment via Stripe · No subscription · Instant activation
+          </p>
+        </div>
       </div>
-     </div>
     </div>
-   </div>
 
-   <div id="terms-modal" class="fixed inset-0 z-[2000] items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-[pop-in_0.3s_ease-out]">
-       <div class="card-glow max-w-md w-full rounded-3xl p-8 relative">
-           <button onclick="closeTermsModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white p-2">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-           </button>
-           
-           <h3 class="font-heading text-2xl font-bold mb-6 text-white">Included in your purchase</h3>
-           
-           <ul class="space-y-4 text-gray-300 text-sm mb-8">
-               <li class="flex gap-3">
-                   <span class="text-green-400 mt-0.5">✓</span>
-                   <span><strong>Real-time alerts (SMS):</strong> You will receive an SMS only when the Northern Lights are actually visible in the sky.</span>
-               </li>
-               <li class="flex gap-3">
-                   <span class="text-green-400 mt-0.5">✓</span>
-                   <span><strong>Monitoring hours:</strong> The system is active during "Prime Time" between 6:00 PM and 12:00 AM every night.</span>
-               </li>
-               <li class="flex gap-3">
-                   <span class="text-green-400 mt-0.5">✓</span>
-                   <span><strong>No Spam:</strong> A maximum of one alert per hour to avoid unnecessary notifications.</span>
-               </li>
-               <li class="flex gap-3">
-                   <span class="text-green-400 mt-0.5">✓</span>
-                   <span><strong>Duration:</strong> Your access is valid for 5 days from the time of purchase.</span>
-               </li>
-               <li class="flex gap-3">
-                   <span class="text-gray-500 mt-0.5">ℹ</span>
-                   <span class="text-gray-400 text-xs italic">Disclaimer: This is a pilot project based on data from UiT StormCast. Please note that visibility depends on weather conditions (cloud cover may obstruct the view).</span>
-               </li>
-           </ul>
-           
-           <button onclick="acceptTerms()" class="btn-primary w-full py-3 rounded-xl font-heading font-semibold text-white">
-               I understand
-           </button>
-       </div>
-   </div>
+    <!-- ======================== TERMS MODAL ======================== -->
+    <div id="terms-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="terms-heading">
+      <div class="modal-content">
+        <button data-action="close-terms" aria-label="Close terms" style="position:absolute;top:1rem;right:1rem;background:none;border:none;color:var(--color-text-secondary);cursor:pointer;padding:0.5rem">
+          <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
 
+        <h3 id="terms-heading" class="font-heading" style="font-weight:700;font-size:1.375rem;margin-bottom:1.5rem">
+          Included in your purchase
+        </h3>
+
+        <div style="display:flex;flex-direction:column;gap:1rem;margin-bottom:2rem;font-size:0.875rem;color:var(--color-text-secondary);line-height:1.6">
+          <div style="display:flex;gap:0.75rem;align-items:flex-start">
+            <span class="text-green" style="flex-shrink:0;margin-top:0.125rem" aria-hidden="true">✓</span>
+            <span><strong style="color:var(--color-text-primary)">Real-time alerts (SMS):</strong> You will receive an SMS only when the Northern Lights are actually visible in the sky.</span>
+          </div>
+          <div style="display:flex;gap:0.75rem;align-items:flex-start">
+            <span class="text-green" style="flex-shrink:0;margin-top:0.125rem" aria-hidden="true">✓</span>
+            <span><strong style="color:var(--color-text-primary)">Monitoring hours:</strong> The system is active during "Prime Time" between 6:00 PM and 12:00 AM every night.</span>
+          </div>
+          <div style="display:flex;gap:0.75rem;align-items:flex-start">
+            <span class="text-green" style="flex-shrink:0;margin-top:0.125rem" aria-hidden="true">✓</span>
+            <span><strong style="color:var(--color-text-primary)">No Spam:</strong> A maximum of one alert per hour to avoid unnecessary notifications.</span>
+          </div>
+          <div style="display:flex;gap:0.75rem;align-items:flex-start">
+            <span class="text-green" style="flex-shrink:0;margin-top:0.125rem" aria-hidden="true">✓</span>
+            <span><strong style="color:var(--color-text-primary)">Duration:</strong> Your access is valid for 5 days from the time of purchase.</span>
+          </div>
+          <div style="display:flex;gap:0.75rem;align-items:flex-start;padding-top:0.5rem;border-top:1px solid var(--color-border)">
+            <span style="flex-shrink:0;margin-top:0.125rem;color:var(--color-text-muted)" aria-hidden="true">ℹ</span>
+            <span style="font-size:0.8125rem;font-style:italic;color:var(--color-text-muted)">
+              Disclaimer: This is a pilot project based on data from UiT StormCast. Visibility depends on weather conditions — cloud cover may obstruct the view.
+            </span>
+          </div>
+        </div>
+
+        <button data-action="accept-terms" class="btn-primary" style="width:100%;padding:0.875rem;font-size:1rem">
+          I understand
+        </button>
+      </div>
+    </div>
   </div>
+
+  <!-- ======================== SCRIPTS ======================== -->
   <script>
     // --- Configuration ---
-    // LEGGE INN DIN EGEN STRIPE BETALINGSLENKE HER:
-    const STRIPE_LINK = "https://buy.stripe.com/8x2dRb1jV9KTbnP0E8ds403"; 
-    // ---------------------
+    const STRIPE_LINK = "https://buy.stripe.com/8x2dRb1jV9KTbnP0E8ds403";
 
-    function navigateToRegistration() {
-      document.getElementById('landing-page').classList.add('hidden');
-      document.getElementById('registration-page').classList.add('active');
+    // --- DOM References ---
+    const landingPage = document.getElementById('landing-page');
+    const registrationPage = document.getElementById('registration-page');
+    const termsModal = document.getElementById('terms-modal');
+    const termsCheckbox = document.getElementById('terms-checkbox');
+    const stripeBtn = document.getElementById('stripe-btn');
+    const appWrapper = document.getElementById('app-wrapper');
+    const phoneInput = document.getElementById('phone-input');
+
+    // --- Navigation ---
+    function openRegistration() {
+      landingPage.classList.add('hidden');
+      registrationPage.classList.add('active');
+      registrationPage.focus();
+      window.scrollTo(0, 0);
     }
-    
+
     function closeRegistration() {
-      document.getElementById('landing-page').classList.remove('hidden');
-      document.getElementById('registration-page').classList.remove('active');
+      landingPage.classList.remove('hidden');
+      registrationPage.classList.remove('active');
     }
 
-    // Terms Modal Functions
+    // --- Terms Modal (with focus trapping) ---
     function openTermsModal() {
-        document.getElementById('terms-modal').classList.add('active');
+      termsModal.classList.add('active');
+      // Prevent background scroll
+      document.body.style.overflow = 'hidden';
+      // Focus first actionable element
+      termsModal.querySelector('[data-action="accept-terms"]').focus();
     }
 
     function closeTermsModal() {
-        document.getElementById('terms-modal').classList.remove('active');
+      termsModal.classList.remove('active');
+      document.body.style.overflow = '';
     }
 
     function acceptTerms() {
-        document.getElementById('terms-checkbox').checked = true;
-        togglePaymentButton();
-        closeTermsModal();
+      termsCheckbox.checked = true;
+      updateCheckoutButton();
+      closeTermsModal();
     }
 
-    // Payment Logic
-    function togglePaymentButton() {
-        const checkbox = document.getElementById('terms-checkbox');
-        const btn = document.getElementById('stripe-btn');
-        
-        if(checkbox.checked) {
-            btn.disabled = false;
-            btn.classList.remove('btn-disabled');
-        } else {
-            btn.disabled = true;
-            btn.classList.add('btn-disabled');
-        }
+    // --- Checkout Logic ---
+    function updateCheckoutButton() {
+      if (termsCheckbox.checked) {
+        stripeBtn.disabled = false;
+      } else {
+        stripeBtn.disabled = true;
+      }
     }
 
     function goToStripe() {
-        if (STRIPE_LINK === "") {
-            alert("Vennligst legg inn din Stripe-lenke i koden først.");
-            return;
-        }
-        window.location.href = STRIPE_LINK;
+      if (stripeBtn.disabled) return;
+      if (!STRIPE_LINK) {
+        alert("Please configure your Stripe link.");
+        return;
+      }
+      // In production: pass phone number to your backend → Stripe metadata
+      const phone = phoneInput.value.trim();
+      if (!phone) {
+        phoneInput.focus();
+        phoneInput.style.borderColor = '#f87171';
+        return;
+      }
+      window.location.href = STRIPE_LINK;
     }
+
+    // --- Event Delegation (no inline onclick) ---
+    document.addEventListener('click', (e) => {
+      const target = e.target.closest('[data-action]');
+      if (!target) return;
+
+      const action = target.getAttribute('data-action');
+      switch (action) {
+        case 'register':
+          openRegistration();
+          break;
+        case 'close-registration':
+          closeRegistration();
+          break;
+        case 'open-terms':
+          openTermsModal();
+          break;
+        case 'close-terms':
+          closeTermsModal();
+          break;
+        case 'accept-terms':
+          acceptTerms();
+          break;
+      }
+    });
+
+    // Checkbox change
+    termsCheckbox.addEventListener('change', updateCheckoutButton);
+
+    // Stripe button
+    stripeBtn.addEventListener('click', goToStripe);
+
+    // Phone input — reset error state on input
+    phoneInput.addEventListener('input', () => {
+      phoneInput.style.borderColor = '';
+    });
+
+    // Close modal on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (termsModal.classList.contains('active')) {
+          closeTermsModal();
+        } else if (registrationPage.classList.contains('active')) {
+          closeRegistration();
+        }
+      }
+    });
+
+    // Close modal on overlay click
+    termsModal.addEventListener('click', (e) => {
+      if (e.target === termsModal) {
+        closeTermsModal();
+      }
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
   </script>
- </body>
+</body>
 </html>
