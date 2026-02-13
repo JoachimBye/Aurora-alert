@@ -1747,6 +1747,8 @@
   <!-- ======================== SCRIPTS ======================== -->
   <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // --- Configuration ---
+<script>
+    // --- Configuration ---
     const STRIPE_LINK = "https://buy.stripe.com/8x2dRb1jV9KTbnP0E8ds403";
 
     // --- DOM References ---
@@ -1756,7 +1758,7 @@
     const termsCheckbox = document.getElementById('terms-checkbox');
     const stripeBtn = document.getElementById('stripe-btn');
     const appWrapper = document.getElementById('app-wrapper');
-    const phoneInput = document.getElementById('phone-input');
+    // Fjernet referanse til phoneInput siden du ikke bruker det lenger
 
     // --- Navigation ---
     function openRegistration() {
@@ -1774,10 +1776,10 @@
     // --- Terms Modal (with focus trapping) ---
     function openTermsModal() {
       termsModal.classList.add('active');
-      // Prevent background scroll
       document.body.style.overflow = 'hidden';
       // Focus first actionable element
-      termsModal.querySelector('[data-action="accept-terms"]').focus();
+      const acceptBtn = termsModal.querySelector('[data-action="accept-terms"]');
+      if(acceptBtn) acceptBtn.focus();
     }
 
     function closeTermsModal() {
@@ -1806,8 +1808,12 @@
         alert("Please configure your Stripe link.");
         return;
       }
+      
+      // HER MANGLER DU KODEN I DIN VERSJON:
+      window.location.href = STRIPE_LINK;
+    } 
 
-    // --- Event Delegation (no inline onclick) ---
+    // --- Event Delegation ---
     document.addEventListener('click', (e) => {
       const target = e.target.closest('[data-action]');
       if (!target) return;
@@ -1833,15 +1839,14 @@
     });
 
     // Checkbox change
-    termsCheckbox.addEventListener('change', updateCheckoutButton);
+    if(termsCheckbox) {
+        termsCheckbox.addEventListener('change', updateCheckoutButton);
+    }
 
     // Stripe button
-    stripeBtn.addEventListener('click', goToStripe);
-
-    // Phone input — reset error state on input
-    phoneInput.addEventListener('input', () => {
-      phoneInput.style.borderColor = '';
-    });
+    if(stripeBtn) {
+        stripeBtn.addEventListener('click', goToStripe);
+    }
 
     // Close modal on Escape
     document.addEventListener('keydown', (e) => {
@@ -1865,11 +1870,10 @@
     document.querySelectorAll('a[href^="#"]').forEach(link => {
       link.addEventListener('click', (e) => {
         const target = document.querySelector(link.getAttribute('href'));
-        if (target) {e.preventDefault();
+        if (target) {
+          e.preventDefault();
           target.scrollIntoView({ behavior: 'smooth' });
         }
       });
     });
   </script>
-</body>
-</html>
