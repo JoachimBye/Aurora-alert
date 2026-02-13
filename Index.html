@@ -849,6 +849,179 @@
     }
 
     /* ========================================
+       COMPONENTS: Camera Comparison
+       ======================================== */
+    .camera-card {
+      background: var(--color-bg-card);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-2xl);
+      overflow: hidden;
+      transition: border-color var(--transition-smooth);
+    }
+
+    .camera-card:hover {
+      border-color: var(--color-border-hover);
+    }
+
+    .camera-card--active {
+      border-color: rgba(34, 197, 94, 0.25);
+    }
+
+    .camera-card__image-wrap {
+      position: relative;
+      background: #000;
+      overflow: hidden;
+    }
+
+    .camera-card__image {
+      width: 100%;
+      height: auto;
+      display: block;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+    }
+
+    .camera-card__badge {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      padding: 0.375rem 0.75rem;
+      border-radius: var(--radius-lg);
+      font-size: 0.75rem;
+      font-weight: 600;
+      backdrop-filter: blur(8px);
+    }
+
+    .camera-card__badge--inactive {
+      background: rgba(0, 0, 0, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--color-text-muted);
+    }
+
+    .camera-card__badge--active {
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      color: var(--color-green-primary);
+    }
+
+    .camera-card__meta {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0.625rem 0.875rem;
+      background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, transparent 100%);
+      font-size: 0.6875rem;
+      font-family: var(--font-mono);
+      color: rgba(255, 255, 255, 0.5);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .camera-card__body {
+      padding: 1.25rem;
+    }
+
+    .camera-card__title {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .camera-card__desc {
+      color: var(--color-text-secondary);
+      font-size: 0.875rem;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    @media (max-width: 480px) {
+      .camera-card__body {
+        padding: 1rem;
+      }
+
+      .camera-card__title {
+        font-size: 0.9375rem;
+      }
+
+      .camera-card__desc {
+        font-size: 0.8125rem;
+      }
+
+      .camera-card__meta {
+        font-size: 0.625rem;
+      }
+    }
+
+    /* ========================================
+       COMPONENTS: FAQ Accordion
+       ======================================== */
+    .faq-item {
+      background: var(--color-bg-card);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-2xl);
+      padding: 1.5rem;
+      transition: border-color var(--transition-smooth);
+    }
+
+    .faq-item:hover {
+      border-color: var(--color-border-hover);
+    }
+
+    .faq-item summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      cursor: pointer;
+      list-style: none;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 1.0625rem;
+      line-height: 1.4;
+    }
+
+    .faq-item summary::-webkit-details-marker { display: none; }
+
+    .faq-item summary .faq-chevron {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      color: var(--color-text-secondary);
+      transition: transform var(--transition-smooth);
+    }
+
+    .faq-item[open] summary .faq-chevron {
+      transform: rotate(180deg);
+    }
+
+    .faq-item .faq-answer {
+      color: var(--color-text-secondary);
+      font-size: 0.9375rem;
+      line-height: 1.75;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--color-border);
+    }
+
+    @media (max-width: 480px) {
+      .faq-item {
+        padding: 1.25rem;
+      }
+
+      .faq-item summary {
+        font-size: 0.9375rem;
+      }
+
+      .faq-item .faq-answer {
+        font-size: 0.875rem;
+      }
+    }
+
+    /* ========================================
        UTILITY
        ======================================== */
     .text-green { color: var(--color-green-primary); }
@@ -872,6 +1045,30 @@
     .mt-6 { margin-top: 1.5rem; }
     .gap-6 { gap: 1.5rem; }
   </style>
+  <link rel="dns-prefetch" href="https://buy.stripe.com">
+  <link rel="preconnect" href="https://buy.stripe.com" crossorigin>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Aurora Real Time Alerts",
+    "description": "Real time Northern Lights SMS notifications from university cameras in Tromsø, Norway. AI verified sightings, not predictions.",
+    "brand": {
+      "@type": "Organization",
+      "name": "Aurora Real Time",
+      "url": "https://aurorarealtime.com"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "7.99",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock",
+      "priceValidUntil": "2026-03-31",
+      "url": "https://aurorarealtime.com/#pricing"
+    }
+  }
+  </script>
 </head>
 <body class="aurora-bg">
   <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -918,6 +1115,7 @@
               <ul class="nav__links" role="list">
                 <li><a href="#how-it-works">How It Works</a></li>
                 <li><a href="#technology">Technology</a></li>
+                <li><a href="#faq-heading">FAQ</a></li>
                 <li><a href="#pricing">Pricing</a></li>
               </ul>
             </div>
@@ -979,16 +1177,16 @@
             <div class="animate-slide-up-delayed-3" style="max-width:28rem;margin:2.5rem auto 0">
               <div class="stats-grid">
                 <div>
-                  <div class="stat__number">847</div>
-                  <div class="stat__label">Alerts sent</div>
+                  <div class="stat__number">22</div>
+                  <div class="stat__label">Alerts since January 2026</div>
                 </div>
                 <div>
                   <div class="stat__number">90%</div>
-                  <div class="stat__label">Accuracy rate</div>
+                  <div class="stat__label">Accuracy </div>
                 </div>
                 <div>
                   <div class="stat__number">60 min</div>
-                  <div class="stat__label">Scan interval</div>
+                  <div class="stat__label">Detection latency</div>
                 </div>
               </div>
             </div>
@@ -1066,6 +1264,81 @@
             </div>
           </section>
 
+          <!-- SEE IT IN ACTION -->
+          <section class="section" aria-labelledby="see-it-work">
+            <div class="container container--mid">
+              <div class="text-center" style="margin-bottom: 3rem;">
+                <span class="section-label">Real Camera Data</span>
+                <h2 id="see-it-work" class="section-title">See It In Action</h2>
+                <p class="section-subtitle">Actual images from the UiT StormCast camera. This is what our AI analyzes every 60 minutes.</p>
+              </div>
+
+              <div class="grid-2" style="gap: 1.5rem; max-width: 48rem; margin: 0 auto;">
+
+                <!-- No Aurora -->
+                <div class="camera-card">
+                  <div class="camera-card__image-wrap">
+                    <img
+                      src="Nordlysbilde2.jpg"
+                      alt="StormCast camera feed showing a cloudy night sky over Tromsø with no aurora visible"
+                      class="camera-card__image"
+                      loading="lazy"
+                      decoding="async"
+                      width="800"
+                      height="500"
+                    />
+                    <div class="camera-card__badge camera-card__badge--inactive">
+                      ✗ No alert sent
+                    </div>
+                    <div class="camera-card__meta">
+                      <span>UiT Breivika · Cam-04</span>
+                      <span>69.68°N, 18.97°E</span>
+                    </div>
+                  </div>
+                  <div class="camera-card__body">
+                    <h3 class="camera-card__title">Cloudy Night</h3>
+                    <p class="camera-card__desc">
+                      AI detected cloud cover. No aurora visible. <strong style="color: var(--color-text-primary)">You sleep peacefully</strong> — no unnecessary wake up.
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Aurora Detected -->
+                <div class="camera-card camera-card--active">
+                  <div class="camera-card__image-wrap">
+                    <img
+                      src="nordlysbilde1.jpeg"
+                      alt="StormCast camera feed showing green Northern Lights visible over Tromsø"
+                      class="camera-card__image"
+                      loading="lazy"
+                      decoding="async"
+                      width="800"
+                      height="500"
+                    />
+                    <div class="camera-card__badge camera-card__badge--active">
+                      ✓ Alert triggered
+                    </div>
+                    <div class="camera-card__meta">
+                      <span>UiT Breivika · Cam-04</span>
+                      <span>69.68°N, 18.97°E</span>
+                    </div>
+                  </div>
+                  <div class="camera-card__body">
+                    <h3 class="camera-card__title">Aurora Detected</h3>
+                    <p class="camera-card__desc">
+                      AI confirmed visible aurora. <strong style="color: var(--color-green-primary)">SMS sent immediately</strong>. You're outside in 3 minutes.
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+
+              <p class="text-center" style="margin-top: 1.5rem; font-size: 0.8125rem; color: var(--color-text-muted);">
+                Actual images from UiT StormCast (CC BY 4.0). This is exactly what our AI sees, not retouched photographs.
+              </p>
+            </div>
+          </section>
+
           <!-- TECHNOLOGY -->
           <section id="technology" class="section" aria-labelledby="tech-heading">
             <div class="container container--mid">
@@ -1102,7 +1375,7 @@
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                   </div>
-                  <h3 class="font-heading" style="font-weight:600;font-size:1.125rem;margin-bottom:0.5rem">60 Minute Updates</h3>
+                  <h3 class="font-heading" style="font-weight:600;font-size:1.125rem;margin-bottom:0.5rem"> 60 Minute Updates</h3>
                   <p class="text-secondary" style="font-size:0.875rem;line-height:1.5">Continuous monitoring ensures you never miss a display</p>
                 </div>
               </div>
@@ -1196,6 +1469,80 @@
             </div>
           </section>
 
+          <!-- FAQ -->
+          <section class="section" aria-labelledby="faq-heading" style="background: rgba(255, 255, 255, 0.008);">
+            <div class="container container--mid">
+              <div class="text-center" style="margin-bottom: 3rem;">
+                <h2 id="faq-heading" class="section-title">Common Questions</h2>
+                <p class="section-subtitle">Everything you need to know before purchasing.</p>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 40rem; margin: 0 auto;">
+
+                <details class="faq-item">
+                  <summary>
+                    <span>What if it's cloudy my entire stay?</span>
+                    <svg class="faq-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                  </summary>
+                  <div class="faq-answer">
+                    <p>Weather is unpredictable in the Arctic. We monitor continuously, but cloud cover may prevent visibility. Our service is about <strong style="color: var(--color-text-primary)">maximizing your chances</strong>, you'll know the instant conditions are favorable, rather than guessing or wasting hours outside in the cold.</p>
+                  </div>
+                </details>
+
+                <details class="faq-item">
+                  <summary>
+                    <span>How is this different from aurora forecast apps?</span>
+                    <svg class="faq-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                  </summary>
+                  <div class="faq-answer">
+                    <p>Apps like "My Aurora Forecast" use <strong style="color: var(--color-text-primary)">solar wind predictions</strong>. We use <strong style="color: var(--color-green-primary)">actual camera verification</strong> from professional weather cameras at UiT. Think of it as the difference between a weather forecast and looking out the window.</p>
+                  </div>
+                </details>
+
+                <details class="faq-item">
+                  <summary>
+                    <span>Will I get spam messages?</span>
+                    <svg class="faq-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                  </summary>
+                  <div class="faq-answer">
+                    <p>No. Maximum one alert per hour, only during prime viewing hours (6 PM – 12 AM). Your phone number is automatically deleted <strong style="color: var(--color-text-primary)">48 hours after your pass expires</strong>. We never use it for marketing.</p>
+                  </div>
+                </details>
+
+                <details class="faq-item">
+                  <summary>
+                    <span>What if I'm not in Tromsø city center?</span>
+                    <svg class="faq-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                  </summary>
+                  <div class="faq-answer">
+                    <p>Our cameras are in Breivika, approximately 5 km from Tromsø center. Aurora visibility is regional, if it's visible on our cameras, you'll likely see it within a 50 km radius, assuming clear skies at your location.</p>
+                  </div>
+                </details>
+
+                <details class="faq-item">
+                  <summary>
+                    <span>What happens after my 5 days expire?</span>
+                    <svg class="faq-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                  </summary>
+                  <div class="faq-answer">
+                    <p>Your alerts stop automatically. No recurring charges, no subscription to cancel. Your phone number is purged from our system within 48 hours. If you want more time, simply purchase a new pass.</p>
+                  </div>
+                </details>
+
+              </div>
+            </div>
+          </section>
+
           <!-- PRICING -->
           <section id="pricing" class="section" aria-labelledby="pricing-heading">
             <div class="container container--narrow text-center">
@@ -1267,7 +1614,7 @@
               <nav class="footer__links" aria-label="Footer navigation">
                 <a href="/privacy">Privacy Policy</a>
                 <a href="/terms">Terms of Service</a>
-                <a href="mailto:support@aurorarealtime.com">Contact</a>
+                <a href="/cdn-cgi/l/email-protection#84f7f1f4f4ebf6f0c4e5f1f6ebf6e5f6e1e5e8f0ede9e1aae7ebe9">Contact</a>
               </nav>
             </div>
             <div class="footer__bottom">
@@ -1305,7 +1652,7 @@
             Complete Your Purchase
           </h1>
           <p class="text-secondary" style="font-size:1.0625rem;line-height:1.5">
-            5 days of real-time aurora alerts via SMS
+            5 days of real time aurora alerts via SMS
           </p>
         </div>
 
@@ -1326,26 +1673,6 @@
           </div>
         </div>
 
-        <!-- Phone Number Input -->
-        <div class="card card--elevated animate-slide-up-delayed-2" style="padding:1.5rem;margin-bottom:1.5rem">
-          <label for="phone-input" class="font-heading" style="display:block;font-weight:600;font-size:0.9375rem;margin-bottom:0.5rem">
-            Your mobile number
-          </label>
-          <p class="text-secondary" style="font-size:0.8125rem;margin-bottom:0.75rem;line-height:1.5">
-            We'll send aurora alerts to this number. Include country code.
-          </p>
-          <input
-            type="tel"
-            id="phone-input"
-            class="input-field font-mono"
-            placeholder="+47 XXX XX XXX"
-            autocomplete="tel"
-            required
-          />
-          <p style="font-size:0.75rem;color:var(--color-text-muted);margin-top:0.5rem">
-            Used only for aurora alerts. Nothing else, ever.
-          </p>
-        </div>
 
         <!-- Terms & Checkout -->
         <div class="card card--elevated animate-slide-up-delayed-3" style="padding:1.5rem">
@@ -1388,7 +1715,7 @@
         <div style="display:flex;flex-direction:column;gap:1rem;margin-bottom:2rem;font-size:0.875rem;color:var(--color-text-secondary);line-height:1.6">
           <div style="display:flex;gap:0.75rem;align-items:flex-start">
             <span class="text-green" style="flex-shrink:0;margin-top:0.125rem" aria-hidden="true">✓</span>
-            <span><strong style="color:var(--color-text-primary)">Real time alerts (SMS):</strong> You will receive an SMS only when the Northern Lights are actually visible in the sky.</span>
+            <span><strong style="color:var(--color-text-primary)">Real-time alerts (SMS):</strong> You will receive an SMS only when the Northern Lights are actually visible in the sky.</span>
           </div>
           <div style="display:flex;gap:0.75rem;align-items:flex-start">
             <span class="text-green" style="flex-shrink:0;margin-top:0.125rem" aria-hidden="true">✓</span>
@@ -1418,7 +1745,7 @@
   </div>
 
   <!-- ======================== SCRIPTS ======================== -->
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // --- Configuration ---
     const STRIPE_LINK = "https://buy.stripe.com/8x2dRb1jV9KTbnP0E8ds403";
 
@@ -1548,11 +1875,3 @@
       link.addEventListener('click', (e) => {
         const target = document.querySelector(link.getAttribute('href'));
         if (target) {
-          e.preventDefault();
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      });
-    });
-  </script>
-</body>
-</html>
