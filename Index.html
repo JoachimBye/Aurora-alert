@@ -1749,6 +1749,8 @@
     // --- Configuration ---
 <script>
     // --- Configuration ---
+  <script>
+    // --- Configuration ---
     const STRIPE_LINK = "https://buy.stripe.com/8x2dRb1jV9KTbnP0E8ds403";
 
     // --- DOM References ---
@@ -1758,13 +1760,14 @@
     const termsCheckbox = document.getElementById('terms-checkbox');
     const stripeBtn = document.getElementById('stripe-btn');
     const appWrapper = document.getElementById('app-wrapper');
-    // Fjernet referanse til phoneInput siden du ikke bruker det lenger
+    // FJERNET: const phoneInput... (Dette elementet finnes ikke i HTML-en din)
 
     // --- Navigation ---
     function openRegistration() {
       landingPage.classList.add('hidden');
       registrationPage.classList.add('active');
-      registrationPage.focus();
+      // Prøv å fokusere på checkboxen siden input-feltet mangler
+      if(termsCheckbox) termsCheckbox.focus(); 
       window.scrollTo(0, 0);
     }
 
@@ -1797,30 +1800,43 @@
     function updateCheckoutButton() {
       if (termsCheckbox.checked) {
         stripeBtn.disabled = false;
+        stripeBtn.style.opacity = "1";
+        stripeBtn.style.cursor = "pointer";
       } else {
         stripeBtn.disabled = true;
+        stripeBtn.style.opacity = "0.5";
+        stripeBtn.style.cursor = "not-allowed";
       }
     }
 
     function goToStripe() {
       if (stripeBtn.disabled) return;
+      
       if (!STRIPE_LINK) {
         alert("Please configure your Stripe link.");
         return;
       }
       
-      // HER MANGLER DU KODEN I DIN VERSJON:
+      // LAGT TIL: Faktisk omdirigering
       window.location.href = STRIPE_LINK;
-    } 
+    } // <--- LAGT TIL: Denne manglet!
 
     // --- Event Delegation ---
     document.addEventListener('click', (e) => {
+      // Finn nærmeste element med data-action attributt
       const target = e.target.closest('[data-action]');
       if (!target) return;
 
       const action = target.getAttribute('data-action');
+      
+      // Forhindre standard link-oppførsel for knapper
+      if(target.tagName === 'A' || target.tagName === 'BUTTON') {
+         // e.preventDefault(); // Valgfritt, avhengig av om du vil ha # i URL
+      }
+
       switch (action) {
         case 'register':
+          e.preventDefault();
           openRegistration();
           break;
         case 'close-registration':
@@ -1869,11 +1885,15 @@
     // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(link => {
       link.addEventListener('click', (e) => {
-        const target = document.querySelector(link.getAttribute('href'));
+        const targetId = link.getAttribute('href');
+        // Unngå feil hvis href er bare "#"
+        if(targetId === '#') return;
+        
+        const target = document.querySelector(targetId);
         if (target) {
           e.preventDefault();
           target.scrollIntoView({ behavior: 'smooth' });
         }
       });
     });
-  </script>
+</script>
