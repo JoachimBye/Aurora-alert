@@ -1673,27 +1673,6 @@
           </div>
         </div>
 
-         <!-- Phone Number Input -->
-        <div class="card card--elevated animate-slide-up-delayed-2" style="padding:1.5rem;margin-bottom:1.5rem">
-          <label for="phone-input" class="font-heading" style="display:block;font-weight:600;font-size:0.9375rem;margin-bottom:0.5rem">
-            Your mobile number
-          </label>
-          <p class="text-secondary" style="font-size:0.8125rem;margin-bottom:0.75rem;line-height:1.5">
-            We'll send aurora alerts to this number. Include country code.
-          </p>
-          <input
-            type="tel"
-            id="phone-input"
-            class="input-field font-mono"
-            placeholder="+47 XXX XX XXX"
-            autocomplete="tel"
-            required
-          />
-          <p style="font-size:0.75rem;color:var(--color-text-muted);margin-top:0.5rem">
-            Used only for aurora alerts. Nothing else, ever.
-          </p>
-        </div>
-
 
         <!-- Terms & Checkout -->
         <div class="card card--elevated animate-slide-up-delayed-3" style="padding:1.5rem">
@@ -1827,15 +1806,6 @@
         alert("Please configure your Stripe link.");
         return;
       }
-      // In production: pass phone number to your backend → Stripe metadata
-      const phone = phoneInput.value.trim();
-      if (!phone) {
-        phoneInput.focus();
-        phoneInput.style.borderColor = '#f87171';
-        return;
-      }
-      window.location.href = STRIPE_LINK;
-    }
 
     // --- Event Delegation (no inline onclick) ---
     document.addEventListener('click', (e) => {
