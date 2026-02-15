@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Confirmed — Aurora Real Time</title>
+  <meta name="description" content="Your Aurora Real Time alerts are now active. You'll receive SMS notifications when Northern Lights are visible in Tromsø.">
+  <meta name="theme-color" content="#0a0f1a">
+  <meta name="robots" content="noindex">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --color-bg-primary: #0a0f1a;
+      --color-bg-secondary: #0d1929;
+      --color-bg-card: rgba(255, 255, 255, 0.04);
+      --color-border: rgba(255, 255, 255, 0.08);
+      --color-border-hover: rgba(255, 255, 255, 0.15);
+      --color-green-primary: #22c55e;
+      --color-green-dark: #16a34a;
+      --color-green-glow: rgba(34, 197, 94, 0.4);
+      --color-teal: #2dd4bf;
+      --color-text-primary: #f1f5f9;
+      --color-text-secondary: #94a3b8;
+      --color-text-muted: #64748b;
+      --font-heading: 'Space Grotesk', system-ui, sans-serif;
+      --font-body: 'Outfit', system-ui, sans-serif;
+      --radius-lg: 1rem;
+      --radius-xl: 1.25rem;
+      --radius-2xl: 1.5rem;
+      --radius-3xl: 2rem;
+      --transition-smooth: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--color-bg-primary);
+      color: var(--color-text-primary);
+      overflow-x: hidden;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--color-green-primary);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    :focus:not(:focus-visible) { outline: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* ========================================
+       BACKGROUND & ATMOSPHERE
+       ======================================== */
+    .aurora-bg {
+      background: linear-gradient(135deg,
+        var(--color-bg-primary) 0%,
+        var(--color-bg-secondary) 25%,
+        #0a1628 50%,
+        #061220 75%,
+        #040810 100%
+      );
+    }
+
+    .aurora-glow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60%;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% 10%, rgba(34, 197, 94, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 40% at 60% 15%, rgba(34, 197, 94, 0.12) 0%, transparent 45%),
+        radial-gradient(ellipse 70% 35% at 80% 20%, rgba(45, 212, 191, 0.08) 0%, transparent 40%);
+      filter: blur(40px);
+      animation: aurora-pulse 8s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes aurora-pulse {
+      0%, 100% { opacity: 0.8; transform: translateY(0) scale(1); }
+      50% { opacity: 1; transform: translateY(-10px) scale(1.02); }
+    }
+
+    .aurora-streaks {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 50%;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .streak {
+      position: absolute;
+      width: 2px;
+      background: linear-gradient(180deg,
+        rgba(34, 197, 94, 0.5) 0%,
+        rgba(34, 197, 94, 0.15) 50%,
+        transparent 100%
+      );
+      filter: blur(1px);
+      animation: streak-fall 4s ease-in-out infinite;
+    }
+
+    @keyframes streak-fall {
+      0% { transform: translateY(-100%) scaleY(0.5); opacity: 0; }
+      20% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { transform: translateY(200%) scaleY(1.5); opacity: 0; }
+    }
+
+    .stars {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 3s ease-in-out infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 1; }
+    }
+
+    .mountains {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 25%;
+      pointer-events: none;
+    }
+
+    /* ========================================
+       GLASS CARD
+       ======================================== */
+    .glass-card {
+      background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.07) 0%,
+        rgba(255, 255, 255, 0.02) 100%
+      );
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-3xl);
+      box-shadow:
+        0 25px 50px -12px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+        0 0 80px rgba(34, 197, 94, 0.08);
+    }
+
+    /* ========================================
+       CHECKMARK
+       ======================================== */
+    .checkmark-container {
+      position: relative;
+      width: 100px;
+      height: 100px;
+    }
+
+    .checkmark-glow {
+      position: absolute;
+      inset: -20px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(34, 197, 94, 0.3) 0%, transparent 70%);
+      filter: blur(15px);
+      animation: glow-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes glow-pulse {
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.1); }
+    }
+
+    .checkmark-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 2px solid rgba(34, 197, 94, 0.25);
+      animation: ring-pulse 2s ease-in-out infinite;
+    }
+
+    .checkmark-ring-outer {
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      border: 1px solid rgba(34, 197, 94, 0.12);
+      animation: ring-pulse 2s ease-in-out infinite 0.3s;
+    }
+
+    @keyframes ring-pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.6; }
+    }
+
+    .checkmark-icon {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--color-green-primary) 0%, var(--color-green-dark) 100%);
+      border-radius: 50%;
+      box-shadow:
+        0 10px 30px rgba(34, 197, 94, 0.4),
+        0 0 20px rgba(34, 197, 94, 0.15) inset;
+    }
+
+    .checkmark-svg {
+      width: 48px;
+      height: 48px;
+      stroke: white;
+      stroke-width: 3;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .checkmark-path {
+      stroke-dasharray: 60;
+      stroke-dashoffset: 60;
+      animation: checkmark-draw 0.8s ease-out 0.5s forwards;
+    }
+
+    @keyframes checkmark-draw {
+      to { stroke-dashoffset: 0; }
+    }
+
+    /* ========================================
+       TYPOGRAPHY & COMPONENTS
+       ======================================== */
+    .success-title {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: clamp(2rem, 6vw, 2.75rem);
+      color: var(--color-green-primary);
+      text-shadow:
+        0 0 20px rgba(34, 197, 94, 0.4),
+        0 0 40px rgba(34, 197, 94, 0.2);
+      line-height: 1.1;
+    }
+
+    .success-subtitle {
+      font-family: var(--font-heading);
+      font-weight: 500;
+      font-size: 1.125rem;
+      color: var(--color-text-primary);
+    }
+
+    .success-desc {
+      color: var(--color-text-secondary);
+      font-size: 0.9375rem;
+      line-height: 1.7;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    .detail-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--color-text-muted);
+      margin-bottom: 0.25rem;
+    }
+
+    .detail-value {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 0.9375rem;
+      color: var(--color-text-primary);
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 0.5rem;
+      height: 0.5rem;
+      background: var(--color-green-primary);
+      border-radius: 50%;
+      animation: glow-pulse 2s ease-in-out infinite;
+      margin-right: 0.5rem;
+      vertical-align: middle;
+    }
+
+    /* ========================================
+       WHAT HAPPENS NEXT
+       ======================================== */
+    .next-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      text-align: left;
+    }
+
+    .next-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.875rem;
+    }
+
+    .next-step__icon {
+      flex-shrink: 0;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 0.625rem;
+      background: rgba(34, 197, 94, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0.125rem;
+    }
+
+    .next-step__text {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      line-height: 1.55;
+    }
+
+    .next-step__text strong {
+      color: var(--color-text-primary);
+      font-weight: 600;
+    }
+
+    /* ========================================
+       CTA BUTTON
+       ======================================== */
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 1rem;
+      border-radius: var(--radius-xl);
+      background: linear-gradient(135deg, var(--color-green-primary) 0%, var(--color-green-dark) 100%);
+      color: #fff;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 1.0625rem;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(34, 197, 94, 0.3);
+      transition: all var(--transition-smooth);
+    }
+
+    .btn-cta:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 15px 40px rgba(34, 197, 94, 0.4),
+        0 0 30px rgba(34, 197, 94, 0.2);
+    }
+
+    .btn-cta:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.875rem;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--color-border);
+      color: var(--color-text-primary);
+      font-family: var(--font-heading);
+      font-weight: 500;
+      font-size: 0.9375rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all var(--transition-smooth);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--color-border-hover);
+    }
+
+    /* ========================================
+       NAV BRAND (reused from main site)
+       ======================================== */
+    .nav__brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.625rem;
+      text-decoration: none;
+      color: var(--color-text-primary);
+    }
+
+    .nav__brand-name {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 1.125rem;
+    }
+
+    /* ========================================
+       FOOTER
+       ======================================== */
+    .footer {
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+    }
+
+    .footer a {
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      transition: color 200ms ease;
+    }
+
+    .footer a:hover {
+      color: var(--color-text-primary);
+    }
+
+    /* ========================================
+       ANIMATIONS
+       ======================================== */
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-up {
+      animation: fade-up 0.7s ease-out forwards;
+    }
+
+    .fade-up-d1 { opacity: 0; animation: fade-up 0.7s ease-out 0.15s forwards; }
+    .fade-up-d2 { opacity: 0; animation: fade-up 0.7s ease-out 0.3s forwards; }
+    .fade-up-d3 { opacity: 0; animation: fade-up 0.7s ease-out 0.45s forwards; }
+    .fade-up-d4 { opacity: 0; animation: fade-up 0.7s ease-out 0.6s forwards; }
+    .fade-up-d5 { opacity: 0; animation: fade-up 0.7s ease-out 0.75s forwards; }
+  </style>
+</head>
+<body class="aurora-bg" style="min-height:100%">
+
+  <div style="position:relative;min-height:100vh;overflow:hidden;display:flex;flex-direction:column">
+
+    <!-- Atmosphere -->
+    <div class="stars" aria-hidden="true">
+      <div class="star" style="top:5%;left:10%;animation-delay:0s"></div>
+      <div class="star" style="top:12%;left:25%;animation-delay:0.5s"></div>
+      <div class="star" style="top:8%;left:45%;animation-delay:1s"></div>
+      <div class="star" style="top:15%;left:65%;animation-delay:1.5s"></div>
+      <div class="star" style="top:6%;left:80%;animation-delay:2s"></div>
+      <div class="star" style="top:20%;left:15%;animation-delay:0.3s"></div>
+      <div class="star" style="top:18%;left:55%;animation-delay:0.8s"></div>
+      <div class="star" style="top:10%;left:90%;animation-delay:1.3s"></div>
+      <div class="star" style="top:25%;left:35%;animation-delay:1.8s"></div>
+      <div class="star" style="top:22%;left:75%;animation-delay:2.3s"></div>
+    </div>
+
+    <div class="aurora-glow" aria-hidden="true"></div>
+
+    <div class="aurora-streaks" aria-hidden="true">
+      <div class="streak" style="left:15%;height:120px;animation-delay:0s"></div>
+      <div class="streak" style="left:25%;height:100px;animation-delay:0.5s"></div>
+      <div class="streak" style="left:40%;height:140px;animation-delay:1s"></div>
+      <div class="streak" style="left:55%;height:90px;animation-delay:1.5s"></div>
+      <div class="streak" style="left:70%;height:110px;animation-delay:2s"></div>
+      <div class="streak" style="left:85%;height:130px;animation-delay:2.5s"></div>
+    </div>
+
+    <div class="mountains" aria-hidden="true">
+      <svg viewBox="0 0 1440 320" preserveAspectRatio="none" style="position:absolute;bottom:0;left:0;right:0;height:100%">
+        <path fill="#0a0f1a" fill-opacity="0.9" d="M0,320 L0,200 Q100,150 200,180 Q350,100 500,160 Q600,120 720,140 Q850,80 1000,130 Q1100,100 1200,150 Q1350,90 1440,140 L1440,320 Z"/>
+        <path fill="#0a0f1a" d="M0,320 L0,240 Q200,210 400,230 Q600,200 800,220 Q1000,195 1200,215 Q1350,205 1440,220 L1440,320 Z"/>
+      </svg>
+    </div>
+
+    <!-- Main content -->
+    <main style="position:relative;z-index:10;flex:1;display:flex;align-items:center;justify-content:center;padding:3rem 1.5rem">
+      <div style="width:100%;max-width:28rem">
+
+        <!-- Logo -->
+        <div style="text-align:center;margin-bottom:2rem" class="fade-up">
+          <a href="index.html" class="nav__brand" style="display:inline-flex">
+            <svg width="32" height="32" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+              <path d="M5 32 L20 12 L35 32" stroke="url(#s-line)" stroke-width="2" fill="none"/>
+              <path d="M8 28 Q20 5 32 28" stroke="#22c55e" stroke-width="3" fill="none" opacity="0.8"/>
+              <path d="M12 25 Q20 8 28 25" stroke="#2dd4bf" stroke-width="2" fill="none" opacity="0.6"/>
+              <defs>
+                <linearGradient id="s-line" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#22c55e"/>
+                  <stop offset="100%" stop-color="#2dd4bf"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <span class="nav__brand-name">Aurora Real Time</span>
+          </a>
+        </div>
+
+        <!-- Card -->
+        <article class="glass-card" style="padding:2.5rem 2rem;text-align:center">
+
+          <!-- Checkmark -->
+          <div style="display:flex;justify-content:center;margin-bottom:2rem" class="fade-up-d1">
+            <div class="checkmark-container">
+              <div class="checkmark-glow"></div>
+              <div class="checkmark-ring-outer"></div>
+              <div class="checkmark-ring"></div>
+              <div class="checkmark-icon">
+                <svg class="checkmark-svg" viewBox="0 0 56 56" aria-hidden="true">
+                  <path class="checkmark-path" d="M14 28 L24 38 L42 18"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Title -->
+          <h1 class="success-title fade-up-d2" style="margin-bottom:0.5rem">You're All Set!</h1>
+          <p class="success-subtitle fade-up-d2" style="margin-bottom:0.75rem">Your aurora alerts are active</p>
+          <p class="success-desc fade-up-d2" style="margin-bottom:2rem">
+            You'll receive an SMS the moment our AI confirms Northern Lights are visible in Tromsø. Keep your phone nearby during evening hours.
+          </p>
+
+          <!-- Divider -->
+          <div class="divider fade-up-d3" style="margin-bottom:1.5rem" aria-hidden="true"></div>
+
+          <!-- Details -->
+          <div class="detail-grid fade-up-d3" style="margin-bottom:1.5rem">
+            <div style="text-align:left">
+              <p class="detail-label">Status</p>
+              <p class="detail-value"><span class="status-dot"></span>Active</p>
+            </div>
+            <div style="text-align:right">
+              <p class="detail-label">Pass</p>
+              <p class="detail-value">5-Day Alerts</p>
+            </div>
+            <div style="text-align:left">
+              <p class="detail-label">Monitoring</p>
+              <p class="detail-value">6 PM – 12 AM</p>
+            </div>
+            <div style="text-align:right">
+              <p class="detail-label">Delivery</p>
+              <p class="detail-value">SMS</p>
+            </div>
+          </div>
+
+          <!-- Divider -->
+          <div class="divider fade-up-d3" style="margin-bottom:1.5rem" aria-hidden="true"></div>
+
+          <!-- What happens next -->
+          <div class="next-steps fade-up-d4" style="margin-bottom:2rem">
+            <p class="detail-label" style="text-align:left;margin-bottom:0.25rem">What happens next</p>
+
+            <div class="next-step">
+              <div class="next-step__icon">
+                <svg width="14" height="14" fill="none" stroke="#22c55e" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+              </div>
+              <p class="next-step__text"><strong>Alerts start immediately.</strong> Our AI is already monitoring the Tromsø sky for you.</p>
+            </div>
+
+            <div class="next-step">
+              <div class="next-step__icon">
+                <svg width="14" height="14" fill="none" stroke="#22c55e" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <p class="next-step__text"><strong>Head outside when you get an SMS.</strong> Aurora is confirmed visible from Tromsø at that moment.</p>
+            </div>
+
+            <div class="next-step">
+              <div class="next-step__icon">
+                <svg width="14" height="14" fill="none" stroke="#22c55e" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+              <p class="next-step__text"><strong>5 days of coverage.</strong> Your pass expires automatically — no subscription to cancel.</p>
+            </div>
+          </div>
+
+          <!-- Buttons -->
+          <div class="fade-up-d5" style="display:flex;flex-direction:column;gap:0.75rem">
+            <a href="map.html" class="btn-cta">
+              Explore Viewing Spots
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+            <a href="index.html" class="btn-secondary">Back to Home</a>
+          </div>
+
+          <p style="margin-top:1.25rem;font-size:0.8125rem;color:var(--color-text-muted)">
+            Stripe receipt sent to your email
+          </p>
+        </article>
+
+        <!-- Footer -->
+        <footer class="footer" style="text-align:center;margin-top:2rem;padding-bottom:1.5rem">
+          <p style="margin-bottom:0.25rem">
+            <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="mailto:support@aurorarealtime.com">Contact</a>
+          </p>
+          <p>© 2025 Aurora Real Time. Tromsø, Norway.</p>
+        </footer>
+
+      </div>
+    </main>
+  </div>
+
+</body>
+</html>
