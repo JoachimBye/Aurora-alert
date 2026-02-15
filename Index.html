@@ -27,9 +27,9 @@
       --color-teal: #2dd4bf;
       --color-purple: #8b5cf6;
       --color-text-primary: #f1f5f9;
-      --color-text-secondary: #94a3b8;  /* slate-400: 5.6:1 on bg */
-      --color-text-tertiary: #94a3b8;   /* same — never go below this */
-      --color-text-muted: #64748b;       /* Only for decorative/non-essential text at >=18px */
+      --color-text-secondary: #94a3b8;
+      --color-text-tertiary: #94a3b8;
+      --color-text-muted: #64748b;
       --color-red-muted: #f87171;
       --font-heading: 'Space Grotesk', system-ui, sans-serif;
       --font-body: 'Outfit', system-ui, sans-serif;
@@ -83,7 +83,6 @@
       }
     }
 
-    /* Skip link for keyboard users */
     .skip-link {
       position: absolute;
       top: -100%;
@@ -527,6 +526,270 @@
     }
 
     /* ========================================
+       COMPONENTS: Camera Comparison
+       ======================================== */
+    .camera-card {
+      background: var(--color-bg-card);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-2xl);
+      overflow: hidden;
+      transition: border-color var(--transition-smooth);
+    }
+
+    .camera-card:hover {
+      border-color: var(--color-border-hover);
+    }
+
+    .camera-card--active {
+      border-color: rgba(34, 197, 94, 0.25);
+    }
+
+    .camera-card__image-wrap {
+      position: relative;
+      background: #000;
+      overflow: hidden;
+    }
+
+    .camera-card__image {
+      width: 100%;
+      height: auto;
+      display: block;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+    }
+
+    .camera-card__badge {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      padding: 0.375rem 0.75rem;
+      border-radius: var(--radius-lg);
+      font-size: 0.75rem;
+      font-weight: 600;
+      backdrop-filter: blur(8px);
+    }
+
+    .camera-card__badge--inactive {
+      background: rgba(0, 0, 0, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--color-text-muted);
+    }
+
+    .camera-card__badge--active {
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      color: var(--color-green-primary);
+    }
+
+    .camera-card__meta {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0.625rem 0.875rem;
+      background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, transparent 100%);
+      font-size: 0.6875rem;
+      font-family: var(--font-mono);
+      color: rgba(255, 255, 255, 0.5);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .camera-card__body {
+      padding: 1.25rem;
+    }
+
+    .camera-card__title {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .camera-card__desc {
+      color: var(--color-text-secondary);
+      font-size: 0.875rem;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    @media (max-width: 480px) {
+      .camera-card__body { padding: 1rem; }
+      .camera-card__title { font-size: 0.9375rem; }
+      .camera-card__desc { font-size: 0.8125rem; }
+      .camera-card__meta { font-size: 0.625rem; }
+    }
+
+    /* ========================================
+       COMPONENTS: FAQ Accordion
+       ======================================== */
+    .faq-item {
+      background: var(--color-bg-card);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-2xl);
+      padding: 1.5rem;
+      transition: border-color var(--transition-smooth);
+    }
+
+    .faq-item:hover {
+      border-color: var(--color-border-hover);
+    }
+
+    .faq-item summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      cursor: pointer;
+      list-style: none;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 1.0625rem;
+      line-height: 1.4;
+    }
+
+    .faq-item summary::-webkit-details-marker { display: none; }
+
+    .faq-item summary .faq-chevron {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      color: var(--color-text-secondary);
+      transition: transform var(--transition-smooth);
+    }
+
+    .faq-item[open] summary .faq-chevron {
+      transform: rotate(180deg);
+    }
+
+    .faq-item .faq-answer {
+      color: var(--color-text-secondary);
+      font-size: 0.9375rem;
+      line-height: 1.75;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--color-border);
+    }
+
+    @media (max-width: 480px) {
+      .faq-item { padding: 1.25rem; }
+      .faq-item summary { font-size: 0.9375rem; }
+      .faq-item .faq-answer { font-size: 0.875rem; }
+    }
+
+    /* ========================================
+       COMPONENTS: Map Promo Banner
+       ======================================== */
+    .map-promo {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.06) 0%, rgba(34, 197, 94, 0.04) 100%);
+      border: 1px solid rgba(45, 212, 191, 0.15);
+      border-radius: var(--radius-2xl);
+      padding: 2rem 2.25rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      transition: border-color var(--transition-smooth);
+    }
+
+    .map-promo:hover {
+      border-color: rgba(45, 212, 191, 0.3);
+    }
+
+    .map-promo::before {
+      content: '';
+      position: absolute;
+      top: -40%;
+      right: -10%;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(45, 212, 191, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .map-promo__icon {
+      flex-shrink: 0;
+      width: 3.5rem;
+      height: 3.5rem;
+      border-radius: var(--radius-xl);
+      background: rgba(45, 212, 191, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .map-promo__content {
+      flex: 1;
+      min-width: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .map-promo__title {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 1.125rem;
+      margin-bottom: 0.375rem;
+    }
+
+    .map-promo__desc {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      line-height: 1.55;
+    }
+
+    .map-promo__link {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.625rem 1.25rem;
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(45, 212, 191, 0.25);
+      background: rgba(45, 212, 191, 0.08);
+      color: var(--color-teal);
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 0.875rem;
+      text-decoration: none;
+      transition: all var(--transition-smooth);
+      white-space: nowrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .map-promo__link:hover {
+      background: rgba(45, 212, 191, 0.15);
+      border-color: rgba(45, 212, 191, 0.4);
+      transform: translateX(2px);
+    }
+
+    .map-promo__link svg {
+      transition: transform var(--transition-smooth);
+    }
+
+    .map-promo:hover .map-promo__link svg {
+      transform: translateX(3px);
+    }
+
+    @media (max-width: 640px) {
+      .map-promo {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1.5rem;
+        gap: 1.25rem;
+      }
+      .map-promo__link {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    /* ========================================
        SECTION UTILITIES
        ======================================== */
     .section {
@@ -849,179 +1112,6 @@
     }
 
     /* ========================================
-       COMPONENTS: Camera Comparison
-       ======================================== */
-    .camera-card {
-      background: var(--color-bg-card);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-2xl);
-      overflow: hidden;
-      transition: border-color var(--transition-smooth);
-    }
-
-    .camera-card:hover {
-      border-color: var(--color-border-hover);
-    }
-
-    .camera-card--active {
-      border-color: rgba(34, 197, 94, 0.25);
-    }
-
-    .camera-card__image-wrap {
-      position: relative;
-      background: #000;
-      overflow: hidden;
-    }
-
-    .camera-card__image {
-      width: 100%;
-      height: auto;
-      display: block;
-      aspect-ratio: 16 / 10;
-      object-fit: cover;
-    }
-
-    .camera-card__badge {
-      position: absolute;
-      top: 0.75rem;
-      right: 0.75rem;
-      padding: 0.375rem 0.75rem;
-      border-radius: var(--radius-lg);
-      font-size: 0.75rem;
-      font-weight: 600;
-      backdrop-filter: blur(8px);
-    }
-
-    .camera-card__badge--inactive {
-      background: rgba(0, 0, 0, 0.65);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: var(--color-text-muted);
-    }
-
-    .camera-card__badge--active {
-      background: rgba(34, 197, 94, 0.15);
-      border: 1px solid rgba(34, 197, 94, 0.3);
-      color: var(--color-green-primary);
-    }
-
-    .camera-card__meta {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 0.625rem 0.875rem;
-      background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, transparent 100%);
-      font-size: 0.6875rem;
-      font-family: var(--font-mono);
-      color: rgba(255, 255, 255, 0.5);
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .camera-card__body {
-      padding: 1.25rem;
-    }
-
-    .camera-card__title {
-      font-family: var(--font-heading);
-      font-weight: 600;
-      font-size: 1rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .camera-card__desc {
-      color: var(--color-text-secondary);
-      font-size: 0.875rem;
-      line-height: 1.6;
-      margin: 0;
-    }
-
-    @media (max-width: 480px) {
-      .camera-card__body {
-        padding: 1rem;
-      }
-
-      .camera-card__title {
-        font-size: 0.9375rem;
-      }
-
-      .camera-card__desc {
-        font-size: 0.8125rem;
-      }
-
-      .camera-card__meta {
-        font-size: 0.625rem;
-      }
-    }
-
-    /* ========================================
-       COMPONENTS: FAQ Accordion
-       ======================================== */
-    .faq-item {
-      background: var(--color-bg-card);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-2xl);
-      padding: 1.5rem;
-      transition: border-color var(--transition-smooth);
-    }
-
-    .faq-item:hover {
-      border-color: var(--color-border-hover);
-    }
-
-    .faq-item summary {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      cursor: pointer;
-      list-style: none;
-      font-family: var(--font-heading);
-      font-weight: 600;
-      font-size: 1.0625rem;
-      line-height: 1.4;
-    }
-
-    .faq-item summary::-webkit-details-marker { display: none; }
-
-    .faq-item summary .faq-chevron {
-      flex-shrink: 0;
-      width: 20px;
-      height: 20px;
-      color: var(--color-text-secondary);
-      transition: transform var(--transition-smooth);
-    }
-
-    .faq-item[open] summary .faq-chevron {
-      transform: rotate(180deg);
-    }
-
-    .faq-item .faq-answer {
-      color: var(--color-text-secondary);
-      font-size: 0.9375rem;
-      line-height: 1.75;
-      margin-top: 1rem;
-      padding-top: 1rem;
-      border-top: 1px solid var(--color-border);
-    }
-
-    @media (max-width: 480px) {
-      .faq-item {
-        padding: 1.25rem;
-      }
-
-      .faq-item summary {
-        font-size: 0.9375rem;
-      }
-
-      .faq-item .faq-answer {
-        font-size: 0.875rem;
-      }
-    }
-
-    /* ========================================
        UTILITY
        ======================================== */
     .text-green { color: var(--color-green-primary); }
@@ -1037,13 +1127,6 @@
     .relative { position: relative; }
     .z-10 { z-index: 10; }
     .mx-auto { margin-inline: auto; }
-    .mb-4 { margin-bottom: 1rem; }
-    .mb-8 { margin-bottom: 2rem; }
-    .mb-12 { margin-bottom: 3rem; }
-    .mt-2 { margin-top: 0.5rem; }
-    .mt-4 { margin-top: 1rem; }
-    .mt-6 { margin-top: 1.5rem; }
-    .gap-6 { gap: 1.5rem; }
   </style>
   <link rel="dns-prefetch" href="https://buy.stripe.com">
   <link rel="preconnect" href="https://buy.stripe.com" crossorigin>
@@ -1076,7 +1159,6 @@
   <div id="app-wrapper">
     <!-- ======================== LANDING PAGE ======================== -->
     <div id="landing-page">
-      <!-- Stars -->
       <div class="stars" aria-hidden="true">
         <div class="star" style="top:8%;left:12%;animation-delay:0s"></div>
         <div class="star" style="top:18%;left:78%;animation-delay:0.5s"></div>
@@ -1094,7 +1176,7 @@
       <div class="aurora-glow" aria-hidden="true"></div>
 
       <div class="relative z-10">
-        <!-- NAV -->
+        <!-- NAV — CHANGED: replaced Technology with Viewing Map -->
         <nav class="nav" aria-label="Main navigation">
           <div class="container">
             <div class="nav__inner">
@@ -1114,7 +1196,7 @@
               </a>
               <ul class="nav__links" role="list">
                 <li><a href="#how-it-works">How It Works</a></li>
-                <li><a href="#technology">Technology</a></li>
+                <li><a href="map.html">Viewing Map</a></li>
                 <li><a href="#faq-heading">FAQ</a></li>
                 <li><a href="#pricing">Pricing</a></li>
               </ul>
@@ -1148,7 +1230,7 @@
               <span class="hero__cta-note">One time payment · 5 days of alerts</span>
             </div>
 
-            <!-- Notification Preview: This is what you're buying -->
+            <!-- Notification Preview -->
             <div class="notification-demo animate-slide-up-delayed-2">
               <p class="notification-demo__phone-label" aria-hidden="true">What you'll receive</p>
               <div class="notification-preview animate-float" role="img" aria-label="Example SMS notification: Northern Lights visible now in Tromsø, clear skies, strong activity">
@@ -1173,7 +1255,7 @@
               </div>
             </div>
 
-            <!-- Social Proof: Stats -->
+            <!-- Stats -->
             <div class="animate-slide-up-delayed-3" style="max-width:28rem;margin:2.5rem auto 0">
               <div class="stats-grid">
                 <div>
@@ -1182,7 +1264,7 @@
                 </div>
                 <div>
                   <div class="stat__number">90%</div>
-                  <div class="stat__label">Accuracy </div>
+                  <div class="stat__label">Accuracy</div>
                 </div>
                 <div>
                   <div class="stat__number">60 min</div>
@@ -1201,7 +1283,6 @@
               </div>
 
               <div class="grid-2">
-                <!-- Traditional Apps -->
                 <div class="card card--red-border" style="padding:2rem">
                   <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem">
                     <div class="icon-box icon-box--red">
@@ -1231,7 +1312,6 @@
                   </div>
                 </div>
 
-                <!-- Aurora Real Time -->
                 <div class="card card--green-border" style="padding:2rem">
                   <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem">
                     <div class="icon-box icon-box--green">
@@ -1274,22 +1354,10 @@
               </div>
 
               <div class="grid-2" style="gap: 1.5rem; max-width: 48rem; margin: 0 auto;">
-
-                <!-- No Aurora -->
                 <div class="camera-card">
                   <div class="camera-card__image-wrap">
-                    <img
-                      src="Nordlysbilde2.jpg"
-                      alt="StormCast camera feed showing a cloudy night sky over Tromsø with no aurora visible"
-                      class="camera-card__image"
-                      loading="lazy"
-                      decoding="async"
-                      width="800"
-                      height="500"
-                    />
-                    <div class="camera-card__badge camera-card__badge--inactive">
-                      ✗ No alert sent
-                    </div>
+                    <img src="Nordlysbilde2.jpg" alt="StormCast camera feed showing a cloudy night sky over Tromsø with no aurora visible" class="camera-card__image" loading="lazy" decoding="async" width="800" height="500" />
+                    <div class="camera-card__badge camera-card__badge--inactive">✗ No alert sent</div>
                     <div class="camera-card__meta">
                       <span>UiT Breivika · Cam-04</span>
                       <span>69.68°N, 18.97°E</span>
@@ -1297,27 +1365,14 @@
                   </div>
                   <div class="camera-card__body">
                     <h3 class="camera-card__title">Cloudy Night</h3>
-                    <p class="camera-card__desc">
-                      AI detected cloud cover. No aurora visible. <strong style="color: var(--color-text-primary)">You sleep peacefully</strong> — no unnecessary wake up.
-                    </p>
+                    <p class="camera-card__desc">AI detected cloud cover. No aurora visible. <strong style="color: var(--color-text-primary)">You sleep peacefully</strong> — no unnecessary wake up.</p>
                   </div>
                 </div>
 
-                <!-- Aurora Detected -->
                 <div class="camera-card camera-card--active">
                   <div class="camera-card__image-wrap">
-                    <img
-                      src="nordlysbilde1.jpeg"
-                      alt="StormCast camera feed showing green Northern Lights visible over Tromsø"
-                      class="camera-card__image"
-                      loading="lazy"
-                      decoding="async"
-                      width="800"
-                      height="500"
-                    />
-                    <div class="camera-card__badge camera-card__badge--active">
-                      ✓ Alert triggered
-                    </div>
+                    <img src="nordlysbilde1.jpeg" alt="StormCast camera feed showing green Northern Lights visible over Tromsø" class="camera-card__image" loading="lazy" decoding="async" width="800" height="500" />
+                    <div class="camera-card__badge camera-card__badge--active">✓ Alert triggered</div>
                     <div class="camera-card__meta">
                       <span>UiT Breivika · Cam-04</span>
                       <span>69.68°N, 18.97°E</span>
@@ -1325,12 +1380,9 @@
                   </div>
                   <div class="camera-card__body">
                     <h3 class="camera-card__title">Aurora Detected</h3>
-                    <p class="camera-card__desc">
-                      AI confirmed visible aurora. <strong style="color: var(--color-green-primary)">SMS sent immediately</strong>. You're outside in 3 minutes.
-                    </p>
+                    <p class="camera-card__desc">AI confirmed visible aurora. <strong style="color: var(--color-green-primary)">SMS sent immediately</strong>. You're outside in 3 minutes.</p>
                   </div>
                 </div>
-
               </div>
 
               <p class="text-center" style="margin-top: 1.5rem; font-size: 0.8125rem; color: var(--color-text-muted);">
@@ -1383,7 +1435,6 @@
               <!-- UiT attribution -->
               <div class="card" style="padding:1.5rem;display:flex;flex-direction:column;align-items:center;gap:1.25rem;text-align:center">
                 <div style="display:flex;flex-direction:column;align-items:center;gap:0.5rem">
-                  <!-- Placeholder for UiT logo — replace src with actual logo -->
                   <div class="icon-box" style="width:4rem;height:4rem;background:rgba(255,255,255,0.06);border-radius:0.75rem">
                     <svg width="28" height="28" viewBox="0 0 40 40" fill="#94a3b8" aria-hidden="true">
                       <path d="M20 4C11.16 4 4 11.16 4 20C4 28.84 11.16 36 20 36C28.84 36 36 28.84 36 20C36 11.16 28.84 4 20 4ZM20 8C26.63 8 32 13.37 32 20C32 26.63 26.63 32 20 32C13.37 32 8 26.63 8 20C8 13.37 13.37 8 20 8Z"/>
@@ -1465,6 +1516,24 @@
                     This service currently utilizes open meteorological data (StormCast) and does not claim affiliation with or use restricted data from Tromsø Geophysical Observatory (TGO).
                   </p>
                 </div>
+              </div>
+
+              <!-- ADDED: Map Promo Banner — natural bridge from "where we detect" to "where you should go" -->
+              <div class="map-promo" style="margin-top: 2.5rem;">
+                <div class="map-promo__icon" aria-hidden="true">
+                  <svg width="24" height="24" fill="none" stroke="#2dd4bf" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/>
+                    <circle cx="12" cy="10" r="3" stroke-width="2"/>
+                  </svg>
+                </div>
+                <div class="map-promo__content">
+                  <h3 class="map-promo__title">Not sure where to go?</h3>
+                  <p class="map-promo__desc">Explore our curated map of the best dark-sky viewing spots around Tromsø, with darkness ratings, transport info, and light pollution zones.</p>
+                </div>
+                <a href="map.html" class="map-promo__link">
+                  Viewing Map
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </a>
               </div>
             </div>
           </section>
@@ -1557,27 +1626,19 @@
 
                 <div style="display:flex;flex-direction:column;gap:0.875rem;max-width:18rem;margin:0 auto 2rem;text-align:left">
                   <div style="display:flex;align-items:center;gap:0.75rem">
-                    <svg width="20" height="20" fill="none" stroke="#22c55e" viewBox="0 0 24 24" style="flex-shrink:0">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                    </svg>
+                    <svg width="20" height="20" fill="none" stroke="#22c55e" viewBox="0 0 24 24" style="flex-shrink:0"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                     <span>Instant SMS notifications</span>
                   </div>
                   <div style="display:flex;align-items:center;gap:0.75rem">
-                    <svg width="20" height="20" fill="none" stroke="#22c55e" viewBox="0 0 24 24" style="flex-shrink:0">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                    </svg>
+                    <svg width="20" height="20" fill="none" stroke="#22c55e" viewBox="0 0 24 24" style="flex-shrink:0"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                     <span>60 minute monitoring cycles</span>
                   </div>
                   <div style="display:flex;align-items:center;gap:0.75rem">
-                    <svg width="20" height="20" fill="none" stroke="#22c55e" viewBox="0 0 24 24" style="flex-shrink:0">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                    </svg>
+                    <svg width="20" height="20" fill="none" stroke="#22c55e" viewBox="0 0 24 24" style="flex-shrink:0"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                     <span>Only alerts for visible aurora</span>
                   </div>
                   <div style="display:flex;align-items:center;gap:0.75rem">
-                    <svg width="20" height="20" fill="none" stroke="#22c55e" viewBox="0 0 24 24" style="flex-shrink:0">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                    </svg>
+                    <svg width="20" height="20" fill="none" stroke="#22c55e" viewBox="0 0 24 24" style="flex-shrink:0"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                     <span>No subscription, one time purchase</span>
                   </div>
                 </div>
@@ -1597,7 +1658,7 @@
           </section>
         </main>
 
-        <!-- FOOTER -->
+        <!-- FOOTER — CHANGED: added Viewing Map link -->
         <footer class="footer">
           <div class="container">
             <div class="footer__top">
@@ -1612,9 +1673,10 @@
                 <p style="font-size:0.875rem;color:var(--color-text-secondary);margin-top:0.25rem">Tromsø, Norway</p>
               </div>
               <nav class="footer__links" aria-label="Footer navigation">
+                <a href="map.html">Viewing Map</a>
                 <a href="/privacy">Privacy Policy</a>
                 <a href="/terms">Terms of Service</a>
-                <a href="/cdn-cgi/l/email-protection#84f7f1f4f4ebf6f0c4e5f1f6ebf6e5f6e1e5e8f0ede9e1aae7ebe9">Contact</a>
+                <a href="mailto:support@aurorarealtime.com">Contact</a>
               </nav>
             </div>
             <div class="footer__bottom">
@@ -1645,8 +1707,6 @@
       <div class="aurora-glow" aria-hidden="true"></div>
 
       <div class="relative z-10" style="padding:3rem 1.5rem;max-width:32rem;margin:0 auto">
-        
-        <!-- Header: clear, honest -->
         <div class="text-center animate-slide-up" style="margin-bottom:2rem">
           <h1 id="reg-heading" class="font-heading" style="font-size:clamp(1.75rem,5vw,2.25rem);font-weight:700;margin-bottom:0.75rem">
             Complete Your Purchase
@@ -1656,7 +1716,6 @@
           </p>
         </div>
 
-        <!-- Order Summary -->
         <div class="card card--elevated animate-slide-up-delayed" style="padding:1.5rem;margin-bottom:1.5rem">
           <h2 class="font-heading" style="font-weight:600;font-size:1rem;margin-bottom:0.75rem">Your order</h2>
           <div class="order-row">
@@ -1673,8 +1732,6 @@
           </div>
         </div>
 
-
-        <!-- Terms & Checkout -->
         <div class="card card--elevated animate-slide-up-delayed-3" style="padding:1.5rem">
           <div style="margin-bottom:1.25rem">
             <label class="checkbox-wrapper">
@@ -1756,14 +1813,12 @@
     const termsCheckbox = document.getElementById('terms-checkbox');
     const stripeBtn = document.getElementById('stripe-btn');
     const appWrapper = document.getElementById('app-wrapper');
-    // FJERNET: const phoneInput... (Dette elementet finnes ikke i HTML-en din)
 
     // --- Navigation ---
     function openRegistration() {
       landingPage.classList.add('hidden');
       registrationPage.classList.add('active');
-      // Prøv å fokusere på checkboxen siden input-feltet mangler
-      if(termsCheckbox) termsCheckbox.focus(); 
+      if(termsCheckbox) termsCheckbox.focus();
       window.scrollTo(0, 0);
     }
 
@@ -1772,11 +1827,10 @@
       registrationPage.classList.remove('active');
     }
 
-    // --- Terms Modal (with focus trapping) ---
+    // --- Terms Modal ---
     function openTermsModal() {
       termsModal.classList.add('active');
       document.body.style.overflow = 'hidden';
-      // Focus first actionable element
       const acceptBtn = termsModal.querySelector('[data-action="accept-terms"]');
       if(acceptBtn) acceptBtn.focus();
     }
@@ -1807,28 +1861,19 @@
 
     function goToStripe() {
       if (stripeBtn.disabled) return;
-      
       if (!STRIPE_LINK) {
         alert("Please configure your Stripe link.");
         return;
       }
-      
-      // LAGT TIL: Faktisk omdirigering
       window.location.href = STRIPE_LINK;
-    } 
+    }
 
     // --- Event Delegation ---
     document.addEventListener('click', (e) => {
-      // Finn nærmeste element med data-action attributt
       const target = e.target.closest('[data-action]');
       if (!target) return;
 
       const action = target.getAttribute('data-action');
-      
-      // Forhindre standard link-oppførsel for knapper
-      if(target.tagName === 'A' || target.tagName === 'BUTTON') {
-         // e.preventDefault(); // Valgfritt, avhengig av om du vil ha # i URL
-      }
 
       switch (action) {
         case 'register':
@@ -1850,17 +1895,14 @@
       }
     });
 
-    // Checkbox change
     if(termsCheckbox) {
-        termsCheckbox.addEventListener('change', updateCheckoutButton);
+      termsCheckbox.addEventListener('change', updateCheckoutButton);
     }
 
-    // Stripe button
     if(stripeBtn) {
-        stripeBtn.addEventListener('click', goToStripe);
+      stripeBtn.addEventListener('click', goToStripe);
     }
 
-    // Close modal on Escape
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         if (termsModal.classList.contains('active')) {
@@ -1871,20 +1913,16 @@
       }
     });
 
-    // Close modal on overlay click
     termsModal.addEventListener('click', (e) => {
       if (e.target === termsModal) {
         closeTermsModal();
       }
     });
 
-    // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(link => {
       link.addEventListener('click', (e) => {
         const targetId = link.getAttribute('href');
-        // Unngå feil hvis href er bare "#"
         if(targetId === '#') return;
-        
         const target = document.querySelector(targetId);
         if (target) {
           e.preventDefault();
@@ -1892,4 +1930,6 @@
         }
       });
     });
-</script>
+  </script>
+</body>
+</html>
