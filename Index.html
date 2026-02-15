@@ -790,6 +790,45 @@
     }
 
     /* ========================================
+       COMPONENTS: Stripe Buy Button
+       ======================================== */
+    .stripe-container {
+      width: 100%;
+    }
+
+    .stripe-placeholder {
+      width: 100%;
+      padding: 1rem;
+      border-radius: var(--radius-xl);
+      background: rgba(34, 197, 94, 0.15);
+      color: rgba(255, 255, 255, 0.35);
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 1.0625rem;
+      text-align: center;
+      border: none;
+      cursor: not-allowed;
+      transition: opacity var(--transition-smooth);
+    }
+
+    .stripe-live {
+      display: none;
+      width: 100%;
+    }
+
+    .stripe-live stripe-buy-button {
+      width: 100%;
+    }
+
+    .stripe-container.active .stripe-placeholder {
+      display: none;
+    }
+
+    .stripe-container.active .stripe-live {
+      display: block;
+    }
+
+    /* ========================================
        SECTION UTILITIES
        ======================================== */
     .section {
@@ -1128,8 +1167,7 @@
     .z-10 { z-index: 10; }
     .mx-auto { margin-inline: auto; }
   </style>
-  <link rel="dns-prefetch" href="https://buy.stripe.com">
-  <link rel="preconnect" href="https://buy.stripe.com" crossorigin>
+  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
 
   <script type="application/ld+json">
   {
@@ -1676,7 +1714,7 @@
                 <a href="map.html">Viewing Map</a>
                 <a href="/privacy">Privacy Policy</a>
                 <a href="/terms">Terms of Service</a>
-                <a href="mailto:support@aurorarealtime.com">Contact</a>
+                <a href="/cdn-cgi/l/email-protection#d3a0a6a3a3bca1a793b2a6a1bca1b2a1b6b2bfa7babeb6fdb0bcbe">Contact</a>
               </nav>
             </div>
             <div class="footer__bottom">
@@ -1745,9 +1783,18 @@
             </label>
           </div>
 
-          <button id="stripe-btn" class="btn-primary" disabled style="width:100%;padding:1rem;font-size:1.0625rem">
-            Proceed to Checkout ($7.99)
-          </button>
+          <div class="stripe-container" id="stripe-container">
+            <button class="stripe-placeholder" disabled aria-disabled="true">
+              Accept terms to continue
+            </button>
+            <div class="stripe-live">
+              <stripe-buy-button
+                buy-button-id="buy_btn_1T18PjP3JiOcFGsyqtWF99xT"
+                publishable-key="pk_live_51R562LP3JiOcFGsyDkZLEp76V92YZWzSrSzVhXDEYGbnu9UyV8vpjPdZ70zfzgdlqxE2Tb8QgO51eurDFGeO3tXW00XltsqEzn"
+              >
+              </stripe-buy-button>
+            </div>
+          </div>
 
           <p class="text-center" style="font-size:0.75rem;color:var(--color-text-muted);margin-top:1rem">
             Secure payment via Stripe · No subscription · Instant activation
@@ -1803,16 +1850,12 @@
 
   <!-- ======================== SCRIPTS ======================== -->
   <script>
-    // --- Configuration ---
-    const STRIPE_LINK = "https://buy.stripe.com/00w28t4w7f5dfE5cmQds404";
-
     // --- DOM References ---
     const landingPage = document.getElementById('landing-page');
     const registrationPage = document.getElementById('registration-page');
     const termsModal = document.getElementById('terms-modal');
     const termsCheckbox = document.getElementById('terms-checkbox');
-    const stripeBtn = document.getElementById('stripe-btn');
-    const appWrapper = document.getElementById('app-wrapper');
+    const stripeContainer = document.getElementById('stripe-container');
 
     // --- Navigation ---
     function openRegistration() {
@@ -1846,26 +1889,13 @@
       closeTermsModal();
     }
 
-    // --- Checkout Logic ---
+    // --- Checkout Logic: show/hide Stripe Buy Button ---
     function updateCheckoutButton() {
       if (termsCheckbox.checked) {
-        stripeBtn.disabled = false;
-        stripeBtn.style.opacity = "1";
-        stripeBtn.style.cursor = "pointer";
+        stripeContainer.classList.add('active');
       } else {
-        stripeBtn.disabled = true;
-        stripeBtn.style.opacity = "0.5";
-        stripeBtn.style.cursor = "not-allowed";
+        stripeContainer.classList.remove('active');
       }
-    }
-
-    function goToStripe() {
-      if (stripeBtn.disabled) return;
-      if (!STRIPE_LINK) {
-        alert("Please configure your Stripe link.");
-        return;
-      }
-      window.location.href = STRIPE_LINK;
     }
 
     // --- Event Delegation ---
@@ -1899,10 +1929,6 @@
       termsCheckbox.addEventListener('change', updateCheckoutButton);
     }
 
-    if(stripeBtn) {
-      stripeBtn.addEventListener('click', goToStripe);
-    }
-
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         if (termsModal.classList.contains('active')) {
@@ -1924,12 +1950,3 @@
         const targetId = link.getAttribute('href');
         if(targetId === '#') return;
         const target = document.querySelector(targetId);
-        if (target) {
-          e.preventDefault();
-          target.scrollIntoView({ behavior: 'smooth' });
-        }
-      });
-    });
-  </script>
-</body>
-</html>
