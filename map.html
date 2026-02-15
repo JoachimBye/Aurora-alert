@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Viewing Map, Best Aurora Spots in Tromsø | Aurora Real Time</title>
-  <meta name="description" content="Curated dark-sky viewing locations around Tromsø. Find the best spots to see the Northern Lights, from city-accessible lakes to remote mountain passes.">
+  <title>Viewing Map — Best Aurora Spots in Tromsø | Aurora Real Time</title>
+  <meta name="description" content="15 curated aurora viewing locations around Tromsø. City walks, bus-accessible sites, and remote wilderness corridors with darkness ratings, transport info, and photography tips.">
   <meta name="theme-color" content="#0a0f1a">
 
   <!-- Fonts -->
@@ -848,15 +848,16 @@
         Tromsø Region
       </div>
       <h1>Best Spots for Northern Lights</h1>
-      <p>Curated dark sky locations around Tromsø, from city accessible parks to remote mountain passes with near zero light pollution.</p>
+      <p>15 curated locations across three tiers: walkable city spots, bus-accessible suburban sites, and remote wilderness corridors with near-zero light pollution.</p>
     </section>
 
     <!-- FILTER BAR -->
     <div class="filter-bar animate-in delay-1" role="toolbar" aria-label="Filter map markers">
       <span class="filter-label">Filter:</span>
       <button class="filter-btn active" data-filter="all">All spots</button>
-      <button class="filter-btn" data-filter="dark">Dark sky (4+)</button>
+      <button class="filter-btn" data-filter="walk">Walking distance</button>
       <button class="filter-btn" data-filter="bus">Bus accessible</button>
+      <button class="filter-btn" data-filter="dark">Dark sky (4+)</button>
       <button class="filter-btn" data-filter="remote">Remote</button>
     </div>
 
@@ -949,9 +950,9 @@
   <footer class="footer">
     <div class="footer__inner">
       <nav class="footer__links" aria-label="Footer navigation">
-        <a href="/privacy">Privacy Policy</a>
-        <a href="/terms">Terms of Service</a>
-        <a href="mailto:support@aurorarealtime.com">Contact</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+        <a href="contact.html">Contact</a>
       </nav>
       <div class="footer__copy">
         <p>Data: UiT StormCast (CC BY 4.0) · Not affiliated with TGO · © 2025 Aurora Real Time</p>
@@ -963,54 +964,193 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 
   <script>
-    // ===================== SPOT DATA =====================
+    // ===================== SPOT DATA — 15 locations from research =====================
     var spots = [
+      // ——— Section I: Urban / Walking Distance (Tromsøya) ———
       {
         id: 'prestvannet',
-        name: 'Prestvannet',
-        lat: 69.6606,
-        lng: 18.9186,
-        category: 'In the City',
-        description: 'Bus accessible. The darkest point near the city center. A peaceful lake surrounded by birch trees that block stray light.',
+        name: 'Prestvannet Lake',
+        lat: 69.6609,
+        lng: 18.9371,
+        category: 'Urban · Walk',
+        description: 'Highest point on Tromsøya. A nature reserve with a 2 km trail and unobstructed northern horizon. The frozen lake surface doubles as a reflective foreground in winter.',
         darkness: 2,
-        transport: 'Bus / Car',
+        transport: 'Walk (20–25 min from center)',
         altitude: '100 m',
+        tags: ['walk']
+      },
+      {
+        id: 'telegrafbukta',
+        name: 'Telegrafbukta',
+        lat: 69.6328,
+        lng: 18.9135,
+        category: 'Urban · Walk',
+        description: 'Southwestern coastal beach facing Kvaløya. Best for zenith and southern displays. Fire pits and benches on site for warmth during long waits.',
+        darkness: 2,
+        transport: 'Walk / Bus 33, 34, 40',
+        altitude: 'Sea level',
+        tags: ['walk', 'bus']
+      },
+      {
+        id: 'porten-til-ishavet',
+        name: 'Porten til Ishavet',
+        lat: 69.6521,
+        lng: 18.9645,
+        category: 'Urban · Walk',
+        description: 'Jetty beneath Tromsø Bridge with iconic foreground: Arctic Cathedral, bridge, and mainland mountains. High dynamic range — best for experienced photographers.',
+        darkness: 1,
+        transport: 'Walk (15–20 min from hotels)',
+        altitude: 'Sea level',
+        tags: ['walk']
+      },
+      {
+        id: 'kongsbakken',
+        name: 'Kongsbakken & Parkgata',
+        lat: 69.6508,
+        lng: 18.9502,
+        category: 'Urban · Walk',
+        description: 'Elevated dark pocket above the city center. The hillside blocks harbor lights, giving a clear mainland view. Perfect for a quick check when activity starts unexpectedly.',
+        darkness: 1,
+        transport: 'Walk (5 min from center)',
+        altitude: '50 m',
+        tags: ['walk']
+      },
+      {
+        id: 'nordspissen',
+        name: 'Nordspissen',
+        lat: 69.7032,
+        lng: 18.9901,
+        category: 'Urban · Walk',
+        description: 'The northern tip of Tromsøya — nothing between you and the Arctic Ocean. Most unobstructed northern view on the island. Ideal for faint, low-horizon auroras.',
+        darkness: 2,
+        transport: 'Bus 28/42 + 1.5 km walk',
+        altitude: 'Sea level',
+        tags: ['walk', 'bus'],
+        safetyNote: 'Unlit trail — headlamp and reflective vest required'
+      },
+
+      // ——— Section II: Suburban / Bus Accessible ———
+      {
+        id: 'fjellheisen',
+        name: 'Fjellheisen (Mt. Storsteinen)',
+        lat: 69.635,
+        lng: 18.987,
+        category: 'Suburban · Bus',
+        description: '421 m summit via cable car. Often above coastal fog. Full 360° panorama — watch aurora arcs span the entire horizon. Café open until midnight in season.',
+        darkness: 3,
+        transport: 'Bus 26 / Cable car',
+        altitude: '421 m',
+        tags: ['bus'],
+        parkingNote: 'Construction: use temp parking at Solstrandvegen 30'
+      },
+      {
+        id: 'gronnaasen',
+        name: 'Grønnåsen Ski Jumps',
+        lat: 69.68685,
+        lng: 18.964187,
+        category: 'Suburban · Bus',
+        description: 'Active ski jump facility with dramatic K70 silhouettes against the aurora. The landing area is naturally shielded from residential light by surrounding topography.',
+        darkness: 2,
+        transport: 'Bus 24 (Grønnåsen kirke)',
+        altitude: '150 m',
+        tags: ['bus']
+      },
+      {
+        id: 'storelva',
+        name: 'Storelva',
+        lat: 69.6851,
+        lng: 18.820,
+        category: 'Suburban · Bus',
+        description: 'River estuary on the dark side of Sandnessund Bridge. Flat coastal paths ideal for those with mobility concerns. Wide-angle sky views north toward open ocean.',
+        darkness: 3,
+        transport: 'Bus 42 (15–20 min)',
+        altitude: 'Sea level',
+        tags: ['bus']
+      },
+      {
+        id: 'tromsdalen',
+        name: 'Tromsdalen Valley',
+        lat: 69.6355,
+        lng: 19.0358,
+        category: 'Suburban · Bus',
+        description: 'Forested valley east of the Arctic Cathedral. Follow the river to wilderness shelters. Steep peaks frame the aurora overhead — perfect for zenith photography.',
+        darkness: 3,
+        transport: 'Bus 26 (Gaudalsvegen)',
+        altitude: '50–200 m',
         tags: ['bus']
       },
       {
         id: 'ersfjordbotn',
         name: 'Ersfjordbotn',
-        lat: 69.6382,
-        lng: 18.5715,
-        category: 'Iconic Fjord View',
-        description: 'Stunning fjord views surrounded by towering mountain peaks. Requires a car. Very dark skies with an open northern horizon.',
+        lat: 69.68994,
+        lng: 18.5905,
+        category: 'Suburban · Bus',
+        description: 'One of Northern Norway\'s most photogenic fjords. Dramatic vertical peaks flanking calm water create near-perfect mirror reflections of the aurora. Scenic quality 5/5.',
         darkness: 4,
-        transport: 'Car',
+        transport: 'Bus 425 / Car',
         altitude: 'Sea level',
-        tags: ['dark']
+        tags: ['bus', 'dark']
       },
+
+      // ——— Section III: Remote Wilderness (Car) ———
       {
-        id: 'fjellheisen',
-        name: 'Fjellheisen (Top Station)',
-        lat: 69.6385,
-        lng: 19.0012,
-        category: 'Mountain Panorama',
-        description: 'Elevated panorama over the city and surrounding islands. Good views in all directions, some city light below.',
-        darkness: 3,
-        transport: 'Bus / Car',
-        altitude: '421 m',
-        tags: ['bus']
-      },
-      {
-        id: 'kattfjordeidet',
-        name: 'Kattfjordeidet',
-        lat: 69.5887,
-        lng: 18.4260,
-        category: 'Remote Dark Sky',
-        description: 'Remote mountain pass deep on Kvaløya island. Extremely dark skies with minimal light pollution. Car required, bring warm clothes.',
+        id: 'kattfjordvatnet',
+        name: 'Kattfjordvatnet',
+        lat: 69.6582,
+        lng: 18.4748,
+        category: 'Remote · Car',
+        description: 'Mountain lake surrounded by snowy peaks that block all city light. Designated parking bays along Fv862. In winter the frozen lake offers a vast 360° stage. Blåmannen peak as backdrop.',
         darkness: 5,
-        transport: 'Car',
-        altitude: '230 m',
+        transport: 'Car (40–45 min)',
+        altitude: '200 m',
+        tags: ['dark', 'remote']
+      },
+      {
+        id: 'grotfjord',
+        name: 'Grøtfjord',
+        lat: 69.78441,
+        lng: 18.4024,
+        category: 'Remote · Car',
+        description: 'White sandy Arctic beach facing true north — one of the best spots for aurora over the open ocean. Zero streetlights in the village. Steep road with hairpin turns requires caution on ice.',
+        darkness: 5,
+        transport: 'Car (55–60 min)',
+        altitude: 'Sea level',
+        tags: ['dark', 'remote']
+      },
+      {
+        id: 'skulsfjord',
+        name: 'Skulsfjord',
+        lat: 69.75912,
+        lng: 18.856337,
+        category: 'Remote · Car',
+        description: 'Northwestern Kvaløya coast with views toward Vengsøya. Often clear when Tromsø is cloudy. High winds keep lenses frost-free but challenge tripod stability. Reindeer frequent the area.',
+        darkness: 4,
+        transport: 'Car (35–40 min)',
+        altitude: '50 m',
+        tags: ['dark', 'remote']
+      },
+      {
+        id: 'ringvassoya',
+        name: 'Ringvassøya (Hansnes)',
+        lat: 70.022,
+        lng: 19.592,
+        category: 'Remote · Car',
+        description: 'Large island north of Tromsø via undersea tunnel. Far less populated than Kvaløya — profound darkness and solitude. Deep valleys and fjords with virtually no light pollution.',
+        darkness: 5,
+        transport: 'Car (50–60 min)',
+        altitude: 'Sea level',
+        tags: ['dark', 'remote']
+      },
+      {
+        id: 'skibotn',
+        name: 'Skibotn & Signaldalen',
+        lat: 69.402,
+        lng: 20.270,
+        category: 'Remote · Car',
+        description: 'The "Blue Hole" — statistically the driest spot in Norway due to the Lyngen Alps rain shadow. Clear skies when the entire coast is clouded over. Home to the iconic Otertinden peak.',
+        darkness: 5,
+        transport: 'Car (1 h 45 min – 2 h)',
+        altitude: 'Sea level',
         tags: ['dark', 'remote']
       }
     ];
@@ -1057,12 +1197,20 @@
         }
       }
 
-      var darknessLabels = ['', 'Some light', 'Moderate', 'Fairly dark', 'Very dark', 'Extremely dark'];
+      var darknessLabels = ['', 'City glow', 'Some light', 'Fairly dark', 'Very dark', 'Extremely dark'];
 
+      var walkIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1.5"/><path d="M9 21l3-9 3 9M9 12l-2 3M15 12l2 3"/></svg>';
       var busIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M3 10h18"/><path d="M7 21v-2M17 21v-2"/></svg>';
       var carIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="2.5"/></svg>';
 
-      var transportSvg = spot.transport.indexOf('Bus') !== -1 ? busIcon : carIcon;
+      var transportSvg = carIcon;
+      if (spot.transport.indexOf('Walk') !== -1) transportSvg = walkIcon;
+      else if (spot.transport.indexOf('Bus') !== -1) transportSvg = busIcon;
+
+      var safetyHtml = '';
+      if (spot.safetyNote) {
+        safetyHtml = '<div style="margin-top:0.5rem;padding:0.5rem 0.625rem;border-radius:8px;background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.15);font-size:0.6875rem;color:#fca5a5;line-height:1.4;">⚠ ' + spot.safetyNote + '</div>';
+      }
 
       return '<div class="popup-inner">' +
         '<div class="popup-category" style="color:' + c.color + ';">' +
@@ -1082,6 +1230,7 @@
           '<span class="popup-tag">' + transportSvg + ' ' + spot.transport + '</span>' +
           (spot.altitude ? '<span class="popup-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21l4-12 4 12"/><path d="M2 21h20"/></svg> ' + spot.altitude + '</span>' : '') +
         '</div>' +
+        safetyHtml +
       '</div>';
     }
 
@@ -1091,8 +1240,8 @@
 
     try {
       map = L.map('map', {
-        center: [69.6496, 18.955],
-        zoom: 11,
+        center: [69.68, 19.05],
+        zoom: 10,
         zoomControl: true,
         attributionControl: true
       });
@@ -1124,7 +1273,7 @@
         markerRefs.push({ marker: marker, spot: spot });
       });
 
-      // Light pollution circles
+      // Light pollution circles (Tromsø city center)
       L.circle([69.6496, 18.955], {
         radius: 3500,
         color: 'transparent',
@@ -1149,6 +1298,10 @@
         interactive: false
       }).addTo(map);
 
+      // Fit map to show all markers
+      var bounds = L.latLngBounds(spots.map(function(s) { return [s.lat, s.lng]; }));
+      map.fitBounds(bounds, { padding: [40, 40], maxZoom: 11 });
+
     } catch (err) {
       console.error('Map initialization failed:', err);
       document.getElementById('mapError').classList.add('visible');
@@ -1163,8 +1316,9 @@
 
         markerRefs.forEach(function(ref) {
           var show = true;
-          if (filter === 'dark') show = ref.spot.darkness >= 4;
-          else if (filter === 'bus') show = ref.spot.transport.indexOf('Bus') !== -1;
+          if (filter === 'walk') show = ref.spot.tags.indexOf('walk') !== -1;
+          else if (filter === 'dark') show = ref.spot.darkness >= 4;
+          else if (filter === 'bus') show = ref.spot.tags.indexOf('bus') !== -1;
           else if (filter === 'remote') show = ref.spot.tags.indexOf('remote') !== -1;
 
           if (show) {
