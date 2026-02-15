@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Viewing Map, Best Aurora Spots in Tromsø | Aurora Real Time</title>
+  <meta name="description" content="Curated dark-sky viewing locations around Tromsø. Find the best spots to see the Northern Lights, from city-accessible lakes to remote mountain passes.">
+  <meta name="theme-color" content="#0a0f1a">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+
+  <style>
+    /* ==================== CSS VARIABLES ==================== */
+    :root {
+      --color-bg-primary: #0a0f1a;
+      --color-bg-secondary: #0d1929;
+      --color-bg-card: rgba(255, 255, 255, 0.04);
+      --color-border: rgba(255, 255, 255, 0.08);
+      --color-border-hover: rgba(255, 255, 255, 0.15);
+      --color-green-primary: #22c55e;
+      --color-green-dark: #16a34a;
+      --color-green-glow: rgba(34, 197, 94, 0.4);
+      --color-teal: #2dd4bf;
+      --color-amber: #ffb450;
+      --color-text-primary: #f1f5f9;
+      --color-text-secondary: #94a3b8;
+      --color-text-muted: #64748b;
+      --font-heading: 'Space Grotesk', system-ui, sans-serif;
+      --font-body: 'Outfit', system-ui, sans-serif;
+      --radius-lg: 1rem;
+      --radius-xl: 1.25rem;
+      --radius-2xl: 1.5rem;
+      --transition-base: 200ms ease;
+      --transition-smooth: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ==================== RESET & BASE ==================== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--color-bg-primary);
+      color: var(--color-text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--color-green-primary);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+    :focus:not(:focus-visible) { outline: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    .skip-link {
+      position: absolute; top: -100%; left: 1rem; z-index: 9999;
+      background: var(--color-green-primary); color: #000;
+      padding: 0.75rem 1.5rem; border-radius: var(--radius-lg);
+      font-weight: 600; font-family: var(--font-heading); text-decoration: none;
+    }
+    .skip-link:focus { top: 1rem; }
+
+    /* ==================== AURORA BACKGROUND ==================== */
+    .aurora-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 120% 60% at 20% 0%, rgba(34, 197, 94, 0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 80% 50% at 80% 10%, rgba(45, 212, 191, 0.04) 0%, transparent 50%),
+        radial-gradient(ellipse 100% 80% at 50% 100%, rgba(10, 15, 26, 1) 0%, transparent 80%),
+        var(--color-bg-primary);
+      pointer-events: none;
+    }
+
+    /* ==================== NAV ==================== */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(10, 15, 26, 0.75);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .nav__inner {
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav__brand {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      text-decoration: none;
+      color: var(--color-text-primary);
+    }
+
+    .nav__brand-name {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 1.125rem;
+    }
+
+    .nav__links {
+      display: none;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav__links a {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      transition: color var(--transition-base);
+      position: relative;
+    }
+
+    .nav__links a:hover { color: var(--color-text-primary); }
+
+    .nav__links a.active {
+      color: var(--color-text-primary);
+    }
+
+    .nav__links a.active::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0; right: 0;
+      height: 2px;
+      background: var(--color-green-primary);
+      border-radius: 1px;
+    }
+
+    @media (min-width: 768px) {
+      .nav__links { display: flex; }
+    }
+
+    /* ==================== PAGE CONTENT ==================== */
+    .page-content {
+      position: relative;
+      z-index: 1;
+      padding-top: 64px;
+    }
+
+    /* ==================== HEADER ==================== */
+    .map-header {
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 1.25rem;
+    }
+
+    .map-header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 1rem;
+      border-radius: 9999px;
+      background: rgba(34, 197, 94, 0.08);
+      border: 1px solid rgba(34, 197, 94, 0.2);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--color-green-primary);
+      margin-bottom: 1rem;
+    }
+
+    .map-header h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 0.625rem;
+    }
+
+    .map-header p {
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+      max-width: 38rem;
+    }
+
+    /* ==================== FILTER BAR ==================== */
+    .filter-bar {
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 0 1.5rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-label {
+      font-size: 0.8125rem;
+      color: var(--color-text-secondary);
+      font-weight: 500;
+      margin-right: 0.25rem;
+    }
+
+    .filter-btn {
+      padding: 0.375rem 0.875rem;
+      border-radius: 9999px;
+      border: 1px solid var(--color-border);
+      background: transparent;
+      color: var(--color-text-secondary);
+      font-family: var(--font-body);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition-base);
+      white-space: nowrap;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--color-border-hover);
+      color: var(--color-text-primary);
+    }
+
+    .filter-btn.active {
+      background: rgba(34, 197, 94, 0.1);
+      border-color: rgba(34, 197, 94, 0.3);
+      color: var(--color-green-primary);
+    }
+
+    /* ==================== MAP ==================== */
+    .map-wrapper {
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 0 1.5rem 2rem;
+    }
+
+    .map-frame {
+      position: relative;
+      border-radius: var(--radius-2xl);
+      overflow: hidden;
+      border: 1px solid var(--color-border);
+      box-shadow:
+        0 0 40px rgba(34, 197, 94, 0.06),
+        0 0 80px rgba(34, 197, 94, 0.03),
+        0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    .map-frame::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: var(--radius-2xl);
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.25) 0%, rgba(255, 255, 255, 0.05) 40%, rgba(45, 212, 191, 0.15) 100%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    #map {
+      width: 100%;
+      height: 68vh;
+      min-height: 480px;
+      background: var(--color-bg-secondary);
+    }
+
+    .map-error-overlay {
+      display: none;
+      position: absolute;
+      inset: 0;
+      z-index: 500;
+      background: var(--color-bg-secondary);
+      place-items: center;
+      font-family: var(--font-body);
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .map-error-overlay.visible { display: grid; }
+
+    .map-error-overlay p {
+      color: var(--color-text-secondary);
+      font-size: 0.9375rem;
+      max-width: 340px;
+    }
+
+    .map-error-overlay .error-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    .light-pollution-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 450;
+      background: radial-gradient(
+        ellipse 26% 26% at 50% 48%,
+        rgba(255, 180, 80, 0.13) 0%,
+        rgba(255, 160, 60, 0.06) 40%,
+        transparent 70%
+      );
+      mix-blend-mode: screen;
+    }
+
+    /* ==================== MARKERS ==================== */
+    .aurora-marker-wrapper { background: none !important; border: none !important; }
+
+    .aurora-marker {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .aurora-marker:hover { transform: scale(1.2); }
+
+    .aurora-marker:hover .aurora-marker-core {
+      filter: brightness(1.3);
+    }
+
+    .aurora-marker-core {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.9);
+      z-index: 2;
+      transition: box-shadow 0.3s, filter 0.3s;
+    }
+
+    .aurora-marker-ring {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      z-index: 1;
+      animation: ring-pulse 2.5s ease-out infinite;
+    }
+
+    .aurora-marker-ring-2 {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      z-index: 1;
+      animation: ring-pulse 2.5s ease-out 0.8s infinite;
+    }
+
+    @keyframes ring-pulse {
+      0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(2.2); opacity: 0; }
+    }
+
+    .marker-darkness-badge {
+      position: absolute;
+      top: -8px; right: -10px;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: var(--color-bg-secondary);
+      border: 1.5px solid;
+      display: grid;
+      place-items: center;
+      font-family: var(--font-heading);
+      font-size: 0.6rem;
+      font-weight: 700;
+      z-index: 3;
+      line-height: 1;
+    }
+
+    /* ==================== POPUPS ==================== */
+    .leaflet-popup-content-wrapper {
+      background: rgba(13, 25, 41, 0.88) !important;
+      backdrop-filter: blur(24px) !important;
+      -webkit-backdrop-filter: blur(24px) !important;
+      border: 1px solid var(--color-border-hover) !important;
+      border-radius: var(--radius-xl) !important;
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.5),
+        0 0 24px rgba(34, 197, 94, 0.08) !important;
+      color: var(--color-text-primary) !important;
+      padding: 0 !important;
+      overflow: hidden;
+    }
+
+    .leaflet-popup-content {
+      margin: 0 !important;
+      min-width: 260px;
+      font-family: var(--font-body) !important;
+    }
+
+    .leaflet-popup-tip {
+      background: rgba(13, 25, 41, 0.88) !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+
+    .leaflet-popup-close-button {
+      color: var(--color-text-secondary) !important;
+      font-size: 20px !important;
+      width: 28px !important; height: 28px !important;
+      top: 8px !important; right: 8px !important;
+      z-index: 10;
+      transition: color 0.2s;
+    }
+
+    .leaflet-popup-close-button:hover {
+      color: var(--color-text-primary) !important;
+    }
+
+    .popup-inner { padding: 1.15rem 1.25rem; }
+
+    .popup-category {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.5rem;
+    }
+
+    .popup-category-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      box-shadow: 0 0 6px currentColor;
+    }
+
+    .popup-title {
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.45rem;
+    }
+
+    .popup-desc {
+      font-size: 0.8125rem;
+      line-height: 1.55;
+      color: var(--color-text-secondary);
+      margin-bottom: 0.85rem;
+    }
+
+    .popup-darkness-hero {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.75rem 0.85rem;
+      border-radius: 12px;
+      margin-bottom: 0.85rem;
+    }
+
+    .darkness-score {
+      font-family: var(--font-heading);
+      font-size: 2.2rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .darkness-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .darkness-label-text {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-text-secondary);
+      font-weight: 500;
+    }
+
+    .darkness-bar { display: flex; gap: 3px; }
+
+    .darkness-pip {
+      width: 22px; height: 5px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .darkness-pip.filled { box-shadow: 0 0 6px rgba(34, 197, 94, 0.25); }
+
+    .popup-meta {
+      display: flex;
+      gap: 0.6rem;
+      padding-top: 0.7rem;
+      border-top: 1px solid var(--color-border);
+      flex-wrap: wrap;
+    }
+
+    .popup-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+      padding: 0.25rem 0.6rem;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--color-border);
+    }
+
+    .popup-tag svg { width: 12px; height: 12px; opacity: 0.7; }
+
+    /* ==================== LEGEND ==================== */
+    .legend-section {
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 0 1.5rem 2rem;
+    }
+
+    .legend-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    .legend-card {
+      background: var(--color-bg-card);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: 1.25rem 1.35rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      transition: border-color var(--transition-smooth);
+    }
+
+    .legend-card:hover {
+      border-color: var(--color-border-hover);
+    }
+
+    .legend-icon {
+      flex-shrink: 0;
+      width: 40px; height: 40px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+    }
+
+    .legend-icon svg { width: 20px; height: 20px; }
+
+    .legend-icon.green {
+      background: rgba(34, 197, 94, 0.1);
+      border: 1px solid rgba(34, 197, 94, 0.2);
+      color: var(--color-green-primary);
+    }
+
+    .legend-icon.teal {
+      background: rgba(45, 212, 191, 0.1);
+      border: 1px solid rgba(45, 212, 191, 0.2);
+      color: var(--color-teal);
+    }
+
+    .legend-icon.amber {
+      background: rgba(255, 180, 80, 0.1);
+      border: 1px solid rgba(255, 180, 80, 0.2);
+      color: #ffb450;
+    }
+
+    .legend-text h3 {
+      font-family: var(--font-heading);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .legend-text p {
+      font-size: 0.8125rem;
+      color: var(--color-text-secondary);
+      line-height: 1.55;
+    }
+
+    /* ==================== CTA ==================== */
+    .cta-section {
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 0 1.5rem 4rem;
+    }
+
+    .cta-card {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.06) 0%, rgba(45, 212, 191, 0.04) 100%);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(34, 197, 94, 0.15);
+      border-radius: var(--radius-2xl);
+      padding: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .cta-card::before {
+      content: '';
+      position: absolute;
+      top: -50%; right: -20%;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(34, 197, 94, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-content {
+      max-width: 480px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-content h2 {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+
+    .cta-content p {
+      font-size: 0.9375rem;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.875rem 2rem;
+      border-radius: var(--radius-xl);
+      border: none;
+      background: linear-gradient(135deg, var(--color-green-primary) 0%, var(--color-green-dark) 100%);
+      color: #fff;
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition-smooth);
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px var(--color-green-glow);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .cta-price {
+      font-size: 0.8125rem;
+      color: var(--color-text-muted);
+      margin-top: 0.75rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ==================== FOOTER ==================== */
+    .footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 2rem 0;
+    }
+
+    .footer__inner {
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .footer__links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .footer__links a {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      transition: color var(--transition-base);
+    }
+
+    .footer__links a:hover { color: var(--color-text-primary); }
+
+    .footer__copy {
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+      line-height: 1.8;
+    }
+
+    @media (min-width: 768px) {
+      .footer__inner {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    /* ==================== LEAFLET OVERRIDES ==================== */
+    .leaflet-control-zoom {
+      border: none !important;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4) !important;
+      border-radius: 12px !important;
+      overflow: hidden !important;
+    }
+
+    .leaflet-control-zoom a {
+      background: rgba(13, 25, 41, 0.92) !important;
+      backdrop-filter: blur(12px);
+      color: var(--color-text-secondary) !important;
+      border-bottom: 1px solid var(--color-border) !important;
+      width: 36px !important; height: 36px !important;
+      line-height: 36px !important;
+      font-size: 16px !important;
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .leaflet-control-zoom a:hover {
+      background: rgba(13, 25, 41, 1) !important;
+      color: var(--color-text-primary) !important;
+    }
+
+    .leaflet-control-zoom a:last-child { border-bottom: none !important; }
+
+    .leaflet-control-attribution {
+      background: rgba(10, 15, 26, 0.75) !important;
+      backdrop-filter: blur(8px);
+      color: var(--color-text-secondary) !important;
+      font-family: var(--font-body) !important;
+      font-size: 0.65rem !important;
+      padding: 3px 8px !important;
+      border-radius: 8px 0 0 0 !important;
+    }
+
+    .leaflet-control-attribution a { color: var(--color-text-secondary) !important; }
+
+    /* ==================== ANIMATIONS ==================== */
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-in { animation: fade-up 0.7s ease-out both; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+
+    /* ==================== RESPONSIVE ==================== */
+    @media (max-width: 768px) {
+      .nav__links { gap: 1.25rem; }
+      #map { height: 55vh; min-height: 380px; }
+      .map-header { padding: 2rem 1.25rem 1rem; }
+      .legend-grid { grid-template-columns: 1fr; }
+      .cta-card {
+        padding: 1.75rem;
+        flex-direction: column;
+        text-align: center;
+      }
+      .cta-price { text-align: center; }
+      .filter-bar { padding-bottom: 0.5rem; }
+    }
+
+    @media (max-width: 480px) {
+      .map-header { padding: 1.5rem 1rem 0.75rem; }
+      .map-header h1 { font-size: 1.5rem; }
+      .filter-bar { padding: 0 1rem 0.75rem; }
+      .map-wrapper { padding: 0 1rem 1.5rem; }
+      .legend-section { padding: 0 1rem 1.5rem; }
+      .cta-section { padding: 0 1rem 3rem; }
+      .cta-card { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- BG -->
+  <div class="aurora-bg" aria-hidden="true"></div>
+
+  <!-- NAV — matches landing page -->
+  <nav class="nav" aria-label="Main navigation">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__brand" aria-label="Aurora Real Time — Home">
+        <svg width="32" height="32" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+          <path d="M5 32 L20 12 L35 32" stroke="url(#a-line)" stroke-width="2" fill="none"/>
+          <path d="M8 28 Q20 5 32 28" stroke="#22c55e" stroke-width="3" fill="none" opacity="0.8"/>
+          <path d="M12 25 Q20 8 28 25" stroke="#2dd4bf" stroke-width="2" fill="none" opacity="0.6"/>
+          <defs>
+            <linearGradient id="a-line" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#22c55e"/>
+              <stop offset="100%" stop-color="#2dd4bf"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="nav__brand-name">Aurora Real Time</span>
+      </a>
+      <ul class="nav__links" role="list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="map.html" class="active" aria-current="page">Viewing Map</a></li>
+        <li><a href="#legend">Guide</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main id="main-content" class="page-content">
+
+    <!-- HEADER -->
+    <section class="map-header animate-in">
+      <div class="map-header-badge">
+        Tromsø Region
+      </div>
+      <h1>Best Spots for Northern Lights</h1>
+      <p>Curated dark sky locations around Tromsø, from city accessible parks to remote mountain passes with near zero light pollution.</p>
+    </section>
+
+    <!-- FILTER BAR -->
+    <div class="filter-bar animate-in delay-1" role="toolbar" aria-label="Filter map markers">
+      <span class="filter-label">Filter:</span>
+      <button class="filter-btn active" data-filter="all">All spots</button>
+      <button class="filter-btn" data-filter="dark">Dark sky (4+)</button>
+      <button class="filter-btn" data-filter="bus">Bus accessible</button>
+      <button class="filter-btn" data-filter="remote">Remote</button>
+    </div>
+
+    <!-- MAP -->
+    <div class="map-wrapper animate-in delay-2">
+      <div class="map-frame">
+        <div id="map" role="application" aria-label="Interactive map of aurora viewing spots around Tromsø"></div>
+        <div class="light-pollution-overlay" aria-hidden="true"></div>
+        <div class="map-error-overlay" id="mapError" aria-live="assertive">
+          <div>
+            <div class="error-icon">&#x1F30D;</div>
+            <p>The map could not be loaded. Please check your internet connection and try again.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEGEND -->
+    <section class="legend-section animate-in delay-3" id="legend" aria-label="Map legend">
+      <div class="legend-grid">
+        <div class="legend-card">
+          <div class="legend-icon green" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+            </svg>
+          </div>
+          <div class="legend-text">
+            <h3>Markers by Quality</h3>
+            <p>Markers vary in size and color by darkness rating. Larger and greener means darker skies and better visibility.</p>
+          </div>
+        </div>
+
+        <div class="legend-card">
+          <div class="legend-icon amber" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><path d="M12 12l4-4"/><circle cx="12" cy="12" r="1" fill="currentColor"/>
+            </svg>
+          </div>
+          <div class="legend-text">
+            <h3>Light Pollution</h3>
+            <p>The warm glow over the city center shows light pollution. Move away from this zone for the clearest skies.</p>
+          </div>
+        </div>
+
+        <div class="legend-card">
+          <div class="legend-icon teal" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+            </svg>
+          </div>
+          <div class="legend-text">
+            <h3>Darkness Rating 1 to 5</h3>
+            <p>Each location has a darkness scale. More filled bars means darker skies and better aurora visibility.</p>
+          </div>
+        </div>
+
+        <div class="legend-card">
+          <div class="legend-icon green" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/>
+            </svg>
+          </div>
+          <div class="legend-text">
+            <h3>Getting There</h3>
+            <p>Tags on each location show if it is accessible by bus or requires a car. Remote spots reward the extra drive.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section animate-in delay-4" aria-label="Get aurora alerts">
+      <div class="cta-card">
+        <div class="cta-content">
+          <h2>Know When to Head Out</h2>
+          <p>Found your viewing spot? Get an SMS the moment aurora is visible in Tromsø, so you know exactly when to go.</p>
+        </div>
+        <div>
+          <a href="index.html#pricing" class="btn-primary">
+            Get Real Time Alerts — $7.99
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          <p class="cta-price">One time payment · 5 days of alerts · No subscription</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER — matches landing page -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <nav class="footer__links" aria-label="Footer navigation">
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms of Service</a>
+        <a href="mailto:support@aurorarealtime.com">Contact</a>
+      </nav>
+      <div class="footer__copy">
+        <p>Data: UiT StormCast (CC BY 4.0) · Not affiliated with TGO · © 2025 Aurora Real Time</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Leaflet JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+
+  <script>
+    // ===================== SPOT DATA =====================
+    var spots = [
+      {
+        id: 'prestvannet',
+        name: 'Prestvannet',
+        lat: 69.6606,
+        lng: 18.9186,
+        category: 'In the City',
+        description: 'Bus accessible. The darkest point near the city center. A peaceful lake surrounded by birch trees that block stray light.',
+        darkness: 2,
+        transport: 'Bus / Car',
+        altitude: '100 m',
+        tags: ['bus']
+      },
+      {
+        id: 'ersfjordbotn',
+        name: 'Ersfjordbotn',
+        lat: 69.6382,
+        lng: 18.5715,
+        category: 'Iconic Fjord View',
+        description: 'Stunning fjord views surrounded by towering mountain peaks. Requires a car. Very dark skies with an open northern horizon.',
+        darkness: 4,
+        transport: 'Car',
+        altitude: 'Sea level',
+        tags: ['dark']
+      },
+      {
+        id: 'fjellheisen',
+        name: 'Fjellheisen (Top Station)',
+        lat: 69.6385,
+        lng: 19.0012,
+        category: 'Mountain Panorama',
+        description: 'Elevated panorama over the city and surrounding islands. Good views in all directions, some city light below.',
+        darkness: 3,
+        transport: 'Bus / Car',
+        altitude: '421 m',
+        tags: ['bus']
+      },
+      {
+        id: 'kattfjordeidet',
+        name: 'Kattfjordeidet',
+        lat: 69.5887,
+        lng: 18.4260,
+        category: 'Remote Dark Sky',
+        description: 'Remote mountain pass deep on Kvaløya island. Extremely dark skies with minimal light pollution. Car required, bring warm clothes.',
+        darkness: 5,
+        transport: 'Car',
+        altitude: '230 m',
+        tags: ['dark', 'remote']
+      }
+    ];
+
+    // ===================== MARKER CONFIG =====================
+    function getMarkerConfig(darkness) {
+      if (darkness >= 4) {
+        return { size: 18, ringSize: 36, color: '#22c55e', glowColor: 'rgba(34,197,94,0.4)', borderColor: 'rgba(34,197,94,0.35)' };
+      } else if (darkness >= 3) {
+        return { size: 14, ringSize: 30, color: '#2dd4bf', glowColor: 'rgba(45,212,191,0.35)', borderColor: 'rgba(45,212,191,0.3)' };
+      } else {
+        return { size: 12, ringSize: 26, color: '#ffb450', glowColor: 'rgba(255,180,80,0.3)', borderColor: 'rgba(255,180,80,0.25)' };
+      }
+    }
+
+    function createAuroraIcon(darkness) {
+      var c = getMarkerConfig(darkness);
+      var totalSize = c.ringSize + 16;
+
+      return L.divIcon({
+        className: 'aurora-marker-wrapper',
+        html:
+          '<div class="aurora-marker" style="width:' + totalSize + 'px;height:' + totalSize + 'px;" aria-label="Aurora spot, darkness rating ' + darkness + ' of 5">' +
+            '<div class="aurora-marker-ring" style="width:' + c.ringSize + 'px;height:' + c.ringSize + 'px;border:1.5px solid ' + c.borderColor + ';"></div>' +
+            '<div class="aurora-marker-ring-2" style="width:' + c.ringSize + 'px;height:' + c.ringSize + 'px;border:1px solid ' + c.borderColor + ';"></div>' +
+            '<div class="aurora-marker-core" style="width:' + c.size + 'px;height:' + c.size + 'px;background:' + c.color + ';box-shadow:0 0 10px ' + c.glowColor + ',0 0 24px ' + c.glowColor + ';"></div>' +
+            '<div class="marker-darkness-badge" style="color:' + c.color + ';border-color:' + c.borderColor + ';">' + darkness + '</div>' +
+          '</div>',
+        iconSize: [totalSize, totalSize],
+        iconAnchor: [totalSize / 2, totalSize / 2],
+        popupAnchor: [0, -(totalSize / 2 + 4)]
+      });
+    }
+
+    // ===================== POPUP BUILDER =====================
+    function buildPopup(spot) {
+      var c = getMarkerConfig(spot.darkness);
+      var pips = '';
+      for (var i = 0; i < 5; i++) {
+        if (i < spot.darkness) {
+          pips += '<div class="darkness-pip filled" style="background:' + c.color + ';"></div>';
+        } else {
+          pips += '<div class="darkness-pip"></div>';
+        }
+      }
+
+      var darknessLabels = ['', 'Some light', 'Moderate', 'Fairly dark', 'Very dark', 'Extremely dark'];
+
+      var busIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M3 10h18"/><path d="M7 21v-2M17 21v-2"/></svg>';
+      var carIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="2.5"/></svg>';
+
+      var transportSvg = spot.transport.indexOf('Bus') !== -1 ? busIcon : carIcon;
+
+      return '<div class="popup-inner">' +
+        '<div class="popup-category" style="color:' + c.color + ';">' +
+          '<span class="popup-category-dot" style="background:' + c.color + ';"></span>' +
+          spot.category +
+        '</div>' +
+        '<div class="popup-title">' + spot.name + '</div>' +
+        '<div class="popup-desc">' + spot.description + '</div>' +
+        '<div class="popup-darkness-hero" style="background:' + c.color + '11;">' +
+          '<div class="darkness-score" style="color:' + c.color + ';">' + spot.darkness + '</div>' +
+          '<div class="darkness-info">' +
+            '<span class="darkness-label-text">' + darknessLabels[spot.darkness] + '</span>' +
+            '<div class="darkness-bar">' + pips + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="popup-meta">' +
+          '<span class="popup-tag">' + transportSvg + ' ' + spot.transport + '</span>' +
+          (spot.altitude ? '<span class="popup-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21l4-12 4 12"/><path d="M2 21h20"/></svg> ' + spot.altitude + '</span>' : '') +
+        '</div>' +
+      '</div>';
+    }
+
+    // ===================== MAP INIT =====================
+    var map, tileLayer;
+    var markerRefs = [];
+
+    try {
+      map = L.map('map', {
+        center: [69.6496, 18.955],
+        zoom: 11,
+        zoomControl: true,
+        attributionControl: true
+      });
+
+      tileLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 18
+      }).addTo(map);
+
+      tileLayer.on('tileerror', function () {
+        document.getElementById('mapError').classList.add('visible');
+      });
+
+      // Add markers
+      spots.forEach(function(spot) {
+        var marker = L.marker([spot.lat, spot.lng], {
+          icon: createAuroraIcon(spot.darkness),
+          alt: spot.name + ' — darkness rating ' + spot.darkness + ' of 5'
+        })
+          .addTo(map)
+          .bindPopup(buildPopup(spot), {
+            maxWidth: 320,
+            minWidth: 260,
+            closeButton: true,
+            className: 'aurora-popup'
+          });
+
+        markerRefs.push({ marker: marker, spot: spot });
+      });
+
+      // Light pollution circles
+      L.circle([69.6496, 18.955], {
+        radius: 3500,
+        color: 'transparent',
+        fillColor: '#ffb450',
+        fillOpacity: 0.04,
+        interactive: false
+      }).addTo(map);
+
+      L.circle([69.6496, 18.955], {
+        radius: 6000,
+        color: 'transparent',
+        fillColor: '#ffb450',
+        fillOpacity: 0.018,
+        interactive: false
+      }).addTo(map);
+
+      L.circle([69.6496, 18.955], {
+        radius: 10000,
+        color: 'transparent',
+        fillColor: '#ffb450',
+        fillOpacity: 0.006,
+        interactive: false
+      }).addTo(map);
+
+    } catch (err) {
+      console.error('Map initialization failed:', err);
+      document.getElementById('mapError').classList.add('visible');
+    }
+
+    // ===================== FILTERING =====================
+    document.querySelectorAll('.filter-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        var filter = btn.dataset.filter;
+
+        markerRefs.forEach(function(ref) {
+          var show = true;
+          if (filter === 'dark') show = ref.spot.darkness >= 4;
+          else if (filter === 'bus') show = ref.spot.transport.indexOf('Bus') !== -1;
+          else if (filter === 'remote') show = ref.spot.tags.indexOf('remote') !== -1;
+
+          if (show) {
+            if (!map.hasLayer(ref.marker)) map.addLayer(ref.marker);
+          } else {
+            if (map.hasLayer(ref.marker)) map.removeLayer(ref.marker);
+          }
+        });
+      });
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var targetId = link.getAttribute('href');
+        if (targetId === '#') return;
+        var target = document.querySelector(targetId);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
