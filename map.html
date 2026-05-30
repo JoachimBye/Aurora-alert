@@ -741,6 +741,36 @@
       .cta-section { padding: 0 1rem 3rem; }
       .cta-card { padding: 1.5rem; }
     }
+
+    /* ==================== LIVE WIDGETS ==================== */
+    .live-widgets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.625rem;
+      margin-top: 1rem;
+    }
+
+    .live-pill {
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.875rem;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--color-border);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+    }
+
+    .live-pill.visible { display: inline-flex; }
+
+    .live-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
   </style>
 </head>
 <body>
@@ -784,6 +814,17 @@
       </div>
       <h1>Best Spots for Northern Lights</h1>
       <p>15 curated locations across three tiers: walkable city spots, bus-accessible suburban sites, and remote wilderness corridors with near-zero light pollution.</p>
+      <div class="live-widgets">
+        <div id="kp-pill" class="live-pill">
+          <span class="live-dot" id="kp-dot"></span>
+          <span>KP now: <strong id="kp-value">—</strong></span>
+          <span id="kp-label" style="color:var(--color-text-muted)">—</span>
+        </div>
+        <div id="last-pill" class="live-pill">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Last confirmed: <strong id="last-detected">—</strong>
+        </div>
+      </div>
     </section>
 
     <!-- FILTER BAR -->
@@ -1147,6 +1188,17 @@
         safetyHtml = '<div style="margin-top:0.5rem;padding:0.5rem 0.625rem;border-radius:8px;background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.15);font-size:0.6875rem;color:#fca5a5;line-height:1.4;">⚠ ' + spot.safetyNote + '</div>';
       }
 
+      let parkingHtml = '';
+      if (spot.parkingNote) {
+        parkingHtml = '<div style="margin-top:0.5rem;padding:0.5rem 0.625rem;border-radius:8px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.15);font-size:0.6875rem;color:#93c5fd;line-height:1.4;">🅿 ' + spot.parkingNote + '</div>';
+      }
+
+      const navigateHtml = '<a href="https://www.google.com/maps/dir/?api=1&destination=' + spot.lat + ',' + spot.lng + '" ' +
+        'target="_blank" rel="noopener noreferrer" ' +
+        'style="display:inline-flex;align-items:center;gap:0.35rem;margin-top:0.75rem;font-size:0.8rem;font-weight:600;color:var(--color-green-primary);text-decoration:none;">' +
+        '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>' +
+        'Open in Google Maps</a>';
+
       return '<div class="popup-inner">' +
         '<div class="popup-category" style="color:' + c.color + ';">' +
           '<span class="popup-category-dot" style="background:' + c.color + ';"></span>' +
@@ -1166,6 +1218,8 @@
           (spot.altitude ? '<span class="popup-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21l4-12 4 12"/><path d="M2 21h20"/></svg> ' + spot.altitude + '</span>' : '') +
         '</div>' +
         safetyHtml +
+        parkingHtml +
+        navigateHtml +
       '</div>';
     }
 
@@ -1277,6 +1331,46 @@
         }
       });
     });
+
+    // ===================== LIVE WIDGETS =====================
+    function timeAgo(isoStr) {
+      var diff = Math.floor((Date.now() - new Date(isoStr).getTime()) / 60000);
+      if (diff < 60) return diff + ' min ago';
+      var h = Math.floor(diff / 60);
+      if (h < 24) return h + 'h ago';
+      return Math.floor(h / 24) + 'd ago';
+    }
+
+    // KP-index from NOAA
+    fetch('https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var last = data[data.length - 1];
+        var kp = parseFloat(last[1]);
+        var label = kp >= 5 ? 'Storm — aurora very likely' :
+                    kp >= 4 ? 'Active — aurora likely' :
+                    kp >= 2 ? 'Aurora possible' : 'Quiet — low activity';
+        var color = kp >= 4 ? '#22c55e' : kp >= 2 ? '#2dd4bf' : '#ffb450';
+        var pill = document.getElementById('kp-pill');
+        document.getElementById('kp-value').textContent = kp.toFixed(1);
+        document.getElementById('kp-value').style.color = color;
+        document.getElementById('kp-label').textContent = label;
+        document.getElementById('kp-dot').style.color = color;
+        pill.style.borderColor = color + '33';
+        pill.classList.add('visible');
+      })
+      .catch(function() {});
+
+    // Last aurora confirmed — from backend
+    fetch('https://aurora-real-time-backend-production.up.railway.app/stats')
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        if (d.last_aurora_detected_at) {
+          document.getElementById('last-detected').textContent = timeAgo(d.last_aurora_detected_at);
+          document.getElementById('last-pill').classList.add('visible');
+        }
+      })
+      .catch(function() {});
   </script>
 </body>
 </html>
