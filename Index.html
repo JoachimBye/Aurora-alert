@@ -258,9 +258,9 @@
             </div>
             <div class="animate-slide-up-delayed-3" style="max-width:28rem;margin:2.5rem auto 0">
               <div class="stats-grid">
-                <div><div class="stat__number">22</div><div class="stat__label">Alerts since January 2026</div></div>
-                <div><div class="stat__number">90%</div><div class="stat__label">Accuracy</div></div>
-                <div><div class="stat__number">60 min</div><div class="stat__label">Updated every 60 min</div></div>
+                <div><div id="stat-alerts" class="stat__number">22</div><div class="stat__label">Alerts since January 2026</div></div>
+                <div><div id="stat-accuracy" class="stat__number">90%</div><div class="stat__label">Accuracy</div></div>
+                <div><div id="stat-interval" class="stat__number">15 min</div><div class="stat__label">Updated every 15 min</div></div>
               </div>
             </div>
           </section>
@@ -289,7 +289,7 @@
                     <h3 class="font-heading" style="font-weight:600;font-size:1.25rem;color:var(--color-green-primary)">Aurora Real Time</h3>
                   </div>
                   <div style="display:flex;flex-direction:column;gap:0.875rem;color:var(--color-text-primary)">
-                    <div class="comparison-item"><span class="comparison-icon text-green" aria-hidden="true">✓</span><span>AI analyzes live camera feeds every 60 minutes</span></div>
+                    <div class="comparison-item"><span class="comparison-icon text-green" aria-hidden="true">✓</span><span>AI analyzes live camera feeds every 15 minutes</span></div>
                     <div class="comparison-item"><span class="comparison-icon text-green" aria-hidden="true">✓</span><span>Only alerts when aurora is actually visible</span></div>
                     <div class="comparison-item"><span class="comparison-icon text-green" aria-hidden="true">✓</span><span>Accounts for real weather conditions</span></div>
                     <div class="comparison-item"><span class="comparison-icon text-green" aria-hidden="true">✓</span><span>Step outside only when it's worth it</span></div>
@@ -303,7 +303,7 @@
               <div class="text-center" style="margin-bottom: 3rem;">
                 <span class="section-label">Real Camera Data</span>
                 <h2 id="see-it-work" class="section-title">See It In Action</h2>
-                <p class="section-subtitle">Actual images from the UiT StormCast camera. This is what our AI analyzes every 60 minutes.</p>
+                <p class="section-subtitle">Actual images from the UiT StormCast camera. This is what our AI analyzes every 15 minutes.</p>
               </div>
               <div class="grid-2" style="gap: 1.5rem; max-width: 48rem; margin: 0 auto;">
                 <div class="camera-card">
@@ -355,7 +355,7 @@
                 <div style="margin-bottom:1.5rem"><span class="font-heading text-green" style="font-size:clamp(2.5rem,8vw,3.5rem);font-weight:700">$7.99</span><span class="text-secondary" style="font-size:1.125rem;margin-left:0.5rem">for 5 days</span></div>
                 <div style="display:flex;flex-direction:column;gap:0.875rem;max-width:18rem;margin:0 auto 2rem;text-align:left">
                   <div style="display:flex;align-items:center;gap:0.75rem"><svg width="20" height="20" fill="none" stroke="#22c55e" viewBox="0 0 24 24" style="flex-shrink:0"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span>Instant SMS notifications</span></div>
-                  <div style="display:flex;align-items:center;gap:0.75rem"><svg width="20" height="20" fill="none" stroke="#22c55e" viewBox="0 0 24 24" style="flex-shrink:0"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span>60 minute monitoring cycles</span></div>
+                  <div style="display:flex;align-items:center;gap:0.75rem"><svg width="20" height="20" fill="none" stroke="#22c55e" viewBox="0 0 24 24" style="flex-shrink:0"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span>15 minute monitoring cycles</span></div>
                   <div style="display:flex;align-items:center;gap:0.75rem"><svg width="20" height="20" fill="none" stroke="#22c55e" viewBox="0 0 24 24" style="flex-shrink:0"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span>Only alerts for visible aurora</span></div>
                   <div style="display:flex;align-items:center;gap:0.75rem"><svg width="20" height="20" fill="none" stroke="#22c55e" viewBox="0 0 24 24" style="flex-shrink:0"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span>No subscription, one time purchase</span></div>
                 </div>
@@ -398,7 +398,7 @@
                 </div>
                 <div class="card" style="padding:1.75rem;text-align:center">
                   <div class="icon-box icon-box--blue mx-auto" style="margin-bottom:1rem"><svg width="24" height="24" fill="none" stroke="#60a5fa" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
-                  <h3 class="font-heading" style="font-weight:600;font-size:1.125rem;margin-bottom:0.5rem"> 60 Minute Updates</h3>
+                  <h3 class="font-heading" style="font-weight:600;font-size:1.125rem;margin-bottom:0.5rem"> 15 Minute Updates</h3>
                   <p class="text-secondary" style="font-size:0.875rem;line-height:1.5">Continuous monitoring ensures you never miss a display</p>
                 </div>
               </div>
@@ -527,7 +527,7 @@
           <div style="display:flex;flex-direction:column;gap:1rem">
             <div style="display:flex;gap:0.875rem;align-items:flex-start">
               <div style="width:2.25rem;height:2.25rem;border-radius:0.625rem;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.15);display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0">📡</div>
-              <div><div class="font-heading" style="font-size:0.85rem;font-weight:600;color:var(--color-text-primary)">360° sky camera analysis</div><div style="font-size:0.78rem;color:var(--color-text-secondary);line-height:1.45">Professional cameras at UiT scan the entire sky every hour throughout the evening.</div></div>
+              <div><div class="font-heading" style="font-size:0.85rem;font-weight:600;color:var(--color-text-primary)">360° sky camera analysis</div><div style="font-size:0.78rem;color:var(--color-text-secondary);line-height:1.45">Professional cameras at UiT scan the entire sky every 15 minutes throughout the evening.</div></div>
             </div>
             <div style="display:flex;gap:0.875rem;align-items:flex-start">
               <div style="width:2.25rem;height:2.25rem;border-radius:0.625rem;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.15);display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0">🔬</div>
@@ -714,6 +714,16 @@
         if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
       });
     });
+  </script>
+  <script>
+    fetch("https://aurora-real-time-backend-production.up.railway.app/stats")
+      .then(r => r.json())
+      .then(d => {
+        document.getElementById("stat-alerts").textContent = d.alerts_since_jan_2026;
+        document.getElementById("stat-accuracy").textContent = d.accuracy_percent + "%";
+        document.getElementById("stat-interval").textContent = d.scan_interval_minutes + " min";
+      })
+      .catch(() => {});
   </script>
 </body>
 </html>
