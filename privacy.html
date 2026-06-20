@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Personvernerklæring / Privacy Policy | Aurora Real Time</title>
   <link rel="canonical" href="https://aurorarealtime.com/privacy.html">
-  <meta name="description" content="Personvernerklæring for Aurora Real Time (AuroraAlerts). Les om hvordan vi samler inn, behandler og beskytter dine personopplysninger i samsvar med GDPR.">
+  <meta name="description" content="Personvernerklæring for Aurora Real Time. Les om hvordan vi samler inn, behandler og beskytter dine personopplysninger i samsvar med GDPR.">
   <meta name="theme-color" content="#0a0f1a">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -366,8 +366,8 @@
         <span class="legal-header__label">Juridisk dokument</span>
         <h1 class="legal-header__title">Personvernerklæring</h1>
         <p class="legal-header__meta">
-          Sist oppdatert: 12. februar 2026<br>
-          Gjelder for tjenesten AuroraAlerts levert av Aurora Real Time, Tromsø, Norge.
+          Sist oppdatert: 20. juni 2026<br>
+          Gjelder for tjenesten Aurora Real Time (org.nr 934 948 920), Tromsø, Norge.
         </p>
       </header>
 
@@ -383,7 +383,7 @@
         <div class="legal-section">
           <div class="legal-section__number">§ 1</div>
           <h2 class="legal-section__title">Innledning</h2>
-          <p>Velkommen til AuroraAlerts. Vi tilbyr en AI-drevet varslingstjeneste for nordlys i Tromsø-området. Ditt personvern er viktig for oss, og denne erklæringen forklarer hvordan vi samler inn, bruker og beskytter dine personopplysninger i samsvar med personvernforordningen (GDPR) og den norske personopplysningsloven.</p>
+          <p>Velkommen til Aurora Real Time. Vi tilbyr en AI-drevet varslingstjeneste for nordlys i Tromsø-området. Ditt personvern er viktig for oss, og denne erklæringen forklarer hvordan vi samler inn, bruker og beskytter dine personopplysninger i samsvar med personvernforordningen (GDPR) og den norske personopplysningsloven.</p>
         </div>
 
         <div class="legal-section">
@@ -392,8 +392,9 @@
           <p>For å kunne levere tjenesten du har betalt for, behandler vi følgende opplysninger:</p>
           <ul>
             <li><span class="legal-highlight">Telefonnummer:</span> Brukes utelukkende til å sende deg automatiserte SMS-varsler når vår AI detekterer nordlysaktivitet.</li>
+            <li><span class="legal-highlight">Språk:</span> Vi utleder hvilket språk SMS-en skal sendes på fra telefonnummerets landkode, og lagrer denne språkkoden.</li>
             <li><span class="legal-highlight">Betalingsdata:</span> Vi mottar informasjon om transaksjonstidspunkt og abonnementsstatus fra Stripe for å styre din tilgang. <em>Merk: Vi lagrer aldri dine kortdetaljer på våre egne servere; dette håndteres av Stripe i tråd med PCI-DSS standarder.</em></li>
-            <li><span class="legal-highlight">Kommunikasjonslogger:</span> Vi beholder en logg over sendte SMS i 48 timer for å kunne yte support ved tekniske feil.</li>
+            <li><span class="legal-highlight">Driftslogger:</span> Vi lagrer et aggregert antall sendte varsler for drift og statistikk. Vi fører ingen egen logg over hvilke meldinger som er sendt til hvilke numre — selve SMS-leveringsloggene håndteres av Twilio etter deres lagringstid.</li>
           </ul>
 
           <div class="data-table-wrapper">
@@ -411,13 +412,19 @@
                   <td data-label="Kategori">Telefonnummer</td>
                   <td data-label="Grunnlag">Art. 6(1)(b) – Avtale</td>
                   <td data-label="Formål">Levering av SMS-varsler</td>
-                  <td data-label="Ansvarlig">AuroraAlerts</td>
+                  <td data-label="Ansvarlig">Aurora Real Time</td>
+                </tr>
+                <tr>
+                  <td data-label="Kategori">Språk</td>
+                  <td data-label="Grunnlag">Art. 6(1)(b) – Avtale</td>
+                  <td data-label="Formål">Tilpasse SMS-språk</td>
+                  <td data-label="Ansvarlig">Aurora Real Time</td>
                 </tr>
                 <tr>
                   <td data-label="Kategori">E-postadresse</td>
                   <td data-label="Grunnlag">Art. 6(1)(b) – Avtale</td>
                   <td data-label="Formål">Kvittering og support</td>
-                  <td data-label="Ansvarlig">AuroraAlerts</td>
+                  <td data-label="Ansvarlig">Aurora Real Time</td>
                 </tr>
                 <tr>
                   <td data-label="Kategori">Kortdetaljer</td>
@@ -429,13 +436,13 @@
                   <td data-label="Kategori">IP-adresse</td>
                   <td data-label="Grunnlag">Art. 6(1)(f) – Interesse</td>
                   <td data-label="Formål">Svindelforebygging</td>
-                  <td data-label="Ansvarlig">Stripe & AuroraAlerts</td>
+                  <td data-label="Ansvarlig">Stripe & Aurora Real Time</td>
                 </tr>
                 <tr>
                   <td data-label="Kategori">Transaksjonshistorikk</td>
                   <td data-label="Grunnlag">Art. 6(1)(c) – Lovkrav</td>
                   <td data-label="Formål">Regnskap og skatt</td>
-                  <td data-label="Ansvarlig">AuroraAlerts</td>
+                  <td data-label="Ansvarlig">Aurora Real Time</td>
                 </tr>
               </tbody>
             </table>
@@ -453,14 +460,15 @@
 
         <div class="legal-section">
           <div class="legal-section__number">§ 4</div>
-          <h2 class="legal-section__title">Dataflyt og overføring til utlandet (Norge til USA)</h2>
-          <p>For å sikre rask AI-analyse og stabil utsendelse av meldinger, benytter vi underleverandører med infrastruktur i USA:</p>
+          <h2 class="legal-section__title">Databehandlere og overføring til utlandet</h2>
+          <p>Telefonnummeret ditt lagres innenfor EU/EØS. For å levere tjenesten benytter vi følgende databehandlere. Enkelte av dem er etablert i USA; slike overføringer skjer i samsvar med EU-U.S. Data Privacy Framework (DPF) og EU-kommisjonens standardkontrakter (SCC).</p>
           <ul>
-            <li><span class="legal-highlight">OpenAI:</span> For AI-analyse av kamerabilder av himmelen.</li>
-            <li><span class="legal-highlight">Twilio & Zapier:</span> For utsendelse av SMS og automatisering av varslingsflyten.</li>
-            <li><span class="legal-highlight">Stripe:</span> For sikker betalingsformidling.</li>
+            <li><span class="legal-highlight">Supabase (database og fillagring, EU/EØS):</span> Lagrer telefonnummer, abonnementsstatus, tidsstempler, språk og kamerabilder.</li>
+            <li><span class="legal-highlight">Stripe (betaling, USA):</span> Behandler kortdetaljer, e-post, telefonnummer og IP-adresse. PCI-DSS, DPF/SCC.</li>
+            <li><span class="legal-highlight">Twilio (SMS-utsendelse, USA):</span> Mottar telefonnummer og meldingsinnhold for å levere SMS. DPF/SCC.</li>
+            <li><span class="legal-highlight">Railway (drift av backend, USA):</span> Kjører applikasjonen; telefonnummeret behandles midlertidig under utsendelse. DPF/SCC.</li>
+            <li><span class="legal-highlight">OpenAI (AI-bildeanalyse, USA):</span> Mottar utelukkende kamerabilder av himmelen — ingen personopplysninger.</li>
           </ul>
-          <p>Alle overføringer skjer i samsvar med EU-U.S. Data Privacy Framework (DPF). Vi benytter i tillegg EU-kommisjonens Standardkontrakter (SCCs) for å sikre at dine personopplysninger er beskyttet etter europeisk standard, uavhengig av geografisk lokasjon.</p>
         </div>
 
         <div class="legal-section">
@@ -468,9 +476,9 @@
           <h2 class="legal-section__title">Sletterutine og lagringsbegrensning</h2>
           <p>Vi praktiserer streng lagringsbegrensning i tråd med GDPR artikkel 5 nr. 1 bokstav e:</p>
           <ul>
-            <li><span class="legal-highlight">Telefonnummer:</span> Ditt nummer slettes automatisk fra vårt aktive varslingssystem innen 48 timer etter at tilgangsperioden din er utløpt.</li>
+            <li><span class="legal-highlight">Telefonnummer:</span> Ditt nummer anonymiseres automatisk i vårt aktive varslingssystem innen 48 timer etter at tilgangsperioden din er utløpt (nummeret erstattes med en anonym verdi).</li>
             <li><span class="legal-highlight">Regnskapsdata:</span> Transaksjonsbilag lagres så lenge norsk lov krever det (5–10 år), men separeres fra ditt aktive telefonnummer for å beskytte ditt personvern.</li>
-            <li><span class="legal-highlight">Kommunikasjonslogger:</span> Loggen over sendte SMS slettes automatisk etter 48 timer.</li>
+            <li><span class="legal-highlight">Driftslogger:</span> Aggregerte tall (antall sendte varsler) lagres for statistikk. Detaljerte SMS-leveringslogger oppbevares hos Twilio i henhold til deres retningslinjer.</li>
           </ul>
         </div>
 
@@ -489,7 +497,7 @@
           <div class="contact-box">
             <p style="color:var(--color-text-secondary);font-size:0.9375rem;line-height:1.65;margin:0">
               For å utøve dine rettigheter, kontakt oss på
-              <a href="mailto:privacy@auroraalerts.com">privacy@auroraalerts.com</a>.
+              <a href="mailto:support@aurorarealtime.com">support@aurorarealtime.com</a>.
               Vi vil besvare din henvendelse innen 30 dager.
             </p>
           </div>
@@ -503,7 +511,7 @@
         <div class="legal-section">
           <div class="legal-section__number">§ 1</div>
           <h2 class="legal-section__title">Introduction</h2>
-          <p>Welcome to AuroraAlerts. We provide AI-driven Northern Lights notification services for the Tromsø region. Your privacy is a priority for us, and this policy explains how we collect, process, and protect your personal data in accordance with the General Data Protection Regulation (GDPR) and the Norwegian Personal Data Act.</p>
+          <p>Welcome to Aurora Real Time. We provide AI-driven Northern Lights notification services for the Tromsø region. Your privacy is a priority for us, and this policy explains how we collect, process, and protect your personal data in accordance with the General Data Protection Regulation (GDPR) and the Norwegian Personal Data Act.</p>
         </div>
 
         <div class="legal-section">
@@ -512,8 +520,9 @@
           <p>To deliver the service you have purchased, we process the following data:</p>
           <ul>
             <li><span class="legal-highlight">Phone Number:</span> This is used exclusively to send you automated SMS alerts when our AI detects Northern Lights activity.</li>
+            <li><span class="legal-highlight">Language:</span> We derive the language for your SMS from the country code of your phone number and store this language code.</li>
             <li><span class="legal-highlight">Payment Metadata:</span> We collect transaction timestamps and subscription status via Stripe to manage your access pass. <em>Note: We do not store your credit card information; this is handled securely by our PCI-compliant partner, Stripe.</em></li>
-            <li><span class="legal-highlight">Communication Logs:</span> We may retain records of sent messages for 48 hours for technical troubleshooting and support.</li>
+            <li><span class="legal-highlight">Operational Logs:</span> We store an aggregate count of alerts sent for operations and statistics. We do not keep our own log of which messages were sent to which numbers — SMS delivery logs are handled by Twilio per their retention policy.</li>
           </ul>
 
           <div class="data-table-wrapper">
@@ -531,13 +540,19 @@
                   <td data-label="Category">Phone number</td>
                   <td data-label="Legal basis">Art. 6(1)(b) – Contract</td>
                   <td data-label="Purpose">SMS alert delivery</td>
-                  <td data-label="Responsible">AuroraAlerts</td>
+                  <td data-label="Responsible">Aurora Real Time</td>
+                </tr>
+                <tr>
+                  <td data-label="Category">Language</td>
+                  <td data-label="Legal basis">Art. 6(1)(b) – Contract</td>
+                  <td data-label="Purpose">SMS language selection</td>
+                  <td data-label="Responsible">Aurora Real Time</td>
                 </tr>
                 <tr>
                   <td data-label="Category">Email address</td>
                   <td data-label="Legal basis">Art. 6(1)(b) – Contract</td>
                   <td data-label="Purpose">Receipt and support</td>
-                  <td data-label="Responsible">AuroraAlerts</td>
+                  <td data-label="Responsible">Aurora Real Time</td>
                 </tr>
                 <tr>
                   <td data-label="Category">Card details</td>
@@ -549,13 +564,13 @@
                   <td data-label="Category">IP address</td>
                   <td data-label="Legal basis">Art. 6(1)(f) – Legit. interest</td>
                   <td data-label="Purpose">Fraud prevention</td>
-                  <td data-label="Responsible">Stripe & AuroraAlerts</td>
+                  <td data-label="Responsible">Stripe & Aurora Real Time</td>
                 </tr>
                 <tr>
                   <td data-label="Category">Transaction history</td>
                   <td data-label="Legal basis">Art. 6(1)(c) – Legal obligation</td>
                   <td data-label="Purpose">Accounting and tax</td>
-                  <td data-label="Responsible">AuroraAlerts</td>
+                  <td data-label="Responsible">Aurora Real Time</td>
                 </tr>
               </tbody>
             </table>
@@ -573,14 +588,15 @@
 
         <div class="legal-section">
           <div class="legal-section__number">§ 4</div>
-          <h2 class="legal-section__title">International Data Transfers (Norway to USA)</h2>
-          <p>To provide high-performance AI analysis and reliable SMS delivery, your data is processed by the following sub-processors based in the United States:</p>
+          <h2 class="legal-section__title">Data Processors and International Transfers</h2>
+          <p>Your phone number is stored within the EU/EEA. To deliver the service we rely on the data processors below. Some are based in the United States; such transfers are governed by the EU-U.S. Data Privacy Framework (DPF) and the EU Commission's Standard Contractual Clauses (SCCs).</p>
           <ul>
-            <li><span class="legal-highlight">OpenAI:</span> For AI visual analysis of sky conditions.</li>
-            <li><span class="legal-highlight">Twilio & Zapier:</span> For SMS routing and workflow automation.</li>
-            <li><span class="legal-highlight">Stripe:</span> For secure payment processing.</li>
+            <li><span class="legal-highlight">Supabase (database and file storage, EU/EEA):</span> Stores your phone number, subscription status, timestamps, language and camera images.</li>
+            <li><span class="legal-highlight">Stripe (payments, USA):</span> Processes card details, email, phone number and IP address. PCI-DSS, DPF/SCC.</li>
+            <li><span class="legal-highlight">Twilio (SMS delivery, USA):</span> Receives your phone number and message content to deliver SMS. DPF/SCC.</li>
+            <li><span class="legal-highlight">Railway (backend hosting, USA):</span> Runs the application; your phone number is processed transiently during delivery. DPF/SCC.</li>
+            <li><span class="legal-highlight">OpenAI (AI image analysis, USA):</span> Receives only camera images of the sky — no personal data.</li>
           </ul>
-          <p>All transfers are governed by the EU-U.S. Data Privacy Framework (DPF). Additionally, we maintain Standard Contractual Clauses (SCCs) with our providers to ensure that your data is protected even if the DPF status changes.</p>
         </div>
 
         <div class="legal-section">
@@ -588,9 +604,9 @@
           <h2 class="legal-section__title">Data Retention and Deletion Routine</h2>
           <p>We follow a strict "Storage Limitation" principle in accordance with GDPR Article 5(1)(e):</p>
           <ul>
-            <li><span class="legal-highlight">Phone Numbers:</span> Your phone number is automatically purged from our active alerting system within 48 hours after your access pass expires.</li>
+            <li><span class="legal-highlight">Phone Numbers:</span> Your phone number is automatically anonymised in our active alerting system within 48 hours after your access pass expires (the number is replaced with an anonymous value).</li>
             <li><span class="legal-highlight">Payment Records:</span> Financial records are kept for the duration required by Norwegian law (5–10 years) but are stored separately from your active notification profile.</li>
-            <li><span class="legal-highlight">Communication Logs:</span> Logs of sent SMS messages are automatically deleted after 48 hours.</li>
+            <li><span class="legal-highlight">Operational Logs:</span> Aggregate figures (number of alerts sent) are retained for statistics. Detailed SMS delivery logs are held by Twilio in accordance with their policies.</li>
           </ul>
         </div>
 
@@ -609,7 +625,7 @@
           <div class="contact-box">
             <p style="color:var(--color-text-secondary);font-size:0.9375rem;line-height:1.65;margin:0">
               To exercise your rights, please contact us at
-              <a href="mailto:privacy@auroraalerts.com">privacy@auroraalerts.com</a>.
+              <a href="mailto:support@aurorarealtime.com">support@aurorarealtime.com</a>.
               We will respond to your request within 30 days.
             </p>
           </div>
