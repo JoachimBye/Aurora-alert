@@ -94,6 +94,38 @@
       .nav__links { display: flex; }
     }
 
+    .nav__brand { min-width: 0; }
+    .nav__brand-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .nav__right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .nav__cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 1rem;
+      border-radius: 9999px;
+      background: linear-gradient(135deg, var(--color-green-primary) 0%, var(--color-green-dark) 100%);
+      color: #fff;
+      font-family: var(--font-heading);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+      box-shadow: 0 2px 12px rgba(34, 197, 94, 0.25);
+      transition: transform var(--transition-base), box-shadow var(--transition-base);
+    }
+
+    .nav__cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 18px rgba(34, 197, 94, 0.4);
+    }
+
     /* ==================== PAGE CONTENT ==================== */
     .page-content {
       position: relative;
@@ -730,10 +762,22 @@
         text-align: center;
       }
       .cta-price { text-align: center; }
-      .filter-bar { padding-bottom: 0.5rem; }
+      .filter-bar {
+        padding-bottom: 0.5rem;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .filter-bar::-webkit-scrollbar { display: none; }
+      .filter-label { flex-shrink: 0; }
+      .filter-btn { padding: 0.5rem 1rem; flex-shrink: 0; }
     }
 
     @media (max-width: 480px) {
+      .nav__inner { padding: 0 1rem; }
+      .nav__brand-name { font-size: 1rem; }
+      .nav__cta { padding: 0.4rem 0.75rem; }
       .map-header { padding: 1.5rem 1rem 0.75rem; }
       .map-header h1 { font-size: 1.5rem; }
       .filter-bar { padding: 0 1rem 0.75rem; }
@@ -772,6 +816,24 @@
       background: currentColor;
       animation: pulse-glow 2s ease-in-out infinite;
     }
+
+    /* Elevated "tonight" KP signal — strongest live cue on the page */
+    #kp-pill {
+      background: rgba(34, 197, 94, 0.06);
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+
+    #kp-pill #kp-value {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    @media (max-width: 480px) {
+      .live-widgets { width: 100%; }
+      .live-pill { width: 100%; justify-content: flex-start; }
+    }
   </style>
 </head>
 <body>
@@ -797,11 +859,14 @@
         </svg>
         <span class="nav__brand-name">Aurora Real Time</span>
       </a>
-      <ul class="nav__links" role="list">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="map.html" class="active" aria-current="page">Viewing Map</a></li>
-        <li><a href="#legend">Guide</a></li>
-      </ul>
+      <div class="nav__right">
+        <ul class="nav__links" role="list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="map.html" class="active" aria-current="page">Viewing Map</a></li>
+          <li><a href="#legend">Guide</a></li>
+        </ul>
+        <a href="index.html#pricing" class="nav__cta">Get alerts</a>
+      </div>
     </div>
   </nav>
 
@@ -823,7 +888,7 @@
         </div>
         <div id="last-pill" class="live-pill">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          Last confirmed: <strong id="last-detected">—</strong>
+          <span id="last-prefix">Last confirmed:</span> <strong id="last-detected">—</strong>
         </div>
       </div>
     </section>
@@ -932,7 +997,7 @@
         <a href="contact.html">Contact</a>
       </nav>
       <div class="footer__copy">
-        <p>Data: UiT StormCast (CC BY 4.0) · Not affiliated with TGO · © 2026 Aurora Real Time</p>
+        <p>Kp data: NOAA SWPC · Map © OpenStreetMap, CARTO · Aurora cam: UiT · © 2026 Aurora Real Time</p>
       </div>
     </div>
   </footer>
@@ -998,7 +1063,7 @@
         lat: 69.7032,
         lng: 18.9901,
         category: 'Urban · Walk',
-        description: 'The northern tip of Tromsøya — nothing between you and the Arctic Ocean. Most unobstructed northern view on the island. Ideal for faint, low-horizon auroras.',
+        description: 'The northern tip of Tromsøya — nothing between you and the Arctic Ocean. The cleanest sightline north anywhere on the island. Ideal for faint, low-horizon auroras.',
         darkness: 2,
         transport: 'Bus 28/42 + 1.5 km walk',
         altitude: 'Sea level',
@@ -1010,15 +1075,14 @@
       {
         id: 'fjellheisen',
         name: 'Fjellheisen (Mt. Storsteinen)',
-        lat: 69.635,
-        lng: 18.987,
+        lat: 69.6413,
+        lng: 18.9858,
         category: 'Suburban · Bus',
         description: '421 m summit via cable car. Often above coastal fog. Full 360° panorama — watch aurora arcs span the entire horizon. Café open until midnight in season.',
         darkness: 3,
         transport: 'Bus 26 / Cable car',
         altitude: '421 m',
-        tags: ['bus'],
-        parkingNote: 'Construction: use temp parking at Solstrandvegen 30'
+        tags: ['bus']
       },
       {
         id: 'gronnaasen',
@@ -1097,8 +1161,8 @@
       {
         id: 'skulsfjord',
         name: 'Skulsfjord',
-        lat: 69.75912,
-        lng: 18.856337,
+        lat: 69.8007,
+        lng: 18.7523,
         category: 'Remote · Car',
         description: 'Northwestern Kvaløya coast with views toward Vengsøya. Often clear when Tromsø is cloudy. High winds keep lenses frost-free but challenge tripod stability. Reindeer frequent the area.',
         darkness: 4,
@@ -1242,8 +1306,12 @@
         maxZoom: 18
       }).addTo(map);
 
+      // Only show the error overlay if the tile layer never loads anything —
+      // a single failed tile shouldn't blank the whole map.
+      var tilesLoaded = false;
+      tileLayer.on('load', function () { tilesLoaded = true; });
       tileLayer.on('tileerror', function () {
-        document.getElementById('mapError').classList.add('visible');
+        if (!tilesLoaded) document.getElementById('mapError').classList.add('visible');
       });
 
       // Add markers
@@ -1342,16 +1410,19 @@
       return Math.floor(h / 24) + 'd ago';
     }
 
-    // KP-index from NOAA
+    // KP-index from NOAA — endpoint returns an array of objects: {time_tag, Kp, ...}
     fetch('https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json')
       .then(function(r) { return r.json(); })
       .then(function(data) {
         var last = data[data.length - 1];
-        var kp = parseFloat(last[1]);
+        var kp = last ? parseFloat(last.Kp) : NaN;
+        if (isNaN(kp)) return;
+        // Tromsø sits under the auroral oval — aurora shows here at low Kp.
         var label = kp >= 5 ? 'Storm — aurora very likely' :
-                    kp >= 4 ? 'Active — aurora likely' :
-                    kp >= 2 ? 'Aurora possible' : 'Quiet — low activity';
-        var color = kp >= 4 ? '#22c55e' : kp >= 2 ? '#2dd4bf' : '#ffb450';
+                    kp >= 3 ? 'Active — aurora likely' :
+                    kp >= 1 ? 'Aurora possible tonight' :
+                              'Quiet — but Tromsø can still surprise';
+        var color = kp >= 3 ? '#22c55e' : kp >= 1 ? '#2dd4bf' : '#ffb450';
         var pill = document.getElementById('kp-pill');
         document.getElementById('kp-value').textContent = kp.toFixed(1);
         document.getElementById('kp-value').style.color = color;
@@ -1362,16 +1433,33 @@
       })
       .catch(function() {});
 
-    // Last aurora confirmed — from backend
+    // Last aurora confirmed — from backend, with season-aware fallback when there's
+    // no recent detection (off-season or none logged yet) so the pill is never blank.
+    function showLastPill(isoStr) {
+      var pill = document.getElementById('last-pill');
+      var prefix = document.getElementById('last-prefix');
+      var value = document.getElementById('last-detected');
+      if (isoStr) {
+        prefix.textContent = 'Last confirmed:';
+        value.textContent = timeAgo(isoStr);
+      } else {
+        var month = new Date().getMonth() + 1;   // 1–12
+        var inSeason = (month >= 9 || month <= 3); // Sep–Mar
+        if (inSeason) {
+          prefix.textContent = 'Tonight:';
+          value.textContent = 'monitoring live';
+        } else {
+          prefix.textContent = 'Aurora season:';
+          value.textContent = 'Sep–Mar';
+        }
+      }
+      pill.classList.add('visible');
+    }
+
     fetch('https://aurora-real-time-backend-production.up.railway.app/stats')
       .then(function(r) { return r.json(); })
-      .then(function(d) {
-        if (d.last_aurora_detected_at) {
-          document.getElementById('last-detected').textContent = timeAgo(d.last_aurora_detected_at);
-          document.getElementById('last-pill').classList.add('visible');
-        }
-      })
-      .catch(function() {});
+      .then(function(d) { showLastPill(d && d.last_aurora_detected_at); })
+      .catch(function() { showLastPill(null); });
   </script>
 </body>
 </html>
