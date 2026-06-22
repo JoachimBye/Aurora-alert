@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aurora Forecast vs. Reality: Why the App Says 60% and You See Nothing | Aurora Real Time</title>
+  <link rel="canonical" href="https://aurorarealtime.com/aurora-forecast-vs-reality-tromso.html" />
+  <meta name="description" content="Aurora forecasts predict geomagnetic activity, not whether the Northern Lights are visible over you. Why a 60% chance can still mean an empty sky in Tromsø — and what actually works." />
+  <meta name="theme-color" content="#0a0f1a">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Aurora Forecast vs. Reality: Why the App Says 60% and You See Nothing">
+  <meta property="og:description" content="An aurora forecast predicts geomagnetic activity, not visibility over your head. Why a 60% chance still means an empty sky if it's cloudy — and what to check instead.">
+  <meta property="og:url" content="https://aurorarealtime.com/aurora-forecast-vs-reality-tromso.html">
+  <meta property="og:image" content="https://aurorarealtime.com/nordlysbilde1.jpeg">
+  <meta property="og:image:alt" content="Northern Lights visible over Tromsø, Norway">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Aurora Forecast vs. Reality: Why the App Says 60% and You See Nothing",
+    "description": "Why aurora forecast apps disappoint: a probability of geomagnetic activity is not an observation of visible aurora, and forecasts cannot see the clouds over Tromsø.",
+    "image": "https://aurorarealtime.com/nordlysbilde1.jpeg",
+    "datePublished": "2026-06-22",
+    "dateModified": "2026-06-22",
+    "author": { "@type": "Organization", "name": "Aurora Real Time", "url": "https://aurorarealtime.com/" },
+    "publisher": { "@type": "Organization", "name": "Aurora Real Time", "logo": { "@type": "ImageObject", "url": "https://aurorarealtime.com/favicon.svg" } },
+    "mainEntityOfPage": "https://aurorarealtime.com/aurora-forecast-vs-reality-tromso.html"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://aurorarealtime.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Aurora Forecast vs. Reality", "item": "https://aurorarealtime.com/aurora-forecast-vs-reality-tromso.html" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Are aurora forecasts accurate?", "acceptedAnswer": { "@type": "Answer", "text": "Short-term geomagnetic forecasts, like the 30-minute models from NOAA, are reasonably good at predicting activity levels. But they do not predict local cloud cover and cannot guarantee what you will see from a specific spot, so accuracy for 'will I see it tonight' is much lower than people assume." } },
+      { "@type": "Question", "name": "What does a 60% chance of aurora actually mean?", "acceptedAnswer": { "@type": "Answer", "text": "It is roughly a probability of sufficient geomagnetic activity, not a 60% chance that you personally will see the Northern Lights. Cloud cover, darkness and timing still decide the actual outcome, which is why the same forecast can mean a glowing sky or nothing at all." } },
+      { "@type": "Question", "name": "How can I know if the aurora is actually visible in Tromsø?", "acceptedAnswer": { "@type": "Answer", "text": "Check a live camera over Tromsø rather than a forecast number. Aurora Real Time analyses university sky cameras every 15 minutes and shows whether the aurora is genuinely visible right now, including current cloud conditions." } }
+    ]
+  }
+  </script>
+
+  <style>
+    .aurora-bg { position: fixed; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 120% 60% at 20% 0%, rgba(34,197,94,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 80% 50% at 80% 10%, rgba(45,212,191,0.04) 0%, transparent 50%),
+        radial-gradient(ellipse 100% 80% at 50% 100%, rgba(10,15,26,1) 0%, transparent 80%),
+        var(--color-bg-primary);
+      pointer-events: none; }
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); background: rgba(10,15,26,0.75); border-bottom: 1px solid var(--color-border); }
+    .nav__inner { max-width: 72rem; margin: 0 auto; padding: 0 1.5rem; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .nav__right { display: flex; align-items: center; gap: 1.5rem; flex-shrink: 0; }
+    .nav__links { display: none; align-items: center; gap: 2rem; list-style: none; }
+    .nav__links a { font-size: 0.875rem; color: var(--color-text-secondary); text-decoration: none; transition: color var(--transition-base); }
+    .nav__links a:hover { color: var(--color-text-primary); }
+    @media (min-width: 768px) { .nav__links { display: flex; } }
+    .nav__brand { min-width: 0; }
+    .nav__brand-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .nav__cta { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.45rem 1rem; border-radius: 9999px; background: linear-gradient(135deg, var(--color-green-primary) 0%, var(--color-green-dark) 100%); color: #fff; font-family: var(--font-heading); font-size: 0.8125rem; font-weight: 600; text-decoration: none; white-space: nowrap; box-shadow: 0 2px 12px rgba(34,197,94,0.25); transition: transform var(--transition-base), box-shadow var(--transition-base); }
+    .nav__cta:hover { transform: translateY(-1px); box-shadow: 0 4px 18px rgba(34,197,94,0.4); }
+
+    .page-content { position: relative; z-index: 1; padding-top: 64px; }
+    .article { max-width: 44rem; margin: 0 auto; padding: 2.5rem 1.5rem 1rem; }
+    .crumb { font-size: 0.8125rem; color: var(--color-text-muted); margin-bottom: 1rem; }
+    .crumb a { color: var(--color-text-secondary); text-decoration: none; }
+    .crumb a:hover { color: var(--color-text-primary); }
+    .article h1 { font-family: var(--font-heading); font-size: clamp(1.85rem, 4.5vw, 2.6rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.14; margin-bottom: 1rem; }
+    .lead { font-size: 1.0625rem; color: var(--color-text-secondary); line-height: 1.7; margin-bottom: 1.5rem; }
+    .article h2 { font-family: var(--font-heading); font-size: clamp(1.3rem, 3.2vw, 1.7rem); font-weight: 700; letter-spacing: -0.02em; margin: 2rem 0 0.85rem; }
+    .article p { color: var(--color-text-secondary); line-height: 1.75; margin-bottom: 1rem; }
+    .article p a, .article li a { color: var(--color-green-primary); text-decoration: none; }
+    .article p a:hover, .article li a:hover { text-decoration: underline; }
+    .article ul { color: var(--color-text-secondary); line-height: 1.75; margin: 0 0 1rem 1.25rem; }
+    .article li { margin-bottom: 0.4rem; }
+    .callout { background: linear-gradient(135deg, rgba(34,197,94,0.06) 0%, rgba(45,212,191,0.04) 100%); border: 1px solid rgba(34,197,94,0.18); border-radius: var(--radius-xl); padding: 1.25rem 1.4rem; margin: 1.5rem 0; }
+    .callout p { color: var(--color-text-primary); margin: 0; line-height: 1.65; }
+    .callout a { color: var(--color-green-primary); font-weight: 600; text-decoration: none; }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 0.75rem 1.25rem; align-items: center; margin: 1.5rem 0 0.5rem; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 1.6rem; border-radius: var(--radius-xl); border: none; background: linear-gradient(135deg, var(--color-green-primary) 0%, var(--color-green-dark) 100%); color: #fff; font-family: var(--font-heading); font-size: 1rem; font-weight: 600; text-decoration: none; box-shadow: 0 4px 20px rgba(34,197,94,0.3); transition: all var(--transition-smooth); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px var(--color-green-glow); }
+    .cta-note { font-size: 0.8125rem; color: var(--color-text-muted); }
+    .related { border-top: 1px solid var(--color-border); margin-top: 2rem; padding-top: 1.25rem; }
+    .related h2 { margin-top: 0; }
+    .related ul { list-style: none; margin-left: 0; display: grid; grid-template-columns: 1fr; gap: 0.5rem; }
+    @media (min-width: 640px) { .related ul { grid-template-columns: repeat(2, 1fr); } }
+    .related a { color: var(--color-green-primary); text-decoration: none; font-weight: 500; }
+    .related a:hover { text-decoration: underline; }
+    .faq-section { border-top: 1px solid var(--color-border); margin-top: 2rem; padding-top: 1.5rem; }
+    .faq-item { background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius-xl); padding: 1.15rem 1.3rem; margin-bottom: 0.7rem; }
+    .faq-item summary { cursor: pointer; list-style: none; font-family: var(--font-heading); font-weight: 600; font-size: 0.9875rem; display: flex; justify-content: space-between; gap: 1rem; }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item .faq-a { color: var(--color-text-secondary); font-size: 0.9375rem; line-height: 1.7; margin-top: 0.8rem; padding-top: 0.8rem; border-top: 1px solid var(--color-border); }
+    .footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 2rem 0; position: relative; z-index: 1; }
+    .footer__inner { max-width: 72rem; margin: 0 auto; padding: 0 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+    .footer__links { display: flex; flex-wrap: wrap; gap: 1.5rem; }
+    .footer__links a { font-size: 0.875rem; color: var(--color-text-secondary); text-decoration: none; }
+    .footer__links a:hover { color: var(--color-text-primary); }
+    .footer__copy { font-size: 0.75rem; color: var(--color-text-muted); line-height: 1.8; }
+    @media (min-width: 768px) { .footer__inner { flex-direction: row; align-items: center; justify-content: space-between; } }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="aurora-bg" aria-hidden="true"></div>
+
+  <nav class="nav" aria-label="Main navigation">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__brand" aria-label="Aurora Real Time — Home">
+        <svg width="32" height="32" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+          <path d="M5 32 L20 12 L35 32" stroke="url(#a-line)" stroke-width="2" fill="none"/>
+          <path d="M8 28 Q20 5 32 28" stroke="#22c55e" stroke-width="3" fill="none" opacity="0.8"/>
+          <path d="M12 25 Q20 8 28 25" stroke="#2dd4bf" stroke-width="2" fill="none" opacity="0.6"/>
+          <defs><linearGradient id="a-line" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#22c55e"/><stop offset="100%" stop-color="#2dd4bf"/></linearGradient></defs>
+        </svg>
+        <span class="nav__brand-name">Aurora Real Time</span>
+      </a>
+      <div class="nav__right">
+        <ul class="nav__links" role="list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="northern-lights-tonight-tromso.html">Tonight</a></li>
+          <li><a href="map.html">Viewing Map</a></li>
+        </ul>
+        <a href="index.html#pricing" class="nav__cta">Get alerts</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main-content" class="page-content">
+    <article class="article">
+      <nav class="crumb" aria-label="Breadcrumb"><a href="index.html">Home</a> › Forecast vs. reality</nav>
+      <h1>Aurora Forecast vs. Reality: Why the App Says 60% and You See Nothing</h1>
+      <p class="lead">
+        An aurora forecast predicts <strong>geomagnetic activity</strong> — the chance of a solar-driven disturbance — not
+        whether the Northern Lights are actually visible above your head. That's why a "60% chance" can mean a glowing sky or a
+        completely overcast night with nothing to see. Forecasts disappoint for two reasons: a probability is not an
+        observation, and a forecast cannot see the clouds over you. In Tromsø, where the aurora is common but skies are often
+        cloudy, that gap is the whole problem.
+      </p>
+
+      <h2>What an aurora forecast actually predicts</h2>
+      <p>
+        Most aurora apps are built on space-weather data: the <strong>KP index</strong>, solar wind speed, and the
+        orientation of the interplanetary magnetic field (the "Bz"). Models like NOAA's 30-minute OVATION forecast estimate
+        <em>where and how strong</em> the auroral oval will be. That's genuinely useful — for predicting activity. But notice
+        what's missing: none of it describes the sky directly above Tromsø right now.
+      </p>
+
+      <h2>Gap 1: a probability is not an observation</h2>
+      <p>
+        "60% chance" is a statement about odds, not about your night. Run the same 60% forecast a hundred times and the sky
+        looks different across those nights. On any single evening you don't get 60% of an aurora — you either see it or you
+        don't. A forecast narrows the odds; it can't tell you which side of them you landed on.
+      </p>
+
+      <h2>Gap 2: the forecast can't see your clouds</h2>
+      <p>
+        This is the big one. Aurora can be blazing above the cloud deck and you'll see nothing but grey. Space-weather models
+        don't include a local cloud forecast for Breivika, Tromsø — and even local weather forecasts struggle with fast-moving
+        Arctic coastal cloud. The aurora can be "on" while the sky over you is shut.
+      </p>
+
+      <h2>Why Tromsø makes this sharper</h2>
+      <p>
+        Tromsø sits under the auroral oval, so geomagnetic activity is usually <em>sufficient</em> — you rarely need a storm
+        (see our guide to the <a href="kp-index-tromso-northern-lights.html">KP index in Tromsø</a>). That flips the problem:
+        the limiting factor isn't activity, it's <strong>clouds and timing</strong>. So the very thing aurora forecasts are
+        good at (activity) matters least here, and the thing they're worst at (your local sky) matters most.
+      </p>
+
+      <h2>What actually works: check the real sky</h2>
+      <p>
+        Instead of converting a probability into a guess, look at the sky. A live camera over Tromsø shows you the truth a KP
+        number can't: whether it's clear, and whether the aurora is actually out. That's the entire idea behind
+        <a href="index.html">Aurora Real Time</a> — verification instead of prediction.
+      </p>
+      <div class="callout">
+        <p><a href="northern-lights-tonight-tromso.html">See the live Northern Lights status for Tromsø tonight</a> —
+        AI-verified from university cameras every 15 minutes — or get an SMS the instant the aurora is confirmed visible, so a
+        forecast number never decides your night again.</p>
+      </div>
+
+      <div class="cta-row">
+        <a href="index.html#pricing" class="btn-primary">
+          Get verified alerts, not forecasts — $7.99
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <span class="cta-note">One-time payment · 5 days of alerts · no subscription</span>
+      </div>
+
+      <section class="faq-section" aria-labelledby="faq-heading">
+        <h2 id="faq-heading">Frequently asked questions</h2>
+        <details class="faq-item"><summary>Are aurora forecasts accurate?<span aria-hidden="true">＋</span></summary><div class="faq-a">Short-term geomagnetic models are decent at predicting activity, but they don't predict local cloud cover or guarantee what you'll see from a given spot — so they're far less reliable for "will I see it tonight."</div></details>
+        <details class="faq-item"><summary>What does a 60% aurora chance mean?<span aria-hidden="true">＋</span></summary><div class="faq-a">Roughly a probability of sufficient geomagnetic activity — not a 60% chance you personally will see it. Clouds, darkness and timing still decide the outcome.</div></details>
+        <details class="faq-item"><summary>How do I know if the aurora is really out?<span aria-hidden="true">＋</span></summary><div class="faq-a">Check a <a href="northern-lights-tonight-tromso.html">live camera over Tromsø</a> instead of a forecast number — it shows the actual sky and cloud conditions right now.</div></details>
+      </section>
+
+      <nav class="related" aria-labelledby="related-heading">
+        <h2 id="related-heading">More Tromsø aurora guides</h2>
+        <ul>
+          <li><a href="northern-lights-tonight-tromso.html">Is the aurora out in Tromsø tonight? (live)</a></li>
+          <li><a href="kp-index-tromso-northern-lights.html">What KP index you need in Tromsø</a></li>
+          <li><a href="when-to-see-northern-lights-tromso.html">When to see the northern lights in Tromsø</a></li>
+          <li><a href="best-places-northern-lights-tromso.html">Best places to see the aurora in Tromsø</a></li>
+        </ul>
+      </nav>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <nav class="footer__links" aria-label="Footer navigation">
+        <a href="northern-lights-tonight-tromso.html">Tonight</a>
+        <a href="map.html">Viewing Map</a>
+        <a href="index.html">Home</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="footer__copy">
+        <p>Kp data: NOAA SWPC · Aurora cam: UiT StormCast (CC BY 4.0) · © 2026 Aurora Real Time · Tromsø, Norway</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

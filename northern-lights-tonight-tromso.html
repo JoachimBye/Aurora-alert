@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Northern Lights in Tromsø Tonight — Live Aurora Status | Aurora Real Time</title>
+  <link rel="canonical" href="https://aurorarealtime.com/northern-lights-tonight-tromso.html" />
+  <meta name="description" content="Is the aurora visible in Tromsø right now? Live, AI-verified Northern Lights status from university sky cameras in Tromsø, updated every 15 minutes — not a probability forecast." />
+  <meta name="theme-color" content="#0a0f1a">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Northern Lights in Tromsø Tonight — Live Aurora Status">
+  <meta property="og:description" content="Is the aurora visible in Tromsø right now? Live, AI-verified Northern Lights status from university cameras, updated every 15 minutes.">
+  <meta property="og:url" content="https://aurorarealtime.com/northern-lights-tonight-tromso.html">
+  <meta property="og:image" content="https://aurorarealtime.com/nordlysbilde1.jpeg">
+  <meta property="og:image:alt" content="Northern Lights visible over Tromsø, Norway">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Northern Lights in Tromsø Tonight — Live Aurora Status",
+    "description": "Live, AI-verified Northern Lights status for Tromsø, Norway, from university sky cameras updated every 15 minutes.",
+    "url": "https://aurorarealtime.com/northern-lights-tonight-tromso.html",
+    "primaryImageOfPage": "https://aurorarealtime.com/nordlysbilde1.jpeg",
+    "isPartOf": { "@type": "WebSite", "name": "Aurora Real Time", "url": "https://aurorarealtime.com/" },
+    "about": { "@type": "Thing", "name": "Aurora borealis (Northern Lights) in Tromsø" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://aurorarealtime.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Northern Lights in Tromsø Tonight", "item": "https://aurorarealtime.com/northern-lights-tonight-tromso.html" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Are the northern lights visible in Tromsø tonight?", "acceptedAnswer": { "@type": "Answer", "text": "This page shows the live, AI-verified aurora status from professional sky cameras at UiT The Arctic University of Norway in Tromsø, updated every 15 minutes during the evening in aurora season (September to March). Rather than a probability forecast, it tells you whether the Northern Lights are actually visible right now." } },
+      { "@type": "Question", "name": "What time is best to see the aurora in Tromsø?", "acceptedAnswer": { "@type": "Answer", "text": "The aurora is most often visible in Tromsø between 6 PM and 1 AM local time, with peak activity around 10 PM to midnight. You need darkness, so the season runs from late September to late March; in summer the midnight sun makes the aurora invisible." } },
+      { "@type": "Question", "name": "What KP index do you need to see the northern lights in Tromsø?", "acceptedAnswer": { "@type": "Answer", "text": "Tromsø sits directly under the auroral oval, so the Northern Lights can appear at a KP index as low as 1 or 2 when skies are clear. The biggest limiting factor in Tromsø is usually cloud cover, not geomagnetic activity, which is why a real-time camera check beats a KP forecast." } },
+      { "@type": "Question", "name": "Why check a camera instead of an aurora forecast app?", "acceptedAnswer": { "@type": "Answer", "text": "Forecast apps predict geomagnetic probability but cannot see the sky over Tromsø. A 60% forecast still means nothing if it is cloudy. Aurora Real Time analyses live camera feeds so you only head outside when the aurora is genuinely visible." } }
+    ]
+  }
+  </script>
+
+  <style>
+    /* ===== Background + nav + footer (matches map.html) ===== */
+    .aurora-bg { position: fixed; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 120% 60% at 20% 0%, rgba(34,197,94,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 80% 50% at 80% 10%, rgba(45,212,191,0.04) 0%, transparent 50%),
+        radial-gradient(ellipse 100% 80% at 50% 100%, rgba(10,15,26,1) 0%, transparent 80%),
+        var(--color-bg-primary);
+      pointer-events: none; }
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      background: rgba(10,15,26,0.75); border-bottom: 1px solid var(--color-border); }
+    .nav__inner { max-width: 72rem; margin: 0 auto; padding: 0 1.5rem; height: 64px;
+      display: flex; align-items: center; justify-content: space-between; }
+    .nav__right { display: flex; align-items: center; gap: 1.5rem; flex-shrink: 0; }
+    .nav__links { display: none; align-items: center; gap: 2rem; list-style: none; }
+    .nav__links a { font-size: 0.875rem; color: var(--color-text-secondary); text-decoration: none; transition: color var(--transition-base); position: relative; }
+    .nav__links a:hover { color: var(--color-text-primary); }
+    .nav__links a.active { color: var(--color-text-primary); }
+    .nav__links a.active::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 2px; background: var(--color-green-primary); border-radius: 1px; }
+    @media (min-width: 768px) { .nav__links { display: flex; } }
+    .nav__brand { min-width: 0; }
+    .nav__brand-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .nav__cta { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.45rem 1rem; border-radius: 9999px;
+      background: linear-gradient(135deg, var(--color-green-primary) 0%, var(--color-green-dark) 100%); color: #fff;
+      font-family: var(--font-heading); font-size: 0.8125rem; font-weight: 600; text-decoration: none; white-space: nowrap;
+      box-shadow: 0 2px 12px rgba(34,197,94,0.25); transition: transform var(--transition-base), box-shadow var(--transition-base); }
+    .nav__cta:hover { transform: translateY(-1px); box-shadow: 0 4px 18px rgba(34,197,94,0.4); }
+
+    .page-content { position: relative; z-index: 1; padding-top: 64px; }
+    .wrap { max-width: 56rem; margin: 0 auto; padding-inline: 1.5rem; }
+
+    /* ===== Hero / live status ===== */
+    .live-hero { padding: 2.5rem 0 1rem; }
+    .live-badge-top { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.4rem 1rem; border-radius: 9999px;
+      background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.2); font-size: 0.8125rem; font-weight: 500;
+      color: var(--color-green-primary); margin-bottom: 1rem; }
+    .live-badge-top .live-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; animation: pulse-glow 2s ease-in-out infinite; }
+    .live-hero h1 { font-family: var(--font-heading); font-size: clamp(1.85rem, 4.5vw, 2.75rem); font-weight: 700;
+      letter-spacing: -0.02em; line-height: 1.12; margin-bottom: 0.75rem; }
+    .live-lead { font-size: 1.0625rem; color: var(--color-text-secondary); line-height: 1.65; max-width: 42rem; }
+
+    /* The status card — the strongest cue on the page */
+    .status-card { margin-top: 1.75rem; border-radius: var(--radius-2xl); border: 1px solid var(--color-border);
+      background: var(--color-bg-card); backdrop-filter: blur(12px); padding: 1.5rem 1.5rem 1.25rem; }
+    .status-card.is-visible { border-color: rgba(34,197,94,0.35); box-shadow: 0 0 40px rgba(34,197,94,0.08); }
+    .status-headline { display: flex; align-items: center; gap: 0.85rem; }
+    .status-orb { width: 14px; height: 14px; border-radius: 50%; background: var(--color-text-muted); flex-shrink: 0; }
+    .status-card.is-visible .status-orb { background: var(--color-green-primary); box-shadow: 0 0 12px rgba(34,197,94,0.6); animation: pulse-glow 1.6s ease-in-out infinite; }
+    .status-title { font-family: var(--font-heading); font-size: clamp(1.25rem, 3.5vw, 1.6rem); font-weight: 700; line-height: 1.15; }
+    .status-sub { margin-top: 0.5rem; font-size: 0.9375rem; color: var(--color-text-secondary); line-height: 1.5; }
+    .status-meta { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+    .meta-pill { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.35rem 0.75rem; border-radius: 9999px;
+      background: rgba(255,255,255,0.04); border: 1px solid var(--color-border); font-size: 0.8125rem; color: var(--color-text-secondary); }
+    .meta-pill strong { color: var(--color-text-primary); font-weight: 600; }
+    .meta-pill .live-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+    /* ===== Live camera ===== */
+    .cam-frame { margin-top: 1.25rem; position: relative; width: 100%; aspect-ratio: 16/10; background: #080c14;
+      border-radius: var(--radius-2xl); overflow: hidden; border: 1px solid var(--color-border); }
+    .cam-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .cam-live-tag { position: absolute; top: 0.75rem; left: 0.75rem; display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 11px; background: rgba(0,0,0,0.55); backdrop-filter: blur(8px); border: 1px solid rgba(34,197,94,0.3);
+      border-radius: 20px; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--color-green-primary); font-family: var(--font-heading); }
+    .cam-live-tag .live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-green-primary); animation: pulse-glow 2s ease-in-out infinite; }
+    .cam-caption { position: absolute; bottom: 0; left: 0; right: 0; padding: 10px 12px;
+      background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 100%); font-family: var(--font-mono);
+      font-size: 0.6rem; color: rgba(255,255,255,0.5); letter-spacing: 0.04em; display: flex; justify-content: space-between; }
+
+    /* ===== CTA ===== */
+    .cta-inline { margin-top: 1.5rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.25rem; }
+    .btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.875rem 1.75rem;
+      border-radius: var(--radius-xl); border: none; background: linear-gradient(135deg, var(--color-green-primary) 0%, var(--color-green-dark) 100%);
+      color: #fff; font-family: var(--font-heading); font-size: 1rem; font-weight: 600; cursor: pointer; text-decoration: none;
+      box-shadow: 0 4px 20px rgba(34,197,94,0.3); transition: all var(--transition-smooth); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px var(--color-green-glow); }
+    .cta-note { font-size: 0.8125rem; color: var(--color-text-muted); }
+
+    /* ===== Content sections ===== */
+    .section { padding: 2.5rem 0; border-top: 1px solid var(--color-border); }
+    .section h2 { font-family: var(--font-heading); font-size: clamp(1.4rem, 3.5vw, 1.85rem); font-weight: 700;
+      letter-spacing: -0.02em; margin-bottom: 1rem; }
+    .section p { color: var(--color-text-secondary); line-height: 1.7; margin-bottom: 1rem; max-width: 44rem; }
+    .section p a { color: var(--color-green-primary); text-decoration: none; }
+    .section p a:hover { text-decoration: underline; }
+    .info-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-top: 1.25rem; }
+    @media (min-width: 640px) { .info-grid { grid-template-columns: repeat(2, 1fr); } }
+    .info-card { background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius-xl); padding: 1.25rem 1.35rem; }
+    .info-card h3 { font-family: var(--font-heading); font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .info-card p { font-size: 0.875rem; line-height: 1.6; margin: 0; }
+
+    /* ===== FAQ ===== */
+    .faq-item { background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius-xl); padding: 1.25rem 1.35rem; margin-bottom: 0.75rem; }
+    .faq-item summary { cursor: pointer; list-style: none; font-family: var(--font-heading); font-weight: 600; font-size: 1rem; line-height: 1.4; display: flex; justify-content: space-between; gap: 1rem; }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item .faq-a { color: var(--color-text-secondary); font-size: 0.9375rem; line-height: 1.7; margin-top: 0.85rem; padding-top: 0.85rem; border-top: 1px solid var(--color-border); }
+
+    /* ===== Footer ===== */
+    .footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 2rem 0; position: relative; z-index: 1; }
+    .footer__inner { max-width: 72rem; margin: 0 auto; padding: 0 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+    .footer__links { display: flex; flex-wrap: wrap; gap: 1.5rem; }
+    .footer__links a { font-size: 0.875rem; color: var(--color-text-secondary); text-decoration: none; }
+    .footer__links a:hover { color: var(--color-text-primary); }
+    .footer__copy { font-size: 0.75rem; color: var(--color-text-muted); line-height: 1.8; }
+    @media (min-width: 768px) { .footer__inner { flex-direction: row; align-items: center; justify-content: space-between; } }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="aurora-bg" aria-hidden="true"></div>
+
+  <nav class="nav" aria-label="Main navigation">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__brand" aria-label="Aurora Real Time — Home">
+        <svg width="32" height="32" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+          <path d="M5 32 L20 12 L35 32" stroke="url(#a-line)" stroke-width="2" fill="none"/>
+          <path d="M8 28 Q20 5 32 28" stroke="#22c55e" stroke-width="3" fill="none" opacity="0.8"/>
+          <path d="M12 25 Q20 8 28 25" stroke="#2dd4bf" stroke-width="2" fill="none" opacity="0.6"/>
+          <defs><linearGradient id="a-line" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#22c55e"/><stop offset="100%" stop-color="#2dd4bf"/></linearGradient></defs>
+        </svg>
+        <span class="nav__brand-name">Aurora Real Time</span>
+      </a>
+      <div class="nav__right">
+        <ul class="nav__links" role="list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="northern-lights-tonight-tromso.html" class="active" aria-current="page">Tonight</a></li>
+          <li><a href="map.html">Viewing Map</a></li>
+        </ul>
+        <a href="index.html#pricing" class="nav__cta">Get alerts</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main-content" class="page-content">
+    <section class="live-hero wrap">
+      <div class="live-badge-top"><span class="live-dot" aria-hidden="true"></span> Live from Tromsø, Norway</div>
+      <h1>Northern Lights in Tromsø Tonight</h1>
+      <p class="live-lead">
+        Is the aurora visible in Tromsø right now? This page shows the <strong>live, AI-verified Northern Lights status</strong>
+        from professional sky cameras at UiT The Arctic University of Norway, checked every 15 minutes through the evening.
+        It is a real observation of the sky over Tromsø — not a probability forecast. Check the live status below before you
+        head out into the cold.
+      </p>
+
+      <div class="status-card" id="status-card" aria-live="polite">
+        <div class="status-headline">
+          <span class="status-orb" id="status-orb" aria-hidden="true"></span>
+          <span class="status-title" id="status-title">Checking the live sky over Tromsø…</span>
+        </div>
+        <p class="status-sub" id="status-sub">Loading the latest camera reading.</p>
+        <div class="status-meta" id="status-meta">
+          <span class="meta-pill" id="kp-pill" hidden><span class="live-dot" id="kp-dot" aria-hidden="true"></span>KP now: <strong id="kp-value">—</strong> <span id="kp-label" style="color:var(--color-text-muted)"></span></span>
+          <span class="meta-pill" id="last-pill" hidden>Last confirmed: <strong id="last-detected">—</strong></span>
+        </div>
+      </div>
+
+      <div class="cam-frame">
+        <img id="live-cam" src="https://weather.cs.uit.no/wcam3/wcam3_1280.jpg" alt="Live sky camera view facing north from UiT in Tromsø, showing current sky and cloud conditions" loading="eager" decoding="async" />
+        <span class="cam-live-tag"><span class="live-dot" aria-hidden="true"></span> Live — UiT SkyCam (North)</span>
+        <span class="cam-caption"><span>UiT TROMSØ · 69.6°N · CAM facing NORTH</span><span>UPDATES ~EVERY MIN</span></span>
+      </div>
+
+      <div class="cta-inline">
+        <a href="index.html#pricing" class="btn-primary">
+          Get an SMS the moment it appears — $7.99
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <span class="cta-note">One-time payment · 5 days of alerts · no subscription</span>
+      </div>
+    </section>
+
+    <section class="section wrap" aria-labelledby="tonight-heading">
+      <h2 id="tonight-heading">Will you see the aurora in Tromsø tonight?</h2>
+      <p>
+        Three things have to line up: <strong>darkness</strong>, <strong>clear skies</strong>, and <strong>geomagnetic
+        activity</strong>. Tromsø sits directly under the auroral oval, so activity is rarely the problem — the Northern
+        Lights can appear here even at a low KP index. The real gamble is the weather: it is cloudy in Tromsø a large share
+        of winter nights, and a clear-sky window can open and close within an hour. That is exactly why a live camera beats a
+        forecast — it sees the clouds a KP number can't.
+      </p>
+      <div class="info-grid">
+        <div class="info-card"><h3>Best hours</h3><p>Roughly 6 PM to 1 AM local time, peaking around 10 PM–midnight. The sky must be dark.</p></div>
+        <div class="info-card"><h3>Season</h3><p>Late September to late March. In summer the midnight sun makes the aurora invisible.</p></div>
+        <div class="info-card"><h3>KP index</h3><p>In Tromsø the aurora can show at KP 1–2. Higher KP means brighter, more overhead displays.</p></div>
+        <div class="info-card"><h3>Where to stand</h3><p>Get away from city lights with an open view north. See our <a href="map.html">map of the best viewing spots</a>.</p></div>
+      </div>
+    </section>
+
+    <section class="section wrap" aria-labelledby="how-heading">
+      <h2 id="how-heading">How this live status works</h2>
+      <p>
+        Every 15 minutes during the evening, an AI analyses the live feeds from four professional sky cameras at UiT The
+        Arctic University of Norway in Tromsø. If it confirms the Northern Lights are actually visible, the status above turns
+        green and our subscribers get an instant SMS. You do not have to refresh forecast apps or stand outside guessing —
+        you can wait somewhere warm and step out only when it is worth it.
+      </p>
+      <p>
+        Want the alert on your phone instead of checking this page? <a href="index.html#pricing">Get real-time SMS alerts for
+        $7.99</a> — a one-time payment covering five days, no subscription. Not sure where to go once you get the alert? Start
+        with the <a href="map.html">Tromsø aurora viewing map</a>.
+      </p>
+      <p>
+        Planning your trip? Read <a href="when-to-see-northern-lights-tromso.html">when to see the Northern Lights in
+        Tromsø</a>, <a href="best-places-northern-lights-tromso.html">the best places to watch them</a>,
+        <a href="kp-index-tromso-northern-lights.html">what KP index you actually need</a>, and
+        <a href="how-to-photograph-northern-lights-phone.html">how to photograph the aurora on your phone</a>.
+        Wondering why forecast apps disappoint? See <a href="aurora-forecast-vs-reality-tromso.html">forecast vs. reality</a>.
+      </p>
+    </section>
+
+    <section class="section wrap" aria-labelledby="faq-heading">
+      <h2 id="faq-heading">Tromsø aurora tonight — FAQ</h2>
+      <details class="faq-item"><summary>Are the northern lights visible in Tromsø tonight?<span aria-hidden="true">＋</span></summary><div class="faq-a">The live status at the top of this page shows whether the aurora is confirmed visible right now, based on AI-verified camera readings updated every 15 minutes during aurora season (September–March). It is an actual observation of the Tromsø sky, not a probability forecast.</div></details>
+      <details class="faq-item"><summary>What time is best to see the aurora in Tromsø?<span aria-hidden="true">＋</span></summary><div class="faq-a">Between about 6 PM and 1 AM local time, with peak activity around 10 PM to midnight. You need full darkness, so plan for the September–March season.</div></details>
+      <details class="faq-item"><summary>What KP index do you need in Tromsø?<span aria-hidden="true">＋</span></summary><div class="faq-a">Because Tromsø lies under the auroral oval, the Northern Lights can appear at KP 1–2 when skies are clear. Cloud cover, not geomagnetic activity, is usually the limiting factor — which is why a real-time camera check is more useful than a KP forecast.</div></details>
+      <details class="faq-item"><summary>Why check a camera instead of a forecast app?<span aria-hidden="true">＋</span></summary><div class="faq-a">Forecast apps estimate geomagnetic probability but cannot see the clouds over Tromsø. A "60% chance" means nothing if the sky is overcast. Aurora Real Time analyses live camera feeds so you only go out when the aurora is genuinely visible.</div></details>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <nav class="footer__links" aria-label="Footer navigation">
+        <a href="map.html">Viewing Map</a>
+        <a href="index.html">Home</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="footer__copy">
+        <p>Kp data: NOAA SWPC · Aurora cam: UiT StormCast (CC BY 4.0) · © 2026 Aurora Real Time · Tromsø, Norway</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    var BACKEND = 'https://aurora-real-time-backend-production.up.railway.app/stats';
+    var DIRS = { N: 'north', E: 'east', S: 'south', W: 'west' };
+
+    function timeAgo(isoStr) {
+      var diff = Math.floor((Date.now() - new Date(isoStr).getTime()) / 60000);
+      if (diff < 1) return 'just now';
+      if (diff < 60) return diff + ' min ago';
+      var h = Math.floor(diff / 60);
+      if (h < 24) return h + 'h ago';
+      return Math.floor(h / 24) + 'd ago';
+    }
+    function osloTime(isoStr) {
+      try {
+        return new Date(isoStr).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Oslo' });
+      } catch (e) { return ''; }
+    }
+    function joinDirections(dirs) {
+      var names = (dirs || []).map(function (d) { return DIRS[d] || d; });
+      if (names.length === 0) return '';
+      if (names.length === 1) return names[0];
+      if (names.length >= 3) return 'across the sky';
+      return names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1];
+    }
+
+    function renderStatus(d) {
+      var card = document.getElementById('status-card');
+      var orb = document.getElementById('status-orb');
+      var title = document.getElementById('status-title');
+      var sub = document.getElementById('status-sub');
+      var lc = (d && d.latest_check) || {};
+      var status = lc.status;
+      var at = lc.checked_at ? osloTime(lc.checked_at) : '';
+
+      card.classList.remove('is-visible');
+      if (status === 'visible_now') {
+        card.classList.add('is-visible');
+        var where = joinDirections(lc.directions);
+        title.textContent = 'Yes — the aurora is visible in Tromsø now';
+        sub.textContent = (where ? 'Confirmed ' + where + '. ' : 'Confirmed by the live cameras. ')
+          + (at ? 'As of ' + at + ' local time. ' : '') + 'Get outside and look up.';
+      } else if (status === 'not_visible') {
+        title.textContent = 'Not visible right now';
+        sub.textContent = (at ? 'Last checked ' + at + ' local time. ' : '')
+          + 'The cameras are clear of aurora at the moment — conditions can change within the hour, so check back or get an SMS alert.';
+      } else if (status === 'monitoring_paused') {
+        title.textContent = 'Monitoring resumes this evening';
+        sub.textContent = 'It is aurora season, but automated checks run during the dark evening hours (about 6 PM–midnight, Tromsø time). Check back tonight.';
+      } else if (status === 'off_season') {
+        title.textContent = 'Off-season — aurora returns in autumn';
+        sub.textContent = 'Tromsø has midnight sun in summer, so the Northern Lights are not visible. Aurora season runs from late September to late March.';
+      } else {
+        title.textContent = 'Live status temporarily unavailable';
+        sub.textContent = 'Could not reach the camera service. Try refreshing in a moment.';
+      }
+
+      if (d && d.last_aurora_detected_at) {
+        document.getElementById('last-detected').textContent = timeAgo(d.last_aurora_detected_at);
+        document.getElementById('last-pill').hidden = false;
+      }
+    }
+
+    function loadStatus() {
+      fetch(BACKEND)
+        .then(function (r) { return r.json(); })
+        .then(renderStatus)
+        .catch(function () { renderStatus(null); });
+    }
+
+    // KP index from NOAA — array of objects {time_tag, Kp, ...}; read .Kp (not last[1]).
+    function loadKp() {
+      fetch('https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json')
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          var last = data[data.length - 1];
+          var kp = last ? parseFloat(last.Kp) : NaN;
+          if (isNaN(kp)) return;
+          var label = kp >= 5 ? 'storm — very likely' : kp >= 3 ? 'active — likely' : kp >= 1 ? 'aurora possible' : 'quiet';
+          var color = kp >= 3 ? '#22c55e' : kp >= 1 ? '#2dd4bf' : '#ffb450';
+          document.getElementById('kp-value').textContent = kp.toFixed(1);
+          document.getElementById('kp-value').style.color = color;
+          document.getElementById('kp-label').textContent = '· ' + label;
+          document.getElementById('kp-dot').style.color = color;
+          document.getElementById('kp-pill').hidden = false;
+        })
+        .catch(function () {});
+    }
+
+    // Refresh the live camera frame and status periodically so the page stays "live".
+    function refreshCam() {
+      var img = document.getElementById('live-cam');
+      var base = 'https://weather.cs.uit.no/wcam3/wcam3_1280.jpg';
+      img.src = base + '?t=' + Date.now();
+    }
+
+    loadStatus();
+    loadKp();
+    setInterval(loadStatus, 5 * 60 * 1000);
+    setInterval(refreshCam, 60 * 1000);
+  </script>
+</body>
+</html>
